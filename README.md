@@ -1,4 +1,8 @@
-Testfile Doc (?)  
--- Result --  
-ReadMe file WONT show up in Eclipse (!!)  
-Maybe use only in github OR use the university's Google Drive to work on Google Doc ?  
+## Testfile Doc 
+
+### -- Result --
+
+1) SSH key needed for being able to clone Repository (!!)
+  
+2)ReadMe will only show up in "Git Repositories"-View in Eclipse !   
+-> open and edit in Markdown Possible !  
