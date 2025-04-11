@@ -1,0 +1,127 @@
+                    00001           ;*****************************************************
+                    00002           ;          SimTest20.src
+                    00003           ;          Stefan Lehmann
+                    00004           ;          10.04.2025
+                    00005           ;*****************************************************
+                    00006           
+                    00007           ;20241028 BCD-Zähler mit 7-Segmentanzeige
+                    00008           
+                    00009           ;Diese Version ist gegenüber der Version aus der Vorlesung
+                    00010           ;etwas modifiziert!
+                    00011           ;Segment A an RB0, Segment B an RB1 etc.
+                    00012           ;Digit Low an RA2 Digit High an RA3
+                    00013           ;Digitx LOW=aktiv (Anzeige an) HIGH=inaktiv (Anzeige aus)
+                    00014           ;obige Low aktiv Ansteuerung ggf. ändern.
+                    00015           ;ACHTUNG! RESET-Eingang muss auf 1 stehen
+                    00016           
+                    00017           ;****Variablendefinitionen
+                    00018           porta   EQU 5
+                    00019           trisa   EQU 5
+                    00020           portb   EQU 6
+                    00021           trisb   EQU 6
+                    00022           takt    EQU 0           ;Takt liegt an porta,0
+                    00023           reset   EQU 1           ;Reset an porta,1
+                    00024           digit0  EQU 2
+                    00025           digit1  EQU 3
+                    00026           
+                    00027           counter EQU 10h
+                    00028           awert   EQU 11h         ;alter Zustand des Taktsignals
+                    00029           nwert   EQU 12h         ;neuer Zustand des Taktsignals
+                    00030           
+                    00031           rp0     EQU 5
+                    00032           status  EQU 3
+                    00033           zero    EQU 2
+                    00034           carry   EQU 0
+                    00035           pcl     EQU 2           ;Adresse von PCL
+                    00036           
+                    00037           ;****Konstantendefinitionen
+                    00038           
+                    00039           ORG 0           ;Programm beginnt an Adr. 0
+                    00040           
+                    00041           DEVICE 16F84    ;definiere Prozessor
+                    00042           
+                    00043           
+0000 2805           00044           GOTO start
+0001 0000           00045           NOP
+0002 0000           00046           NOP
+0003 0000           00047           NOP
+0004 0000           00048           NOP
+                    00049             
+                    00050  start    
+0005 1683           00051           BSF status,rp0  ;umschalten auf Bank 1
+0006 0186           00052           CLRF trisb      ;Port B alles Ausgang
+0007 30C3           00053           MOVLW 11000011b ;Digit0 und Digit1 auf Ausgang
+0008 0085           00054           MOVWF trisa
+                    00055           ;       BCF trisa,ovf   ;alternativ zu oberen 2 Zeilen
+0009 1283           00056           BCF status,rp0  ;zurück zu Bank 0
+000A 1505           00057           BSF porta,Digit0   ;Anzeige ausgeben
+000B 1585           00058           BSF porta,Digit1
+000C 0805           00059           MOVF porta,w    ;Port a nach W laden
+000D 3901           00060           ANDLW 00000001b
+000E 0091           00061           MOVWF awert
+                    00062  loop     
+000F 1885           00063           BTFSC porta,reset ;Reset prüfen
+0010 2814           00064           GOTO weiter     ;kein Reset
+0011 0190           00065           CLRF counter    ;Zähler auf 0
+0012 0186           00066           CLRF portb      ;auch Ausgänge auf 0
+0013 280F           00067           GOTO loop
+                    00068  weiter   
+0014 0805           00069           MOVF porta,w    ;Takteingang lesen
+0015 3901           00070           ANDLW 00000001b
+0016 0092           00071           MOVWF nwert
+0017 0611           00072           XORWF awert,w   ;vergleiche
+0018 1903           00073           BTFSC status,2  ;wenn Zero=0, dann keine Flanke
+0019 280F           00074           GOTO loop       ;keine Flanke
+                    00075           
+001A 0691           00076           XORWF awert     ;Bit invertieren = neuster Stand
+001B 1C11           00077           BTFSS awert,0   ;ist es steigende Flanke
+001C 280F           00078           GOTO loop
+                    00079           
+001D 0A90           00080           INCF counter    ;zählen
+001E 300F           00081           MOVLW 00001111b  ;Maske für untere Bits
+001F 0510           00082           ANDWF counter,w  ;untere 4 Bits in W
+0020 3C0A           00083           SUBLW 10        ;10 = 0xA
+0021 1D03           00084           BTFSS status,zero
+0022 2825           00085           GOTO kl10
+0023 3006           00086           MOVLW 6         ;6 addieren
+0024 0790           00087           ADDWF counter
+                    00088  kl10       
+0025 30A0           00089           MOVLW 10100000b  ;subtr. 0xA0 vom Counter
+0026 0210           00090           SUBWF counter,w
+0027 1903           00091           BTFSC status,zero ;springe, wenn nicht 0xA0
+0028 0190           00092           CLRF counter    ;sonst counter auf 0 setzen
+                    00093           
+0029 0810           00094           MOVF counter,w  ;Einerstelle
+002A 2034           00095           CALL tabelle    ;ausgeben
+002B 0086           00096           MOVWF portb     ;Counter ausgeben
+002C 1105           00097           BCF porta,digit0     ;Einerstelle einschalten
+                    00098           ; CALL delay    ;Einschaltdauer der Anzeige
+002D 1505           00099           BSF porta,digit0     ;Einerstelle ausschalten
+002E 0E10           00100           SWAPF counter,w  ;obere 4 Bits nach unten
+002F 2034           00101           CALL tabelle
+0030 0086           00102           MOVWF portb
+0031 1185           00103           BCF porta,digit1
+                    00104           ; CALL delay
+0032 1585           00105           BSF porta,digit1
+0033 280F           00106           GOTO loop
+                    00107             
+                    00108  tabelle    
+0034 390F           00109           ANDLW 15        ;obere Bits auf 0
+0035 0782           00110           ADDWF PCL
+0036 343F           00111           RETLW 3FH       ;0
+0037 3406           00112           RETLW 06H       ;1
+0038 345B           00113           RETLW 5bH       ;2   0101 1011
+0039 344F           00114           RETLW 01001111b
+003A 3466           00115           RETLW 01100110b  ;4
+003B 346D           00116           RETLW 01101101b  ;5
+003C 347D           00117           RETLW 01111101b  ;6
+003D 3407           00118           RETLW 00000111b  ;7
+003E 347F           00119           RETLW 127  ;8
+003F 346F           00120           RETLW 01101111b  ;9
+0040 3400           00121           RETLW 0
+0041 3400           00122           RETLW 0
+0042 3400           00123           RETLw 0
+0043 3400           00124           RETLW 0
+0044 3400           00125           RETLW 0
+                    00126             
+                    00127           END 
