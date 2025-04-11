@@ -1,3 +1,4 @@
+package jLsCodeCurrent;
 
 public class DecoderWithBitShift {
 
