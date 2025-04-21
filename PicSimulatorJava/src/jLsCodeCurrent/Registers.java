@@ -13,7 +13,7 @@ public class Registers {
 		return this.W;
 	}
 
-	public void sertPC(int value) {
+	public void setPC(int value) {
 		this.pc = value & 0x3FFF;
 	}
 
