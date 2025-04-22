@@ -1,9 +1,12 @@
 package jLsCodeCurrent;
 
+import java.util.Stack;
+
 public class Registers {
 	private int W;
 	private int pc; //0-1023
 	private int pclath;
+	private Stack<Integer> callStack=new Stack<>();
 
 	public void setW(int value) {
 		this.W = value & 0xFF;// 8
@@ -32,6 +35,19 @@ public class Registers {
 	public void setPclath(int value) {
 		this.pclath = value & 0xFF;
 
+	}
+	
+	public void pushReturnAddress(int returnAddress) {
+	    callStack.push(returnAddress);
+	}
+	
+	public int popReturnAddress() {
+	    return callStack.pop();
+	    
+	}
+	
+	public boolean isCallStackEmpty() {
+	    return callStack.isEmpty();
 	}
 
 }

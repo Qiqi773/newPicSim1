@@ -133,4 +133,18 @@ public class InstructionExcutor {
         register.setPC(k);
     }
 
+    public void call(int instruction) {
+        int targetAddress = instruction & 0x07FF;
+
+        register.pushReturnAddress(register.getPC() + 1);
+
+        register.setPC(targetAddress);
+
+    }
+
+    public void returnSub() {
+        int returnAddress = register.popReturnAddress();
+        register.setPC(returnAddress);
+    }
+
 }
