@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
 
-public class TestWindow extends JFrame {
+public class GUIsim extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -24,7 +24,7 @@ public class TestWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TestWindow frame = new TestWindow();
+					GUIsim frame = new GUIsim();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +36,7 @@ public class TestWindow extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public TestWindow() {
+	public GUIsim() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 725, 441);
 		contentPane = new JPanel();
