@@ -1,4 +1,4 @@
-package jLsCodeCurrent;
+package simulatorCode;
 
 public class DataMemory {
     private int[] ram = new int[256];// 0x00-0xFF

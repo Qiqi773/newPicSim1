@@ -1,4 +1,4 @@
-package jLsCodeCurrent;
+package simulatorCode;
 
 public class DecoderWithBitShift {
 
