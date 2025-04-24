@@ -50,7 +50,7 @@ public class GUImain {
 		
 		StyledText styledText = new StyledText(shell, SWT.BORDER);
 		styledText.setText("Test-Text to show in Window\nnext line");
-		styledText.setBounds(142, 184, 716, 369);
+		styledText.setBounds(45, 46, 716, 369);
 
 	}
 }
