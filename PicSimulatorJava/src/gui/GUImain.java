@@ -6,6 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.custom.StyledText;
 
 public class GUImain {
 
@@ -44,17 +45,8 @@ public class GUImain {
 	 */
 	protected void createContents() {
 		shell = new Shell();
-		shell.setSize(450, 300);
+		shell.setSize(1000, 600);
 		shell.setText("SWT Application");
-		
-		Button btnNewButton = new Button(shell, SWT.NONE);
-		btnNewButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(71, 58, 216, 30);
-		btnNewButton.setText("TestButton");
 
 	}
 }
