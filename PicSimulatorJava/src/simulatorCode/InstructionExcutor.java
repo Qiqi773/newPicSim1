@@ -136,14 +136,16 @@ public class InstructionExcutor {
     public void call(int instruction) {
         int targetAddress = instruction & 0x07FF;
 
-        register.pushReturnAddress(register.getPC() + 1);
+        register.writeInstack(register.getPC() + 1); //remember next instruction after CALL
 
-        register.setPC(targetAddress);
+        register.setPC(targetAddress);	//(go to) targetaddr
 
     }
 
-    public void returnSub() {
-        int returnAddress = register.popReturnAddress();
+    public void returnFromSub() {
+
+        int returnAddress = register.readFromStack();
+        
         register.setPC(returnAddress);
     }
 
