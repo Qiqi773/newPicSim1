@@ -1,7 +1,7 @@
 package simulatorCode;
 
 public class InstructionExcutor {
-    private Registers register;
+    private static Registers register;
     private DataMemory memory;
 
     public InstructionExcutor(Registers register, DataMemory memory) {
@@ -127,13 +127,13 @@ public class InstructionExcutor {
 
     }
 
-    public void goTo(int instruction) {
+    public void goTo(int instruction) {	//no PCLath
         int k = instruction & 0x07FF;
 
         register.setPC(k);
     }
 
-    public void call(int instruction) {
+    public static void call(int instruction) {	//no PCLath 
         int targetAddress = instruction & 0x07FF;
 
         register.writeInstack(register.getPC() + 1); //remember next instruction after CALL
@@ -142,7 +142,7 @@ public class InstructionExcutor {
 
     }
 
-    public void returnFromSub() {
+    public void returnFromSub() {	//no PCLath
 
         int returnAddress = register.readFromStack();
         

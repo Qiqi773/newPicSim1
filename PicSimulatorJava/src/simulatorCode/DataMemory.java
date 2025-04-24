@@ -8,7 +8,7 @@ public class DataMemory {
     public static final int ADDR_OPTION = 0x81;
     public static final int C_Mask = 0x01;
     public static final int DC_Mask = 0x02;
-    public static final int Z_Mask = 0x04;
+    public static final int Z_Mask = 0x03;
 
     public void write(int address, int value) {
         ram[address] = value & 0xFF;// 8

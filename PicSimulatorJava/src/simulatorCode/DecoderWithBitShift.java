@@ -12,7 +12,7 @@ public class DecoderWithBitShift {
 		//switch case for 3 bit instructions
 		switch(importantBits) {
 			case 0b100:
-				//CALL
+				InstructionExcutor.call(machinecode); //WHY STATIC ???
 				break;
 			case 0b101:
 				//GOTO
