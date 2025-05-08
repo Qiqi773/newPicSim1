@@ -1,7 +1,7 @@
 package simulatorCode;
 
 public class DataMemory {
-    private int[] ram = new int[256];// 0x00-0xFF
+    private int[] ram = new int[256];// 0x00-0xFF 
 
     public static final int ADDR_TMR0 = 0x01;
     public static final int ADDR_STATUS = 0x03;
