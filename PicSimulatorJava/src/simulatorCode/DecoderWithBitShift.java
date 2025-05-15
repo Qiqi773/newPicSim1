@@ -1,10 +1,14 @@
 package simulatorCode;
 
+import jCsCodeFromFirstRepo.InstructionLine;
+
 /**
  * Decodes extracted machine code to get Instruction (calls method).
  */
 public class DecoderWithBitShift {
-
+	
+	// Get Machinecode form ProgMemory (int array size 1024)-> where to put ProgMemory...(fill progmemory from FileReader List)
+	
 	public static void main(String[] args) {
 
 		int machinecode = 0x3002;	//11 00|00 0000 0010 (EXAMPLE) => later use variable from fetch cycle !!
@@ -15,7 +19,7 @@ public class DecoderWithBitShift {
 		//switch case for 3 bit instructions
 		switch(importantBits) {
 			case 0b100:
-				InstructionExcutor.call(machinecode); //WHY STATIC ???
+				InstructionExcutor.call(machinecode);
 				break;
 			case 0b101:
 				//GOTO
@@ -40,6 +44,7 @@ public class DecoderWithBitShift {
 				break;
 			case 0b1100:
 				//MOVLW
+				
 				break;
 			case 0b1101:
 				//RETLW
