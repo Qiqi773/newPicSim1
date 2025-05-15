@@ -83,7 +83,7 @@ public class GUIsim extends JFrame {
 		btnNewButton_1_1.setBounds(262, 240, 116, 39);
 		contentPane.add(btnNewButton_1_1);
 		
-		JButton btnNewButton_1_2 = new JButton("Load");	//FileChooser to open System Explorer to get .LST-File
+		JButton btnNewButton_1_2 = new JButton("Load");	//FileChooser to open System Explorer to get .LST-Files
 		btnNewButton_1_2.setBounds(10, 10, 116, 39);
 		contentPane.add(btnNewButton_1_2);
 		
