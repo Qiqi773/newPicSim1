@@ -6,7 +6,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/JL/.p2/pool/plugins/com.ibm.icu_76.1.0.jar" sourcepath="C:/Users/JL/.p2/pool/plugins/com.ibm.icu_76.1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/JL/.p2/pool/plugins/jakarta.annotation-api_2.1.1.jar" sourcepath="C:/Users/JL/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1-sources.jar"/>
 	<classpathentry kind="lib" path="C:/Users/JL/.p2/pool/plugins/org.eclipse.core.commands_3.12.200.v20240627-1019.jar" sourcepath="C:/Users/JL/.p2/pool/plugins/org.eclipse.core.commands_3.12.200.v20240627-1019.jar"/>
 	<classpathentry kind="lib" path="C:/Users/JL/.p2/pool/plugins/org.eclipse.core.runtime_3.31.100.v20240524-2010.jar" sourcepath="C:/Users/JL/.p2/pool/plugins/org.eclipse.core.runtime_3.31.100.v20240524-2010.jar"/>
@@ -22,5 +21,6 @@
 	<classpathentry kind="lib" path="C:/Users/JL/.p2/pool/plugins/org.eclipse.ui.workbench_3.133.0.v20240818-1923.jar" sourcepath="C:/Users/JL/.p2/pool/plugins/org.eclipse.ui.workbench_3.133.0.v20240818-1923.jar"/>
 	<classpathentry kind="lib" path="com.jgoodies.forms_1.9.0.v20240327-0800.jar"/>
 	<classpathentry kind="lib" path="com.jgoodies.common_1.8.1.v20240327-0800.jar"/>
+	<classpathentry kind="lib" path="com.ibm.icu_76.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
