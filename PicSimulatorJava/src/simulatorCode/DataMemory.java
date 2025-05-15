@@ -28,7 +28,7 @@ public class DataMemory {
     // --- STATUS --- (Addr: 0x03 & 0x83) ----------------------------------------------
     public void setStatusBit(int mask) {
         int status = read(ADDR_STATUSB0);		//only need to read one, bcs we made sure to always map it !!
-        write(ADDR_STATUSB0, status | mask);	//write in both status Registers
+        write(ADDR_STATUSB0, status | mask);	//
         write(ADDR_STATUSB1, status | mask);
     }
 
@@ -42,16 +42,13 @@ public class DataMemory {
         if (value) {
             setStatusBit(Z_Mask);
         } else {
-
             clearStatusBit(Z_Mask);
-
         }
     }
     
     public void setCarryFlag(boolean value) {
         if(value) {
-            setStatusBit(C_Mask);
-            
+            setStatusBit(C_Mask);   
         }else {
             clearStatusBit(C_Mask);
         }

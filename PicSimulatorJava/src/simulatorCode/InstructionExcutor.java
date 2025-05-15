@@ -5,7 +5,7 @@ public class InstructionExcutor {
     private DataMemory memory;
 
     public InstructionExcutor(Registers register, DataMemory memory) {
-        this.register = register;
+        InstructionExcutor.register = register;
         this.memory = memory;
     }
 
