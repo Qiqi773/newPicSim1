@@ -1,5 +1,8 @@
 package simulatorCode;
 
+/**
+ * Decodes extracted machine code to get Instruction (calls method).
+ */
 public class DecoderWithBitShift {
 
 	public static void main(String[] args) {

@@ -1,7 +1,9 @@
 package simulatorCode;
 
 import java.util.Stack;
-
+/**
+ * Seperate Register outside of RAM (W) and additional Variables (PC, Stack; StackPointer).
+ */
 public class Registers {
 	private int W;
 	private int pc; //0-1023

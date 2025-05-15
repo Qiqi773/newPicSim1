@@ -1,5 +1,8 @@
 package simulatorCode;
 
+/**
+ * Only RAM-Registers (p.13/14 in DataSheet).
+ */
 public class DataMemory {
     private int[] ram = new int[256];// Addresses: 0x00-0xFF 
 

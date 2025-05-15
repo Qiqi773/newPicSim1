@@ -1,5 +1,9 @@
 package simulatorCode;
 
+/**
+ * Run the programm (=testfile).
+ * before loaded Testfile (=Programm) runs, have to make a new object to run on.
+ */
 public class InstructionExcutor {
     private static Registers register;
     private DataMemory memory;
