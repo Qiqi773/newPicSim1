@@ -1,5 +1,9 @@
 package gui;
 
+import simulatorCode.SimulatorInterface;
+import simulatorCode.PicSimulator;
+
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -11,8 +15,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -27,10 +34,14 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
+import jCsCodeFromFirstRepo.InstructionFileReader;
+import jCsCodeFromFirstRepo.InstructionLine;
+
 public class GUIsim extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
+	SimulatorInterface simulator=new PicSimulator();
 
 	/**
 	 * Launch the application.
@@ -85,6 +96,20 @@ public class GUIsim extends JFrame {
 		contentPane.add(btnNewButton_1_1);
 		
 		JButton btnNewButton_1_2 = new JButton("Choose File");	//FileChooser to open System Explorer to get .LST-Files
+//		btnNewButton_1_2.addActionListener(e ->{
+//		    JFileChooser chooser=new JFileChooser();
+//		    int result =chooser.showOpenDialog(this);
+//		    if(result==JFileChooser.APPROVE_OPTION) {
+//		        File file =chooser.getSelectedFile();
+//		        List<InstructionLine> lines =InstructionFileReader.readInstructionFile(file.getAbsolutePath());
+//		        
+//		        simulator.loadInstructions(lines);//pass the parsed instruction data(from file) into the backend simulator
+//		        
+//		        tableModel.setRowCount()
+//		    }
+//		})
+		
+		
 		btnNewButton_1_2.setBounds(10, 10, 116, 39);
 		contentPane.add(btnNewButton_1_2);
 		
