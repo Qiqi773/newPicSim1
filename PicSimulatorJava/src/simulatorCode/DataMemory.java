@@ -68,6 +68,11 @@ public class DataMemory {
     
     // --- PCLATH --- (Addr: 0x0A & 0x8A) ----------------------------------------------
     
-    // --- INTCON --- (Addr: 0x0B & 0x8B)
+    // --- INTCON --- (Addr: 0x0B & 0x8B) ----------------------------------------------
+    
+    // --- General Purspose SRAM --- (Addr: 0x0C-0x4F & 0x8C-0xCF) ---------------------
+    
+    // --- undefined/"empty" --- (Addr: 0x50-0x7F & 0xD0-FF) ---------------------------
+    		//-> these can simply be set to 0 and mapped
 
 }
