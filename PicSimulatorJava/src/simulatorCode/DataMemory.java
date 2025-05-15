@@ -24,6 +24,8 @@ public class DataMemory {
     public int read(int address) {
         return ram[address];
     }
+    
+    // --- PCL --- (Addr: 0x02 & 0x82) -------------------------------------------------
 
     // --- STATUS --- (Addr: 0x03 & 0x83) ----------------------------------------------
     public void setStatusBit(int mask) {
@@ -61,5 +63,11 @@ public class DataMemory {
             clearStatusBit(DC_Mask);
         }
     }
+    
+    // --- FSR --- (Addr: 0x04 & 0x84) -------------------------------------------------
+    
+    // --- PCLATH --- (Addr: 0x0A & 0x8A) ----------------------------------------------
+    
+    // --- INTCON --- (Addr: 0x0B & 0x8B)
 
 }

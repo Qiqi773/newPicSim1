@@ -29,7 +29,8 @@ public class InstructionExcutor {
 
         int value = memory.read(f);// value
 
-        memory.setZeroFlag(value == 0);
+        memory.setZeroFlag(value == 0);	//false
+
 
         if (d == 0) {
             register.setW(value);
