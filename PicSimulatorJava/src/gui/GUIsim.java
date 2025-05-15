@@ -52,6 +52,7 @@ public class GUIsim extends JFrame {
 	 * Create the frame.
 	 */
 	public GUIsim() {
+		setTitle("PicSim");
 		
 		//GUI Outer Box Frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
