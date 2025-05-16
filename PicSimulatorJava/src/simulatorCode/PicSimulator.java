@@ -10,6 +10,7 @@ public class PicSimulator implements SimulatorInterface {
     private final InstructionExcutor executor = new InstructionExcutor(registers, memory);
     private DecoderWithBitShift decoder = new DecoderWithBitShift(executor);
     private List<InstructionLine> instructionLines;
+    private final ProgramMemory programMemory = new ProgramMemory();
 
     @Override
     public int getW() {
@@ -62,7 +63,7 @@ public class PicSimulator implements SimulatorInterface {
     public void loadInstructions(List<InstructionLine> instructions) {// from GUI to back end .save the data that has
                                                                       // been read in GUI to back end
         // TODO Auto-generated method stub
-        this.instructionLines = instructions;
+        programMemory.loadProgram(instructions);
 
     }
 
