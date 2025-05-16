@@ -6,6 +6,8 @@ package simulatorCode;
 public class DataMemory {
     private int[] ram = new int[256];// Addresses: 0x00-0xFF
 
+    private final Registers registers;
+
     // Addresses of seperate Registers
     public static final int ADDR_TMR0 = 0x01;
     public static final int ADDR_STATUSB0 = 0x03;
@@ -19,6 +21,10 @@ public class DataMemory {
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
+
+    public DataMemory(Registers registers) {
+        this.registers = registers;
+    }
 
     /* writes VALUE at ADDRESS(=Register */
     public void write(int address, int value) {
@@ -35,6 +41,9 @@ public class DataMemory {
         case 0x86:
             portB.setTris(value);
             break;
+//        case 0x02:
+//        case 0x82:
+            
         default:
             ram[address] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
             break;
@@ -53,6 +62,9 @@ public class DataMemory {
             return portA.getTris();
         case 0x86:
             return portB.getTris();
+        case 0x02:
+        case 0x82:
+            return registers.getPC() & 0xFF;//PCL
         default:
             return ram[address];
         }
