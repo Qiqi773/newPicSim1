@@ -1,8 +1,8 @@
 package simulatorCode;
 
 /**
- * Run the programm (=testfile).
- * before loaded Testfile (=Programm) runs, have to make a new object to run on.
+ * Run the programm (=testfile). before loaded Testfile (=Programm) runs, have
+ * to make a new object to run on.
  */
 public class InstructionExcutor {
     private static Registers register;
@@ -33,8 +33,7 @@ public class InstructionExcutor {
 
         int value = memory.read(f);// value
 
-        memory.setZeroFlag(value == 0);	//false
-
+        memory.setZeroFlag(value == 0); // false
 
         if (d == 0) {
             register.setW(value);
@@ -60,16 +59,6 @@ public class InstructionExcutor {
         memory.write(f, 0);
         memory.setZeroFlag(true);
         register.incrementPC();
-
-    }
-
-    public void addwf(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x01;
-        int w = register.getW();
-        int fVal = memory.read(f);
-
-        int result = w + fVal;
 
     }
 
@@ -132,26 +121,60 @@ public class InstructionExcutor {
 
     }
 
-    public void goTo(int instruction) {	//no PCLath
+    public void goTo(int instruction) { // no PCLath
         int k = instruction & 0x07FF;
 
         register.setPC(k);
     }
 
-    public static void call(int instruction) {	//no PCLath 
+    public static void call(int instruction) { // no PCLath
         int targetAddress = instruction & 0x07FF;
 
-        register.writeInstack(register.getPC() + 1); //remember next instruction after CALL
+        register.writeInstack(register.getPC() + 1); // remember next instruction after CALL
 
-        register.setPC(targetAddress);	//(go to) targetaddr
+        register.setPC(targetAddress); // (go to) targetaddr
 
     }
 
-    public void returnFromSub() {	//no PCLath
+    public void returnFromSub() { // no PCLath
 
         int returnAddress = register.readFromStack();
-        
+
         register.setPC(returnAddress);
+    }
+
+    public void addwf(int instruction) {
+        int f = instruction & 0x7F;
+        int d = (instruction >> 7) & 0x01;
+
+        int w = register.getW();
+        int fVal = memory.read(f);
+
+        int result = w + fVal;
+
+        memory.setZeroFlag((result & 0xFF) == 0);
+
+        memory.setCarryFlag(result >= 0xFF);
+
+        memory.setDigitatCarryFlag(((w & 0x0F) + (fVal & 0x0F)) > 0x0F);
+
+        result = result & 0xFF;
+
+        if (d == 0) {
+            register.setW(result);
+        } else {
+            memory.write(f, result);
+
+            if (f == 0x02) {//pcl
+                int pclath = memory.read(0x0A);
+                int newPC = ((pclath & 0x1F) << 8) | result;
+                register.setPC(newPC);
+                return;
+            }
+        }
+
+        register.incrementPC();
+
     }
 
 }
