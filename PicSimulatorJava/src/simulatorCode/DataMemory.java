@@ -13,11 +13,17 @@ public class DataMemory {
     public static final int ADDR_STATUSB0 = 0x03;
     public static final int ADDR_STATUSB1 = 0x83;
     public static final int ADDR_OPTION = 0x81;
+    public static final int ADDR_INTCON = 0x0B;
 
     // Masks to get specific Bit of Register
     public static final int C_Mask = 0x01;
     public static final int DC_Mask = 0x02;
     public static final int Z_Mask = 0x03;
+
+    // INTCON bit mask
+    private static final int GIE_MASK = 0b10000000;
+    private static final int T0IE_MASK = 0b00100000;
+    private static final int T0IF_MASK = 0b00000100;
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
@@ -43,7 +49,7 @@ public class DataMemory {
             break;
 //        case 0x02:
 //        case 0x82:
-            
+
         default:
             ram[address] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
             break;
@@ -64,7 +70,7 @@ public class DataMemory {
             return portB.getTris();
         case 0x02:
         case 0x82:
-            return registers.getPC() & 0xFF;//PCL
+            return registers.getPC() & 0xFF;// PCL
         default:
             return ram[address];
         }
@@ -117,7 +123,56 @@ public class DataMemory {
     // --- PCLATH --- (Addr: 0x0A & 0x8A)
     // ----------------------------------------------
 
+    // ---- OPTION ---(Addr: 0x81)
+    public boolean isInternalClock() {// T0CS = 0
+        int value = read(ADDR_OPTION);
+        return (value & 0b00100000) == 0;
+    }
+
+    public boolean isPrescalerAssignedToTMR0() {// PSA = 0
+        int value = read(ADDR_OPTION);
+        return (value & 0b00001000) == 0;
+    }
+
+    public int getPrescalerRate() {// PS2-0
+        int value = read(ADDR_OPTION);
+        int ps = value & 0b00000111;
+        return switch (ps) {
+        case 0 -> 2;
+        case 1 -> 4;
+        case 2 -> 8;
+        case 3 -> 16;
+        case 4 -> 32;
+        case 5 -> 64;
+        case 6 -> 128;
+        case 7 -> 256;
+        default -> 1;
+        };
+    }
+
     // --- INTCON --- (Addr: 0x0B & 0x8B)
+    public boolean isGlobalInterruptEnabled() {
+        return (read(ADDR_INTCON) & GIE_MASK) != 0;
+    }
+
+    public boolean isTMR0InterruptEnabled() {
+        return (read(ADDR_INTCON) & T0IE_MASK) != 0;
+    }
+
+    public boolean isTMR0Overflowed() {
+        return (read(ADDR_INTCON) & T0IF_MASK) != 0;
+    }
+
+    public void setTMR0OverflowFlag() {// set T0IF=1
+        int value = read(ADDR_INTCON);
+        write(ADDR_INTCON, value | T0IF_MASK);
+
+    }
+
+    public void clearTMR0OverflowFlag() {//set T0IF=0
+        int value = read(ADDR_INTCON);
+        write(ADDR_INTCON, value & ~T0IF_MASK);
+    }
     // ----------------------------------------------
 
     // --- General Purspose SRAM --- (Addr: 0x0C-0x4F & 0x8C-0xCF)
