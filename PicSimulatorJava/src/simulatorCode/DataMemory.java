@@ -51,8 +51,10 @@ public class DataMemory {
         case 0x86:
             portB.setTris(value);
             break;
-//        case 0x02:
-//        case 0x82:
+        case 0x02:
+        case 0x82:
+            registers.setPC(value);
+            writePCL(value);
 
         default:
             ram[address] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
@@ -81,6 +83,14 @@ public class DataMemory {
     }
 
     // --- PCL --- (Addr: 0x02 & 0x82)
+    public void writePCL(int value) {
+    	ram[0x02] = value & 0xFF;	//lower 8 bit of pc in Bank 0
+        ram[0x82] = value & 0xFF;	// "				in Bank 1
+    }
+    public void incrementPC() {
+    	ram[0x02] = (ram[0x02] + 1) & 0xFF;	//lower 8 bit of pc in Bank 0
+        ram[0x82] = (ram[0x82] + 1) & 0xFF;
+    }
     // -------------------------------------------------
 
     // --- STATUS --- (Addr: 0x03 & 0x83)
