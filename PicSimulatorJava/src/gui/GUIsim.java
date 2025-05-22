@@ -38,7 +38,9 @@ import jCsCodeFromFirstRepo.InstructionFileReader;
 import jCsCodeFromFirstRepo.InstructionLine;
 
 public class GUIsim extends JFrame {
-
+	
+//	Font smallerFont = new Font();
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	SimulatorInterface simulator=new PicSimulator();
@@ -67,7 +69,7 @@ public class GUIsim extends JFrame {
 		
 		//GUI Outer Box Frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 650);
+		setBounds(100, 100, 1400, 750);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		
@@ -75,24 +77,25 @@ public class GUIsim extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JScrollPane progCodeWindow = new JScrollPane();
-		progCodeWindow.setBounds(10, 289, 606, 314);
-		contentPane.add(progCodeWindow);
+		
+		JScrollPane showProgScrollPane = new JScrollPane();
+		showProgScrollPane.setBounds(10, 389, 606, 314);
+		contentPane.add(showProgScrollPane);
 		
 		JButton buttonRun = new JButton("Run");
 		buttonRun.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		buttonRun.setBounds(10, 240, 116, 39);
+		buttonRun.setBounds(10, 340, 116, 39);
 		contentPane.add(buttonRun);
 		
 		JButton buttonStep = new JButton("Step");
-		buttonStep.setBounds(136, 240, 116, 39);
+		buttonStep.setBounds(136, 340, 116, 39);
 		contentPane.add(buttonStep);
 		
 		JButton buttonReset = new JButton("Reset");
-		buttonReset.setBounds(262, 240, 116, 39);
+		buttonReset.setBounds(262, 340, 116, 39);
 		contentPane.add(buttonReset);
 		
 		JButton buttonChooseFile = new JButton("Choose File");	//FileChooser to open System Explorer to get .LST-Files
@@ -115,7 +118,7 @@ public class GUIsim extends JFrame {
 		
 		//RA - TRIS(A) - PINS ->OUTER BOX
 		JPanel panel_RA = new JPanel();
-		panel_RA.setBounds(190, 10, 364, 100);
+		panel_RA.setBounds(190, 10, 360, 100);
 		for (Component comp : panel_RA.getComponents()) {
 			if (comp instanceof JComponent) {
 				((JComponent)comp).setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -225,6 +228,7 @@ public class GUIsim extends JFrame {
 		};
 		raPin4ValueTogButt.addActionListener(raPin4AcLis);
 		panel_RA.add(raPin4ValueTogButt);
+	
 		
 		//RA - PIN 3
 		JToggleButton raPin3ValueTogButt = new JToggleButton("0");
@@ -282,7 +286,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin0ValueTogButt);
 		
 		JPanel panel_RB = new JPanel();
-		panel_RB.setBounds(594, 10, 364, 100);
+		panel_RB.setBounds(553, 10, 360, 100);
 		contentPane.add(panel_RB);
 		panel_RB.setLayout(new GridLayout(3, 3));
 		
