@@ -32,6 +32,8 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public void runProgram() {
         // TODO Auto-generated method stub
+    	//let decoder (and thus executor) run 
+    	//after every executed code (line) check for buttons/interrupts etc
 
     }
 
