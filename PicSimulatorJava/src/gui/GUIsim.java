@@ -124,21 +124,21 @@ public class GUIsim extends JFrame {
 		contentPane.add(panel_RA);
 		panel_RA.setLayout(new GridLayout(3,3));
 		
-		JLabel labelRA = new JLabel("RA");
-		labelRA.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_RA.add(labelRA);
+		JLabel raRALabel = new JLabel("RA");
+		raRALabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raRALabel);
 		
-		JLabel labelRApin7 = new JLabel("7");
-		labelRApin7.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_RA.add(labelRApin7);
+		JLabel raPin7Label = new JLabel("7");
+		raPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin7Label);
 		
-		JLabel labelRApin6 = new JLabel("6");
-		labelRApin6.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_RA.add(labelRApin6);
+		JLabel raPin6Label = new JLabel("6");
+		raPin6Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin6Label);
 		
-		JLabel labelRApin5 = new JLabel("5");
-		labelRApin5.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_RA.add(labelRApin5);
+		JLabel raPin5Label = new JLabel("5");
+		raPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin5Label);
 		
 		JLabel raPin4Label = new JLabel("4");
 		raPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
