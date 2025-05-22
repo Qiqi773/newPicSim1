@@ -87,15 +87,15 @@ public class GUIsim extends JFrame {
 		buttonRun.setBounds(10, 240, 116, 39);
 		contentPane.add(buttonRun);
 		
-		JButton btnNewButton_1 = new JButton("Step");
-		btnNewButton_1.setBounds(136, 240, 116, 39);
-		contentPane.add(btnNewButton_1);
+		JButton buttonStep = new JButton("Step");
+		buttonStep.setBounds(136, 240, 116, 39);
+		contentPane.add(buttonStep);
 		
-		JButton btnNewButton_1_1 = new JButton("Reset");
-		btnNewButton_1_1.setBounds(262, 240, 116, 39);
-		contentPane.add(btnNewButton_1_1);
+		JButton buttonReset = new JButton("Reset");
+		buttonReset.setBounds(262, 240, 116, 39);
+		contentPane.add(buttonReset);
 		
-		JButton btnNewButton_1_2 = new JButton("Choose File");	//FileChooser to open System Explorer to get .LST-Files
+		JButton buttonChooseFile = new JButton("Choose File");	//FileChooser to open System Explorer to get .LST-Files
 //		btnNewButton_1_2.addActionListener(e ->{
 //		    JFileChooser chooser=new JFileChooser();
 //		    int result =chooser.showOpenDialog(this);
@@ -110,281 +110,281 @@ public class GUIsim extends JFrame {
 //		})
 		
 		
-		btnNewButton_1_2.setBounds(10, 10, 116, 39);
-		contentPane.add(btnNewButton_1_2);
+		buttonChooseFile.setBounds(10, 10, 116, 39);
+		contentPane.add(buttonChooseFile);
 		
 		//RA - TRIS(A) - PINS ->OUTER BOX
-		JPanel panel = new JPanel();
-		panel.setBounds(190, 10, 364, 100);
-		for (Component comp : panel.getComponents()) {
+		JPanel panel_RA = new JPanel();
+		panel_RA.setBounds(190, 10, 364, 100);
+		for (Component comp : panel_RA.getComponents()) {
 			if (comp instanceof JComponent) {
 				((JComponent)comp).setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			}
 		}
-		contentPane.add(panel);
-		panel.setLayout(new GridLayout(3,3));
+		contentPane.add(panel_RA);
+		panel_RA.setLayout(new GridLayout(3,3));
 		
-		JLabel lblNewLabel_1 = new JLabel("RA");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_1);
+		JLabel labelRA = new JLabel("RA");
+		labelRA.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(labelRA);
 		
-		JLabel lblNewLabel_6 = new JLabel("7");
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_6);
+		JLabel labelRApin7 = new JLabel("7");
+		labelRApin7.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(labelRApin7);
 		
-		JLabel lblNewLabel_5 = new JLabel("6");
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_5);
+		JLabel labelRApin6 = new JLabel("6");
+		labelRApin6.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(labelRApin6);
 		
-		JLabel lblNewLabel_2 = new JLabel("5");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_2);
+		JLabel labelRApin5 = new JLabel("5");
+		labelRApin5.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(labelRApin5);
 		
-		JLabel lblNewLabel_3 = new JLabel("4");
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_3);
+		JLabel raPin4Label = new JLabel("4");
+		raPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin4Label);
 		
-		JLabel lblNewLabel = new JLabel("3");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel);
+		JLabel raPin3Label = new JLabel("3");
+		raPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin3Label);
 		
-		JLabel lblNewLabel_4 = new JLabel("2");
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_4);
+		JLabel raPin2Label = new JLabel("2");
+		raPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin2Label);
 		
-		JLabel lblNewLabel_13 = new JLabel("1");
-		lblNewLabel_13.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_13);
+		JLabel raPin1Label = new JLabel("1");
+		raPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin1Label);
 		
-		JLabel lblNewLabel_7 = new JLabel("0");
-		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_7);
+		JLabel raPin0Label = new JLabel("0");
+		raPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin0Label);
 		
-		JLabel lblNewLabel_9 = new JLabel("TRIS");
-		lblNewLabel_9.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_9);
+		JLabel raTRISLabel = new JLabel("TRIS");
+		raTRISLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTRISLabel);
 		
-		JLabel lblNewLabel_8 = new JLabel("x");	//need variable char io -> tris at pinX is 1 = input (i) || tris at pinX is 0 = output (o) [freeze toggle]
-		lblNewLabel_8.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_8);
+		JLabel raTrisPin7Label = new JLabel("x");	//need variable char io -> tris at pinX is 1 = input (i) || tris at pinX is 0 = output (o) [freeze toggle]
+		raTrisPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin7Label);
 		
-		JLabel lblNewLabel_11 = new JLabel("x");
-		lblNewLabel_11.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_11);
+		JLabel raTrisPin6Label = new JLabel("x");
+		raTrisPin6Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin6Label);
 		
-		JLabel lblNewLabel_15 = new JLabel("x");
-		lblNewLabel_15.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_15);
+		JLabel raTrisPin5Label = new JLabel("x");
+		raTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin5Label);
 		
-		JLabel lblNewLabel_12 = new JLabel("x");
-		lblNewLabel_12.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_12);
+		JLabel raTrisPin4Label = new JLabel("x");
+		raTrisPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin4Label);
 		
-		JLabel lblNewLabel_10 = new JLabel("x");
-		lblNewLabel_10.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_10);
+		JLabel raTrisPin3Label = new JLabel("x");
+		raTrisPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin3Label);
 		
-		JLabel lblNewLabel_16 = new JLabel("x");
-		lblNewLabel_16.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_16);
+		JLabel raTrisPin2Label = new JLabel("x");
+		raTrisPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin2Label);
 		
-		JLabel lblNewLabel_14 = new JLabel("x");
-		lblNewLabel_14.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_14);
+		JLabel raTrisPin1Label = new JLabel("x");
+		raTrisPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin1Label);
 		
-		JLabel lblNewLabel_18 = new JLabel("x");
-		lblNewLabel_18.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_18);
+		JLabel raTrisPin0Label = new JLabel("x");
+		raTrisPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raTrisPin0Label);
 		
-		JLabel lblPin = new JLabel("PIN");
-		lblPin.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblPin);
+		JLabel raPINLabel = new JLabel("PIN");
+		raPINLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPINLabel);
 		
-		JLabel lblNewLabel_16d = new JLabel("-");
-		lblNewLabel_16d.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_16d);
+		JLabel raPin7ValueLabel = new JLabel("-");
+		raPin7ValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin7ValueLabel);
 		
-		JLabel lblNewLabel_14f = new JLabel("-");
-		lblNewLabel_14f.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_14f);
+		JLabel raPin6ValueLabel = new JLabel("-");
+		raPin6ValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin6ValueLabel);
 		
-		JLabel lblNewLabel_18s = new JLabel("-");
-		lblNewLabel_18s.setHorizontalAlignment(SwingConstants.CENTER);
-		panel.add(lblNewLabel_18s);
+		JLabel raPin5ValueLabel = new JLabel("-");
+		raPin5ValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_RA.add(raPin5ValueLabel);
 		
 		//RA - PIN 4
-		JToggleButton raPin4TogButt = new JToggleButton("0");
+		JToggleButton raPin4ValueTogButt = new JToggleButton("0");
 		ActionListener raPin4AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (raPin4TogButt.isSelected()) {
-					raPin4TogButt.setText("1");
+				if (raPin4ValueTogButt.isSelected()) {
+					raPin4ValueTogButt.setText("1");
 				} else {
-					raPin4TogButt.setText("0");
+					raPin4ValueTogButt.setText("0");
 				}
 			}
 		};
-		raPin4TogButt.addActionListener(raPin4AcLis);
-		panel.add(raPin4TogButt);
+		raPin4ValueTogButt.addActionListener(raPin4AcLis);
+		panel_RA.add(raPin4ValueTogButt);
 		
 		//RA - PIN 3
-		JToggleButton raPin3TogButt = new JToggleButton("0");
+		JToggleButton raPin3ValueTogButt = new JToggleButton("0");
 		ActionListener raPin3AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (raPin3TogButt.isSelected()) {
-					raPin3TogButt.setText("1");
+				if (raPin3ValueTogButt.isSelected()) {
+					raPin3ValueTogButt.setText("1");
 				} else {
-					raPin3TogButt.setText("0");
+					raPin3ValueTogButt.setText("0");
 				}
 			}
 		};
-		raPin3TogButt.addActionListener(raPin3AcLis);
-		panel.add(raPin3TogButt);
+		raPin3ValueTogButt.addActionListener(raPin3AcLis);
+		panel_RA.add(raPin3ValueTogButt);
 		
 		//RA - PIN 2
-		JToggleButton raPin2TogButt = new JToggleButton("0");
+		JToggleButton raPin2ValueTogButt = new JToggleButton("0");
 		ActionListener raPin2AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (raPin2TogButt.isSelected()) {
-					raPin2TogButt.setText("1");
+				if (raPin2ValueTogButt.isSelected()) {
+					raPin2ValueTogButt.setText("1");
 				} else {
-					raPin2TogButt.setText("0");
+					raPin2ValueTogButt.setText("0");
 				}
 			}
 		};
-		raPin2TogButt.addActionListener(raPin2AcLis);
-		panel.add(raPin2TogButt);
+		raPin2ValueTogButt.addActionListener(raPin2AcLis);
+		panel_RA.add(raPin2ValueTogButt);
 		
 		//RA - PIN 1
-		JToggleButton raPin1TogButt = new JToggleButton("0");
+		JToggleButton raPin1ValueTogButt = new JToggleButton("0");
 		ActionListener raPin1AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (raPin1TogButt.isSelected()) {
-					raPin1TogButt.setText("1");
+				if (raPin1ValueTogButt.isSelected()) {
+					raPin1ValueTogButt.setText("1");
 				} else {
-					raPin1TogButt.setText("0");
+					raPin1ValueTogButt.setText("0");
 				}
 			}
 		};
-		raPin1TogButt.addActionListener(raPin1AcLis);
-		panel.add(raPin1TogButt);
+		raPin1ValueTogButt.addActionListener(raPin1AcLis);
+		panel_RA.add(raPin1ValueTogButt);
 		
-		JToggleButton raPin0TogButt = new JToggleButton("0");
+		JToggleButton raPin0ValueTogButt = new JToggleButton("0");
 		ActionListener raPin0AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (raPin0TogButt.isSelected()) {
-					raPin0TogButt.setText("1");
+				if (raPin0ValueTogButt.isSelected()) {
+					raPin0ValueTogButt.setText("1");
 				} else {
-					raPin0TogButt.setText("0");
+					raPin0ValueTogButt.setText("0");
 				}
 			}
 		};
-		raPin0TogButt.addActionListener(raPin0AcLis);
-		panel.add(raPin0TogButt);
+		raPin0ValueTogButt.addActionListener(raPin0AcLis);
+		panel_RA.add(raPin0ValueTogButt);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(594, 10, 364, 100);
-		contentPane.add(panel_1);
-		panel_1.setLayout(new GridLayout(3, 3));
+		JPanel panel_RB = new JPanel();
+		panel_RB.setBounds(594, 10, 364, 100);
+		contentPane.add(panel_RB);
+		panel_RB.setLayout(new GridLayout(3, 3));
 		
 		JLabel lblNewLabel_1_1 = new JLabel("RB");
 		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_1_1);
+		panel_RB.add(lblNewLabel_1_1);
 		
 		JLabel lblNewLabel_6_1 = new JLabel("7");
 		lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_6_1);
+		panel_RB.add(lblNewLabel_6_1);
 		
 		JLabel lblNewLabel_5_1 = new JLabel("6");
 		lblNewLabel_5_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_5_1);
+		panel_RB.add(lblNewLabel_5_1);
 		
 		JLabel lblNewLabel_2_1 = new JLabel("5");
 		lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_2_1);
+		panel_RB.add(lblNewLabel_2_1);
 		
 		JLabel lblNewLabel_3_1 = new JLabel("4");
 		lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_3_1);
+		panel_RB.add(lblNewLabel_3_1);
 		
 		JLabel lblNewLabel_17 = new JLabel("3");
 		lblNewLabel_17.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_17);
+		panel_RB.add(lblNewLabel_17);
 		
 		JLabel lblNewLabel_4_1 = new JLabel("2");
 		lblNewLabel_4_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_4_1);
+		panel_RB.add(lblNewLabel_4_1);
 		
 		JLabel lblNewLabel_13_1 = new JLabel("1");
 		lblNewLabel_13_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_13_1);
+		panel_RB.add(lblNewLabel_13_1);
 		
 		JLabel lblNewLabel_7_1 = new JLabel("0");
 		lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_7_1);
+		panel_RB.add(lblNewLabel_7_1);
 		
 		JLabel lblNewLabel_9_1 = new JLabel("TRIS");
 		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_9_1);
+		panel_RB.add(lblNewLabel_9_1);
 		
 		JLabel lblNewLabel_8_1 = new JLabel("x");
 		lblNewLabel_8_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_8_1);
+		panel_RB.add(lblNewLabel_8_1);
 		
 		JLabel lblNewLabel_11_1 = new JLabel("x");
 		lblNewLabel_11_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_11_1);
+		panel_RB.add(lblNewLabel_11_1);
 		
 		JLabel lblNewLabel_15_1 = new JLabel("x");
 		lblNewLabel_15_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_15_1);
+		panel_RB.add(lblNewLabel_15_1);
 		
 		JLabel lblNewLabel_12_1 = new JLabel("x");
 		lblNewLabel_12_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_12_1);
+		panel_RB.add(lblNewLabel_12_1);
 		
 		JLabel lblNewLabel_10_1 = new JLabel("x");
 		lblNewLabel_10_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_10_1);
+		panel_RB.add(lblNewLabel_10_1);
 		
 		JLabel lblNewLabel_16_1 = new JLabel("x");
 		lblNewLabel_16_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_16_1);
+		panel_RB.add(lblNewLabel_16_1);
 		
 		JLabel lblNewLabel_14_1 = new JLabel("x");
 		lblNewLabel_14_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_14_1);
+		panel_RB.add(lblNewLabel_14_1);
 		
 		JLabel lblNewLabel_18_1 = new JLabel("x");
 		lblNewLabel_18_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblNewLabel_18_1);
+		panel_RB.add(lblNewLabel_18_1);
 		
 		JLabel lblPin_1 = new JLabel("PIN");
 		lblPin_1.setHorizontalAlignment(SwingConstants.CENTER);
-		panel_1.add(lblPin_1);
+		panel_RB.add(lblPin_1);
 		
 		JToggleButton raPin4TogButt_1x = new JToggleButton("0");
-		panel_1.add(raPin4TogButt_1x);
+		panel_RB.add(raPin4TogButt_1x);
 		
 		JToggleButton raPin3TogButt_1x = new JToggleButton("0");
-		panel_1.add(raPin3TogButt_1x);
+		panel_RB.add(raPin3TogButt_1x);
 		
 		JToggleButton raPin2TogButt_1x = new JToggleButton("0");
-		panel_1.add(raPin2TogButt_1x);
+		panel_RB.add(raPin2TogButt_1x);
 		
 		JToggleButton raPin4TogButt_1 = new JToggleButton("0");
-		panel_1.add(raPin4TogButt_1);
+		panel_RB.add(raPin4TogButt_1);
 		
 		JToggleButton raPin3TogButt_1 = new JToggleButton("0");
-		panel_1.add(raPin3TogButt_1);
+		panel_RB.add(raPin3TogButt_1);
 		
 		JToggleButton raPin2TogButt_1 = new JToggleButton("0");
-		panel_1.add(raPin2TogButt_1);
+		panel_RB.add(raPin2TogButt_1);
 		
 		JToggleButton raPin1TogButt_1 = new JToggleButton("0");
-		panel_1.add(raPin1TogButt_1);
+		panel_RB.add(raPin1TogButt_1);
 		
 		JToggleButton raPin0TogButt_1 = new JToggleButton("0");
-		panel_1.add(raPin0TogButt_1);
+		panel_RB.add(raPin0TogButt_1);
 		
 
 		
