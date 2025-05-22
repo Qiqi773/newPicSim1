@@ -118,7 +118,7 @@ public class GUIsim extends JFrame {
 		
 		//RA - TRIS(A) - PINS ->OUTER BOX
 		JPanel panel_RA = new JPanel();
-		panel_RA.setBounds(190, 10, 360, 100);
+		panel_RA.setBounds(136, 10, 360, 100);
 		for (Component comp : panel_RA.getComponents()) {
 			if (comp instanceof JComponent) {
 				((JComponent)comp).setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -286,7 +286,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin0ValueTogButt);
 		
 		JPanel panel_RB = new JPanel();
-		panel_RB.setBounds(553, 10, 360, 100);
+		panel_RB.setBounds(506, 10, 360, 100);
 		contentPane.add(panel_RB);
 		panel_RB.setLayout(new GridLayout(3, 3));
 		

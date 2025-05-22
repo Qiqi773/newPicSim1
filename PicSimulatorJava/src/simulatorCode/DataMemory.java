@@ -28,6 +28,10 @@ public class DataMemory {
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
 
+    /**
+     * Constructor. (Links DataMem w/ (extra) Registers).
+     * @param registers
+     */
     public DataMemory(Registers registers) {
         this.registers = registers;
     }
