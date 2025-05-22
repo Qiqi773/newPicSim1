@@ -8,7 +8,7 @@ public class PicSimulator implements SimulatorInterface {
 
     private final DataMemory memory = new DataMemory();
     private final InstructionExcutor executor = new InstructionExcutor(memory);
-    private DecoderWithBitShift decoder = new DecoderWithBitShift(executor);
+    private DecoderWithBitShift decoder = new DecoderWithBitShift();
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
 
@@ -30,10 +30,23 @@ public class PicSimulator implements SimulatorInterface {
     }
 
     @Override
+    public void step() {
+        // TODO Auto-generated method stub
+        int pc = memory.getPC();
+        int machineCode = programMemory.getInstructionAt(pc);
+
+        decoder.decodeAndExecute(machineCode, executor);
+        memory.incrementPC();
+    }
+
+    @Override
     public void runProgram() {
         // TODO Auto-generated method stub
-    	//let decoder (and thus executor) run 
-    	//after every executed code (line) check for buttons/interrupts etc
+        // let decoder (and thus executor) run
+        // after every executed code (line) check for buttons/interrupts etc
+        for (int i = 0; i < 1024; i++) {
+            step();
+        }
 
     }
 
@@ -74,4 +87,5 @@ public class PicSimulator implements SimulatorInterface {
         // TODO Auto-generated method stub
         return instructionLines;
     }
+
 }

@@ -15,9 +15,19 @@ public class ProgramMemory {
         }
     }
 
-    public int read(int address) {
-        return progmemory[address];
+    // get the machine code from the current PC position
+    public int getInstructionAt(int address) {
+        if (address >= 0 && address < progmemory.length) {
+            return progmemory[address];
+        } else {
+            return 0;
+        }
+    }
 
+    public void reset() {
+        for (int i = 0; i < progmemory.length; i++) {
+            progmemory[i] = 0;
+        }
     }
 
 }

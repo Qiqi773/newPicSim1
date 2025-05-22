@@ -12,18 +12,18 @@ public class DecoderWithBitShift {
 
     // Get Machinecode form ProgMemory (int array size 1024)-> where to put
     // ProgMemory...(fill progmemory from FileReader List)
-    InstructionExcutor executor;
+//    InstructionExcutor executor;
 
-    public DecoderWithBitShift(InstructionExcutor executor) {
-        this.executor = executor;
-
-    }
+//    public DecoderWithBitShift(InstructionExcutor executor) {
+//        this.executor = executor;
+//
+//    }
 
 //
 //		int machinecode = 0x3002;	//11 00|00 0000 0010 (EXAMPLE) => later use variable from fetch cycle !!
 //		int importantBits;
 
-    public void decodeAndExecute(int machinecode) {
+    public void decodeAndExecute(int machinecode,InstructionExcutor executor) {
 
         int importantBits = machinecode >>> 11; // first 3 bits
 

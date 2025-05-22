@@ -11,6 +11,8 @@ public interface SimulatorInterface {
     
     void runNextInstruction();
     
+    void step();
+    
     void runProgram();
     
     int getW();
