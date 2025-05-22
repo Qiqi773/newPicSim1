@@ -1,7 +1,7 @@
 package simulatorCode;
 
 import jCsCodeFromFirstRepo.InstructionLine;
-//import simulatorCode.InstructionExcutor;
+import simulatorCode.InstructionExcutor;
 
 /**
  * Decodes extracted machine code to get Instruction (calls method).
@@ -30,7 +30,7 @@ public class DecoderWithBitShift {
 
         {
         case 0b100:
-            InstructionExcutor.call(machinecode);
+            executor.call(machinecode);
             break;
         case 0b101:
             // GOTO

@@ -5,16 +5,16 @@ import java.util.List;
 import jCsCodeFromFirstRepo.InstructionLine;
 
 public class PicSimulator implements SimulatorInterface {
-    private final Registers registers = new Registers();
-    private final DataMemory memory = new DataMemory(registers);
-    private final InstructionExcutor executor = new InstructionExcutor(registers, memory);
+
+    private final DataMemory memory = new DataMemory();
+    private final InstructionExcutor executor = new InstructionExcutor(memory);
     private DecoderWithBitShift decoder = new DecoderWithBitShift(executor);
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
 
     @Override
     public int getW() {
-        return registers.getW();
+        return memory.getW();
     }
 
     @Override

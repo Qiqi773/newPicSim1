@@ -5,8 +5,13 @@ package simulatorCode;
  */
 public class DataMemory {
     private int[] ram = new int[256];// Addresses: 0x00-0xFF
+    
+    private int W;
+	private int pc; //0-1023
+	private int pclath;
+	private int[] callStack = new int[8];
+	private int stackPointer; //3 bit !
 
-    private final Registers registers;
 
     // Addresses of seperate Registers
     public static final int ADDR_TMR0 = 0x01;
@@ -27,14 +32,71 @@ public class DataMemory {
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
+    
+    
+    // --- EXTRA REGISTERS/Variables -----------------------------------------------------
+    
+	public void setW(int value) {
+		W = value & 0xFF;// get last 8 bits 
+	}
 
-    /**
-     * Constructor. (Links DataMem w/ (extra) Registers).
-     * @param registers
-     */
-    public DataMemory(Registers registers) {
-        this.registers = registers;
-    }
+	public int getW() {
+		return W; 
+	}
+
+	public void setPC(int value) {
+		pc = value & 0x3FFF;// so only 0-1023 possible (see pc size)
+    	ram[0x02] = getPC() & 0xFF;	//lower 8 bit of pc in Bank 0
+        ram[0x82] = getPC() & 0xFF;	// "				in Bank 1
+	}
+
+	public int getPC() {
+		return this.pc;
+	}
+
+	public void incrementPC() {
+		pc = (pc + 1) & 0x3FFF; //see setPC -> overflow = start at 0 again
+	}
+
+	public int getPclath() { 
+		return pclath;
+	}
+
+	public void setPclath(int value) {
+		pclath = value & 0xFF;
+
+	}
+	
+	public void incStackPointer() {
+		stackPointer = (stackPointer + 1) & 0x7; //0x7 bcs of ONLY last 3 BITS
+	}
+	
+	public void decStackPointer() {
+		if (stackPointer != 0) {	//so we never go below 0 (wrong RETURN prevented)
+			stackPointer--;
+		}
+	}
+
+	public void writeInstack(int adr) {
+		callStack[stackPointer] = adr;
+		stackPointer = (stackPointer + 1) & 0x7;	//to use only last 3 bit -> overflow = back to 0
+	}
+	
+	public int readFromStack() {
+		if (stackPointer == 0) {
+			stackPointer = 7;
+		} else {
+			stackPointer = (stackPointer - 1);
+		}
+		return callStack[stackPointer];
+	}
+    // ------------------------------------------------------------------------------------------------------
+	
+	
+   
+    
+    
+    
 
     /* writes VALUE at ADDRESS(=Register */
     public void write(int address, int value) {
@@ -53,8 +115,7 @@ public class DataMemory {
             break;
         case 0x02:
         case 0x82:
-            registers.setPC(value);
-            writePCL(value);
+            setPC(value);
 
         default:
             ram[address] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
@@ -62,6 +123,10 @@ public class DataMemory {
         }
 
     }
+    
+    
+    
+    
 
     /* reads value at ADDRESS(=Register) */
     public int read(int address) {
@@ -76,23 +141,26 @@ public class DataMemory {
             return portB.getTris();
         case 0x02:
         case 0x82:
-            return registers.getPC() & 0xFF;// PCL
+            return getPC() & 0xFF;// PCL
         default:
             return ram[address];
         }
     }
+    
+    
+    
 
     // --- PCL --- (Addr: 0x02 & 0x82)
     public void writePCL(int value) {
-    	ram[0x02] = value & 0xFF;	//lower 8 bit of pc in Bank 0
-        ram[0x82] = value & 0xFF;	// "				in Bank 1
+
     }
-    public void incrementPC() {
-    	ram[0x02] = (ram[0x02] + 1) & 0xFF;	//lower 8 bit of pc in Bank 0
-        ram[0x82] = (ram[0x82] + 1) & 0xFF;
-    }
+    
     // -------------------------------------------------
 
+    
+    
+    
+    
     // --- STATUS --- (Addr: 0x03 & 0x83)
     // ----------------------------------------------
     public void setStatusBit(int mask) {
@@ -130,6 +198,11 @@ public class DataMemory {
             clearStatusBit(DC_Mask);
         }
     }
+    
+    
+    
+    
+    
 
     // --- FSR --- (Addr: 0x04 & 0x84)
     // -------------------------------------------------
@@ -143,11 +216,17 @@ public class DataMemory {
         return (value & 0b00100000) == 0;
     }
 
+    
+    
+    
     public boolean isPrescalerAssignedToTMR0() {// PSA = 0
         int value = read(ADDR_OPTION);
         return (value & 0b00001000) == 0;
     }
 
+    
+    
+    
     public int getPrescalerRate() {// PS2-0
         int value = read(ADDR_OPTION);
         int ps = value & 0b00000111;
@@ -164,6 +243,10 @@ public class DataMemory {
         };
     }
 
+    
+    
+    
+    
     // --- INTCON --- (Addr: 0x0B & 0x8B)
     public boolean isGlobalInterruptEnabled() {
         return (read(ADDR_INTCON) & GIE_MASK) != 0;
@@ -189,6 +272,10 @@ public class DataMemory {
     }
     // ----------------------------------------------
 
+    
+    
+    
+    
     // --- General Purspose SRAM --- (Addr: 0x0C-0x4F & 0x8C-0xCF)
     // ---------------------
 
