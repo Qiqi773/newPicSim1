@@ -8,7 +8,6 @@ public class DataMemory {
     
     private int W;
 	private int pc; //0-1023
-	private int pclath;
 	private int[] callStack = new int[8];
 	private int stackPointer; //3 bit !
 
@@ -46,25 +45,27 @@ public class DataMemory {
 
 	public void setPC(int value) {
 		pc = value & 0x3FFF;// so only 0-1023 possible (see pc size)
-    	ram[0x02] = getPC() & 0xFF;	//lower 8 bit of pc in Bank 0
-        ram[0x82] = getPC() & 0xFF;	// "				in Bank 1
+    	ram[0x02] = getPC() & 0xFF;	//PCL in Bank 0
+        ram[0x82] = getPC() & 0xFF;	//PCL in Bank 1
 	}
 
 	public int getPC() {
-		return this.pc;
+		return pc;
 	}
 
 	public void incrementPC() {
 		pc = (pc + 1) & 0x3FFF; //see setPC -> overflow = start at 0 again
+		ram[0x02] = getPC() & 0xFF;	//PCL in Bank 0
+        ram[0x82] = getPC() & 0xFF;	//PCL in Bank 1
 	}
 
 	public int getPclath() { 
-		return pclath;
+		return ram[0x0A];	//made sure in both banks is same value, so we can return only one of them
 	}
 
 	public void setPclath(int value) {
-		pclath = value & 0xFF;
-
+		ram[0x0A] = value & 0xFF;	//bank 0
+		ram[0x8A] = value & 0xFF;	//bank 1
 	}
 	
 	public void incStackPointer() {
@@ -147,13 +148,7 @@ public class DataMemory {
         }
     }
     
-    
-    
 
-    // --- PCL --- (Addr: 0x02 & 0x82)
-    public void writePCL(int value) {
-
-    }
     
     // -------------------------------------------------
 
@@ -239,7 +234,7 @@ public class DataMemory {
         case 5 -> 64;
         case 6 -> 128;
         case 7 -> 256;
-        default -> 1;
+        default -> 1;	//only for short version needed, not possible to get	
         };
     }
 

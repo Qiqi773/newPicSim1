@@ -136,7 +136,7 @@ public class InstructionExcutor {
 
     }
 
-    public void returnFromSub() { // no PCLath
+    public void returnFromSub() { // no PCLath - return from SUBroutine/-program
 
         int returnAddress = memory.readFromStack();
 

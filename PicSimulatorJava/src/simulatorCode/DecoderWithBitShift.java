@@ -2,6 +2,8 @@ package simulatorCode;
 
 import jCsCodeFromFirstRepo.InstructionLine;
 import simulatorCode.InstructionExcutor;
+import simulatorCode.ProgramMemory;
+
 
 /**
  * Decodes extracted machine code to get Instruction (calls method).
@@ -30,10 +32,12 @@ public class DecoderWithBitShift {
 
         {
         case 0b100:
+        	//CALL
             executor.call(machinecode);
             break;
         case 0b101:
             // GOTO
+        	executor.goTo(machinecode);
             break;
         }
 
@@ -54,8 +58,8 @@ public class DecoderWithBitShift {
             // BTFSS
             break;
         case 0b1100:
-            // MOVLW
-
+        	//MOVLW
+            executor.movlw(machinecode);
             break;
         case 0b1101:
             // RETLW
@@ -67,7 +71,7 @@ public class DecoderWithBitShift {
         // switch case for 6 bit instructions
         switch (importantBits2) {
         case 0b000111:
-            // ADDWF
+        	executor.addwf(machinecode);
             break;
         case 0b000101:
             // ANDWF
@@ -75,9 +79,9 @@ public class DecoderWithBitShift {
         case 0b000001:
             int whichClr = machinecode >>> 7; // first 7 bits
             if (whichClr == 0000011) {
-                // CLRF
+            	executor.clrf(machinecode);
             } else { // (whichClr == 0000010)
-                // CLRW
+            	executor.clrw(machinecode);
             }
             break;
         case 0b001001:
@@ -99,10 +103,10 @@ public class DecoderWithBitShift {
             // IORWF
             break;
         case 0b001000:
-            // MOVF
+        	executor.movf(machinecode);
             break;
         case 0b000000:
-            // MOVWF
+        	executor.movwf(machinecode);
             break;
         case 0b001101:
             // RLF
@@ -111,7 +115,7 @@ public class DecoderWithBitShift {
             // RRF
             break;
         case 0b000010:
-            // SUBWF
+        	executor.subwf(machinecode);
             break;
         case 0b001110:
             // SWAPF
@@ -134,10 +138,10 @@ public class DecoderWithBitShift {
         // switch case for 5 bit instructions
         switch (importantBits3) {
         case 0b11111:
-            // ADDLW
+        	executor.addlw(machinecode);
             break;
         case 0b11110:
-            // SUBLW
+        	executor.sublw(machinecode);
             break;
 
         }
@@ -155,7 +159,7 @@ public class DecoderWithBitShift {
             // RETFIE
             break;
         case 0b00000000001000:
-            // RETURN
+        	executor.returnFromSub();	//return
             break;
         case 0b00000001100011:
             // SLEEP
