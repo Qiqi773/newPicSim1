@@ -16,10 +16,14 @@ public class InstructionFileReader {
 
             while ((line = reader.readLine()) != null) {
                 if (line.trim().isEmpty()) {
-                    continue;  // 跳过空行
+                    continue; // 跳过空行
                 }
                 // 将一行分成四部分：地址、机器码、指令、注释
                 String[] parts = line.split("\\s+", 4);
+
+                if (parts.length < 2 || !parts[1].matches("^[0-9A-Fa-f]{4}$")) {
+                    continue;
+                }
 
                 String address = parts.length > 0 ? parts[0] : "";
                 String machineCode = parts.length > 1 ? parts[1] : "";
