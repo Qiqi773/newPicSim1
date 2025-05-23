@@ -17,6 +17,7 @@ public class InstructionExcutor {
         int literal = instruction & 0xFF;
         memory.setW(literal);
         memory.incrementPC();
+        memory.tickTimer0();
     }
 
     public void movwf(int instruction) {
@@ -25,6 +26,7 @@ public class InstructionExcutor {
 
         memory.write(f, w);
         memory.incrementPC();
+        memory.tickTimer0();
     }
 
     public void movf(int instruction) {
@@ -43,6 +45,7 @@ public class InstructionExcutor {
         }
 
         memory.incrementPC();
+        memory.tickTimer0();
     }
 
     public void clrw(int instruction) {
@@ -51,6 +54,7 @@ public class InstructionExcutor {
         memory.setZeroFlag(true);
 
         memory.incrementPC();
+        memory.tickTimer0();
 
     }
 
@@ -59,6 +63,7 @@ public class InstructionExcutor {
         memory.write(f, 0);
         memory.setZeroFlag(true);
         memory.incrementPC();
+        memory.tickTimer0();
 
     }
 
@@ -78,6 +83,7 @@ public class InstructionExcutor {
         memory.setCarryFlag(c);
 
         memory.incrementPC();
+        memory.tickTimer0();
     }
 
     public void sublw(int instruction) {
@@ -94,6 +100,7 @@ public class InstructionExcutor {
         memory.setDigitatCarryFlag((k & 0x0F) >= (w & 0x0F));
 
         memory.incrementPC();
+        memory.tickTimer0();
 
     }
 
@@ -106,7 +113,7 @@ public class InstructionExcutor {
         int result = (fVal - w) & 0xFF;
 
         if (d == 0) {
-        	memory.setW(result);
+            memory.setW(result);
         } else {
             memory.write(f, result);
         }
@@ -118,6 +125,7 @@ public class InstructionExcutor {
         memory.setDigitatCarryFlag((fVal & 0x0F) >= (w & 0x0F));
 
         memory.incrementPC();
+        memory.tickTimer0();
 
     }
 
@@ -125,6 +133,7 @@ public class InstructionExcutor {
         int k = instruction & 0x07FF;
 
         memory.setPC(k);
+        memory.tickTimer0();
     }
 
     public void call(int instruction) { // no PCLath
@@ -133,6 +142,7 @@ public class InstructionExcutor {
         memory.writeInstack(memory.getPC() + 1); // remember next instruction after CALL
 
         memory.setPC(targetAddress); // (go to) targetaddr
+        memory.tickTimer0();
 
     }
 
@@ -141,6 +151,7 @@ public class InstructionExcutor {
         int returnAddress = memory.readFromStack();
 
         memory.setPC(returnAddress);
+        memory.tickTimer0();
     }
 
     public void addwf(int instruction) {
@@ -161,11 +172,11 @@ public class InstructionExcutor {
         result = result & 0xFF;
 
         if (d == 0) {
-        	memory.setW(result);
+            memory.setW(result);
         } else {
             memory.write(f, result);
 
-            if (f == 0x02) {//pcl
+            if (f == 0x02) {// pcl
                 int pclath = memory.read(0x0A);
                 int newPC = ((pclath & 0x1F) << 8) | result;
                 memory.setPC(newPC);
@@ -174,6 +185,7 @@ public class InstructionExcutor {
         }
 
         memory.incrementPC();
+        memory.tickTimer0();
 
     }
 

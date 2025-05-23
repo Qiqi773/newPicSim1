@@ -5,12 +5,12 @@ package simulatorCode;
  */
 public class DataMemory {
     private int[] ram = new int[256];// Addresses: 0x00-0xFF
-    
-    private int W;
-	private int pc; //0-1023
-	private int[] callStack = new int[8];
-	private int stackPointer; //3 bit !
 
+    private int W;
+    private int pc; // 0-1023
+    private int[] callStack = new int[8];
+    private int stackPointer; // 3 bit !
+    private Timer0 timer0 = new Timer0(this);
 
     // Addresses of seperate Registers
     public static final int ADDR_TMR0 = 0x01;
@@ -31,73 +31,67 @@ public class DataMemory {
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
-    
-    
-    // --- EXTRA REGISTERS/Variables -----------------------------------------------------
-    
-	public void setW(int value) {
-		W = value & 0xFF;// get last 8 bits 
-	}
 
-	public int getW() {
-		return W; 
-	}
+    // --- EXTRA REGISTERS/Variables
+    // -----------------------------------------------------
 
-	public void setPC(int value) {
-		pc = value & 0x3FFF;// so only 0-1023 possible (see pc size)
-    	ram[0x02] = getPC() & 0xFF;	//PCL in Bank 0
-        ram[0x82] = getPC() & 0xFF;	//PCL in Bank 1
-	}
+    public void setW(int value) {
+        W = value & 0xFF;// get last 8 bits
+    }
 
-	public int getPC() {
-		return pc;
-	}
+    public int getW() {
+        return W;
+    }
 
-	public void incrementPC() {
-		pc = (pc + 1) & 0x3FFF; //see setPC -> overflow = start at 0 again
-		ram[0x02] = getPC() & 0xFF;	//PCL in Bank 0
-        ram[0x82] = getPC() & 0xFF;	//PCL in Bank 1
-	}
+    public void setPC(int value) {
+        pc = value & 0x3FFF;// so only 0-1023 possible (see pc size)
+        ram[0x02] = getPC() & 0xFF; // PCL in Bank 0
+        ram[0x82] = getPC() & 0xFF; // PCL in Bank 1
+    }
 
-	public int getPclath() { 
-		return ram[0x0A];	//made sure in both banks is same value, so we can return only one of them
-	}
+    public int getPC() {
+        return pc;
+    }
 
-	public void setPclath(int value) {
-		ram[0x0A] = value & 0xFF;	//bank 0
-		ram[0x8A] = value & 0xFF;	//bank 1
-	}
-	
-	public void incStackPointer() {
-		stackPointer = (stackPointer + 1) & 0x7; //0x7 bcs of ONLY last 3 BITS
-	}
-	
-	public void decStackPointer() {
-		if (stackPointer != 0) {	//so we never go below 0 (wrong RETURN prevented)
-			stackPointer--;
-		}
-	}
+    public void incrementPC() {
+        pc = (pc + 1) & 0x3FFF; // see setPC -> overflow = start at 0 again
+        ram[0x02] = getPC() & 0xFF; // PCL in Bank 0
+        ram[0x82] = getPC() & 0xFF; // PCL in Bank 1
+    }
 
-	public void writeInstack(int adr) {
-		callStack[stackPointer] = adr;
-		stackPointer = (stackPointer + 1) & 0x7;	//to use only last 3 bit -> overflow = back to 0
-	}
-	
-	public int readFromStack() {
-		if (stackPointer == 0) {
-			stackPointer = 7;
-		} else {
-			stackPointer = (stackPointer - 1);
-		}
-		return callStack[stackPointer];
-	}
+    public int getPclath() {
+        return ram[0x0A]; // made sure in both banks is same value, so we can return only one of them
+    }
+
+    public void setPclath(int value) {
+        ram[0x0A] = value & 0xFF; // bank 0
+        ram[0x8A] = value & 0xFF; // bank 1
+    }
+
+    public void incStackPointer() {
+        stackPointer = (stackPointer + 1) & 0x7; // 0x7 bcs of ONLY last 3 BITS
+    }
+
+    public void decStackPointer() {
+        if (stackPointer != 0) { // so we never go below 0 (wrong RETURN prevented)
+            stackPointer--;
+        }
+    }
+
+    public void writeInstack(int adr) {
+        callStack[stackPointer] = adr;
+        stackPointer = (stackPointer + 1) & 0x7; // to use only last 3 bit -> overflow = back to 0
+    }
+
+    public int readFromStack() {
+        if (stackPointer == 0) {
+            stackPointer = 7;
+        } else {
+            stackPointer = (stackPointer - 1);
+        }
+        return callStack[stackPointer];
+    }
     // ------------------------------------------------------------------------------------------------------
-	
-	
-   
-    
-    
-    
 
     /* writes VALUE at ADDRESS(=Register */
     public void write(int address, int value) {
@@ -124,10 +118,6 @@ public class DataMemory {
         }
 
     }
-    
-    
-    
-    
 
     /* reads value at ADDRESS(=Register) */
     public int read(int address) {
@@ -147,15 +137,9 @@ public class DataMemory {
             return ram[address];
         }
     }
-    
 
-    
     // -------------------------------------------------
 
-    
-    
-    
-    
     // --- STATUS --- (Addr: 0x03 & 0x83)
     // ----------------------------------------------
     public void setStatusBit(int mask) {
@@ -193,11 +177,6 @@ public class DataMemory {
             clearStatusBit(DC_Mask);
         }
     }
-    
-    
-    
-    
-    
 
     // --- FSR --- (Addr: 0x04 & 0x84)
     // -------------------------------------------------
@@ -211,17 +190,11 @@ public class DataMemory {
         return (value & 0b00100000) == 0;
     }
 
-    
-    
-    
     public boolean isPrescalerAssignedToTMR0() {// PSA = 0
         int value = read(ADDR_OPTION);
         return (value & 0b00001000) == 0;
     }
 
-    
-    
-    
     public int getPrescalerRate() {// PS2-0
         int value = read(ADDR_OPTION);
         int ps = value & 0b00000111;
@@ -234,14 +207,10 @@ public class DataMemory {
         case 5 -> 64;
         case 6 -> 128;
         case 7 -> 256;
-        default -> 1;	//only for short version needed, not possible to get	
+        default -> 1; // only for short version needed, not possible to get
         };
     }
 
-    
-    
-    
-    
     // --- INTCON --- (Addr: 0x0B & 0x8B)
     public boolean isGlobalInterruptEnabled() {
         return (read(ADDR_INTCON) & GIE_MASK) != 0;
@@ -261,16 +230,16 @@ public class DataMemory {
 
     }
 
-    public void clearTMR0OverflowFlag() {//set T0IF=0
+    public void clearTMR0OverflowFlag() {// set T0IF=0
         int value = read(ADDR_INTCON);
         write(ADDR_INTCON, value & ~T0IF_MASK);
     }
     // ----------------------------------------------
 
-    
-    
-    
-    
+    public void tickTimer0() {
+        timer0.tick();
+    }
+
     // --- General Purspose SRAM --- (Addr: 0x0C-0x4F & 0x8C-0xCF)
     // ---------------------
 
