@@ -111,37 +111,38 @@ public class GUIsim extends JFrame {
                 File file = chooser.getSelectedFile();
 
                 try {
-                    // 读取并解析指令文件
+                    // read file
                     List<InstructionLine> lines = InstructionFileReader.readInstructionFile(file.getAbsolutePath());
 
-                    // 传给后端
+                    // send to backend
                     simulator.loadInstructions(lines);
 
-                    // 清空原有显示内容
+                    // clear the previous content
                     progPanel.removeAll();
 
-                    JPanel header = new JPanel(new GridLayout(1, 4)); // 四列：Breakpoint + 三列内容
+                    JPanel header = new JPanel(new GridLayout(1, 5)); // 5 columns
                     header.add(new JLabel("BP")); // Breakpoint
                     header.add(new JLabel("Address"));
                     header.add(new JLabel("Machine Code"));
                     header.add(new JLabel("Instruction"));
-                    progPanel.add(header); // 添加到显示区域最顶
+                    header.add(new JLabel("Comment"));
+                    progPanel.add(header); // add to the head
 
-                    // 逐行显示格式化结果
+                    // line by line show the content
                     for (InstructionLine line : lines) {
-                        JPanel row = new JPanel(new GridLayout(1, 4)); // 每行一列断点 + 三列信息
+                        JPanel row = new JPanel(new GridLayout(1, 5));
 
-                        JCheckBox breakpointBox = new JCheckBox(); // 是否设置断点
+                        JCheckBox breakpointBox = new JCheckBox();
                         row.add(breakpointBox);
 
                         row.add(new JLabel(String.format("%04X", line.getAddress())));
                         row.add(new JLabel(String.format("%04X", line.getMachineCode())));
                         row.add(new JLabel(line.getInstruction()));
+                        row.add(new JLabel(line.getComment()));
 
                         progPanel.add(row);
                     }
 
-                    // 重新刷新显示
                     progPanel.revalidate();
                     progPanel.repaint();
 
