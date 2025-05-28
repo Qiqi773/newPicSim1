@@ -28,6 +28,10 @@ public class DataMemory {
     private static final int GIE_MASK = 0b10000000;
     private static final int T0IE_MASK = 0b00100000;
     private static final int T0IF_MASK = 0b00000100;
+    private static final int INTE_MASK = 0b00010000;
+    private static final int INTF_MASK = 0b00000010;
+    private static final int RBIE_MASK = 0b00001000;
+    private static final int RBIF_MASK = 0b00000001;
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
@@ -216,6 +220,11 @@ public class DataMemory {
         return (read(ADDR_INTCON) & GIE_MASK) != 0;
     }
 
+    public void disableGlobalInterrupt() {
+        int val = read(ADDR_INTCON);
+        write(ADDR_INTCON, val & ~GIE_MASK);// clear GIE
+    }
+
     public boolean isTMR0InterruptEnabled() {
         return (read(ADDR_INTCON) & T0IE_MASK) != 0;
     }
@@ -234,10 +243,76 @@ public class DataMemory {
         int value = read(ADDR_INTCON);
         write(ADDR_INTCON, value & ~T0IF_MASK);
     }
+
+    public boolean isExternalInterruptEnabled() {
+        return (read(ADDR_INTCON) & INTE_MASK) != 0;
+    }
+
+    public boolean isExternalInterruptFlagSet() {// INTF=1
+        return (read(ADDR_INTCON) & INTF_MASK) != 0;
+    }
+
+    public void setExternalInterruptFlag() {// set INTF=1
+        int val = read(ADDR_INTCON);
+        write(ADDR_INTCON, val | INTF_MASK);
+    }
+
+    public void clearExternalInterruptFlag() {// INTF=0
+        int val = read(ADDR_INTCON);
+        write(ADDR_INTCON, val & ~INTF_MASK);
+
+    }
+
+    public boolean isPortBInterruptEnabled() {
+        return (read(ADDR_INTCON) & RBIE_MASK) != 0;
+    }
+
+    public boolean isPortBInterruptFlagSet() {
+        return (read(ADDR_INTCON) & RBIF_MASK) != 0;
+    }
+
+    public void setPortBInterruptFlag() {
+        int val = read(ADDR_INTCON);
+        write(ADDR_INTCON, val | RBIF_MASK);
+    }
+
+    public void clearPortBInterruptFlag() {
+        int val = read(ADDR_INTCON);
+        write(ADDR_INTCON, val & ~RBIF_MASK);
+
+    }
     // ----------------------------------------------
 
     public void tickTimer0() {
         timer0.tick();
+    }
+
+    // ---------------------------------------
+    public void checkAndHandleInterrupt() {
+
+        // Timer0 Interrupt
+        if (isGlobalInterruptEnabled() && isTMR0InterruptEnabled() && isTMR0InterruptEnabled()) {
+            writeInstack(getPC());
+            setPC(0x004);
+            clearTMR0OverflowFlag();
+            disableGlobalInterrupt();
+
+        }
+
+        // RB0 Interrupt
+        if (isGlobalInterruptEnabled() && isExternalInterruptEnabled() && isExternalInterruptFlagSet()) {
+            writeInstack(getPC());
+            setPC(0x004);
+            clearExternalInterruptFlag();
+            disableGlobalInterrupt();
+
+        }
+
+        // RB4-RB7 Interrupt
+        if (isGlobalInterruptEnabled() && isPortBInterruptEnabled()) {
+            return;
+        }
+
     }
 
     // --- General Purspose SRAM --- (Addr: 0x0C-0x4F & 0x8C-0xCF)
