@@ -52,6 +52,7 @@ public class GUIsim extends JFrame {
     private JPanel contentPane;
     SimulatorInterface simulator = new PicSimulator();
     private JTable table;
+    private JTable table_1;
 
     /**
      * Launch the application.
@@ -596,6 +597,7 @@ public class GUIsim extends JFrame {
 //------SHOW REGISTERS-------------------------------------------------------------------------------------------------------------
         JScrollPane scrollPane_showRegisters = new JScrollPane();
         scrollPane_showRegisters.setBounds(876, 10, 500, 693);
+        scrollPane_showRegisters.setBackground(lightLavender);
         contentPane.add(scrollPane_showRegisters);
         
 //------COLUMN HEADERS----------------------------------------------------------------------------------------------------------------
@@ -903,12 +905,40 @@ public class GUIsim extends JFrame {
         Component distVertGlue32 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue32);
         
+        JPanel panel_RegisterValues = new JPanel();
+        panel_RegisterValues.setBackground(new Color(230, 218, 237));
+        scrollPane_showRegisters.setViewportView(panel_RegisterValues);
+        panel_RegisterValues.setLayout(new GridLayout(0, 1, 0, 0));
+        
+
+        
         
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
         
         
+//---->OPTION 1: USE JTable<-----------------------------------------------------------------------------------        
+        // TODO convert data register intArray into an 2D ObjectArray to use in a JTable
+        // ! careful: jTable overrides the Columnheaders
         
-
+//        String[] colNames = {"00","01","02","03","04","05","06","07"};
+//        
+//        Object[][] dataRegForTable;
+//        
+//        for (int i = 0; i < 256; i++) {
+//        	//get access to DataMemory 
+//        
+//        				-> "dataRegForTable[row][col] = dataMemoryArray[x];"
+//        
+//        	//add always 8 ints per "row" -> = 32 columns with 8 values
+//        }
+//        
+//        JTable registersValueTable = new JTable(dataRegForTable, colNames);
+//        panel_RegisterValues.add(registersValueTable);
+        
+        
+//---->OPTION 2: USE 256 JTextfields<------------------------------------------------------------------------------
+        
+//---->OPTION 3: USE 256 JButtons (actionlistener: open window to change value)------------------------------------
         
         
         
