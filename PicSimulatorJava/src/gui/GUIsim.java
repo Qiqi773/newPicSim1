@@ -42,6 +42,7 @@ import jCsCodeFromFirstRepo.InstructionFileReader;
 import jCsCodeFromFirstRepo.InstructionLine;
 import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
+import javax.swing.Box;
 
 public class GUIsim extends JFrame {
 
@@ -50,6 +51,7 @@ public class GUIsim extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     SimulatorInterface simulator = new PicSimulator();
+    private JTable table;
 
     /**
      * Launch the application.
@@ -589,56 +591,325 @@ public class GUIsim extends JFrame {
         rbPin0ValueTogButt.addActionListener(rbPin0AcLis);
         panel_RB.add(rbPin0ValueTogButt);
         
+        
+        
 //------SHOW REGISTERS-------------------------------------------------------------------------------------------------------------
         JScrollPane scrollPane_showRegisters = new JScrollPane();
         scrollPane_showRegisters.setBounds(876, 10, 500, 693);
         contentPane.add(scrollPane_showRegisters);
-   
-//------COLUMN HEADERS-------------------------------------------------------------------------------------------------------------
-        JPanel panel_ColHeaders = new JPanel();
-        panel_ColHeaders.setBackground(lightLavender);
-        scrollPane_showRegisters.setColumnHeaderView(panel_ColHeaders);
+        
+//------COLUMN HEADERS----------------------------------------------------------------------------------------------------------------
+        Box colHeadersHorizBox = Box.createHorizontalBox();
+        colHeadersHorizBox.setBackground(lightLavender);
+        scrollPane_showRegisters.setColumnHeaderView(colHeadersHorizBox);
+        
+        Component distanceHorizGlue0 = Box.createHorizontalGlue();
+        distanceHorizGlue0.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue0);
         
         JLabel col0RegsLabel = new JLabel("00");
         col0RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col0RegsLabel);
+        colHeadersHorizBox.add(col0RegsLabel);
+        
+        Component distanceHorizGlue1 = Box.createHorizontalGlue();
+        distanceHorizGlue1.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue1);
         
         JLabel col1RegsLabel = new JLabel("01");
         col1RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col1RegsLabel);
+        colHeadersHorizBox.add(col1RegsLabel);
+        
+        Component distanceHorizGlue2 = Box.createHorizontalGlue();
+        distanceHorizGlue2.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue2);
         
         JLabel col2RegsLabel = new JLabel("02");
         col2RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col2RegsLabel);
+        colHeadersHorizBox.add(col2RegsLabel);
+        
+        Component distanceHorizGlue3 = Box.createHorizontalGlue();
+        distanceHorizGlue3.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue3);
         
         JLabel col3RegsLabel = new JLabel("03");
         col3RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col3RegsLabel);
+        colHeadersHorizBox.add(col3RegsLabel);
+        
+        Component distanceHorizGlue4 = Box.createHorizontalGlue();
+        distanceHorizGlue4.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue4);
         
         JLabel col4RegsLabel = new JLabel("04");
         col4RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col4RegsLabel);
+        colHeadersHorizBox.add(col4RegsLabel);
+        
+        Component distanceHorizGlue5 = Box.createHorizontalGlue();
+        distanceHorizGlue5.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue5);
         
         JLabel col5RegsLabel = new JLabel("05");
         col5RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col5RegsLabel);
+        colHeadersHorizBox.add(col5RegsLabel);
+        
+        Component distanceHorizGlue6 = Box.createHorizontalGlue();
+        distanceHorizGlue6.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue6);
         
         JLabel col6RegsLabel = new JLabel("06");
         col6RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col6RegsLabel);
+        colHeadersHorizBox.add(col6RegsLabel);
+        
+        Component distanceHorizGlue7 = Box.createHorizontalGlue();
+        distanceHorizGlue7.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue7);
         
         JLabel col7RegsLabel = new JLabel("07");
         col7RegsLabel.setBackground(darkLavender);
-        panel_ColHeaders.add(col7RegsLabel);
+        colHeadersHorizBox.add(col7RegsLabel);
         
-//------ROW HEADERS----------------------------------------------------------------------------------------------------------------
-        JPanel panel_RowHeaders = new JPanel();
-        panel_RowHeaders.setBackground(lightLavender);
-        scrollPane_showRegisters.setRowHeaderView(panel_RowHeaders);
-        panel_RowHeaders.setLayout(new GridLayout(0, 32, 0, 0));
+        Component distanceHorizGlue8 = Box.createHorizontalGlue();
+        distanceHorizGlue8.setBackground(lightLavender);
+        colHeadersHorizBox.add(distanceHorizGlue8);
         
-       
+//------ROW HEADERS------------------------------------------------------------------------------------------------------------------
+        Box rowHeadersVerticBox = Box.createVerticalBox();
+        rowHeadersVerticBox.setBackground(new Color(230, 218, 237));
+        scrollPane_showRegisters.setRowHeaderView(rowHeadersVerticBox);
+        
+        Component distVertGlue0 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue0);
+        
+        JLabel row0RegsLabel = new JLabel("00");
+        row0RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row0RegsLabel);
+        
+        Component distVertGlue1 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue1);
+        
+        JLabel row1RegsLabel = new JLabel("08");
+        row1RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row1RegsLabel);
+        
+        Component distVertGlue2 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue2);
+        
+        JLabel row2RegsLabel = new JLabel("10");
+        row2RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row2RegsLabel);
+        
+        Component distVertGlue3 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue3);
+        
+        JLabel row3RegsLabel = new JLabel("18");
+        row3RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row3RegsLabel);
+        
+        Component distVertGlue4 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue4);
+        
+        JLabel row4RegsLabel = new JLabel("20");
+        row4RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row4RegsLabel);
+        
+        Component distVertGlue5 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue5);
+        
+        JLabel row5RegsLabel = new JLabel("28");
+        row5RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row5RegsLabel);
+        
+        Component distVertGlue6 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue6);
+        
+        JLabel row6RegsLabel = new JLabel("30");
+        row6RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row6RegsLabel);
+        
+        Component distVertGlue7 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue7);
+        
+        JLabel row7RegsLabel = new JLabel("38");
+        row7RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row7RegsLabel);
+        
+        Component distVertGlue8 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue8);
+        
+        JLabel row8RegsLabel = new JLabel("40");
+        row8RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row8RegsLabel);
+        
+        Component distVertGlue9 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue9);
+        
+        JLabel row9RegsLabel = new JLabel("48");
+        row9RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row9RegsLabel);
+        
+        Component distVertGlue10 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue10);
+        
+        JLabel row10RegsLabel = new JLabel("50");
+        row10RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row10RegsLabel);
+        
+        Component distVertGlue11 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue11);
+        
+        JLabel row11RegsLabel = new JLabel("58");
+        row11RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row11RegsLabel);
+        
+        Component distVertGlue12 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue12);
+        
+        JLabel row12RegsLabel = new JLabel("60");
+        row12RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row12RegsLabel);
+        
+        Component distVertGlue13 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue13);
+        
+        JLabel row13RegsLabel = new JLabel("68");
+        row13RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row13RegsLabel);
+        
+        Component distVertGlue14 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue14);
+        
+        JLabel row14RegsLabel = new JLabel("70");
+        row14RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row14RegsLabel);
+        
+        Component distVertGlue15 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue15);
+        
+        JLabel row15RegsLabel = new JLabel("78");
+        row15RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row15RegsLabel);
+        
+        Component distVertGlue16 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue16);
+        
+        JLabel row16RegsLabel = new JLabel("80");
+        row16RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row16RegsLabel);
+        
+        Component distVertGlue17 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue17);
+        
+        JLabel row17RegsLabel = new JLabel("88");
+        row17RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row17RegsLabel);
+        
+        Component distVertGlue18 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue18);
+        
+        JLabel row18RegsLabel = new JLabel("90");
+        row18RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row18RegsLabel);
+        
+        Component distVertGlue19 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue19);
+        
+        JLabel row19RegsLabel = new JLabel("98");
+        row19RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row19RegsLabel);
+        
+        Component distVertGlue20 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue20);
+        
+        JLabel row20RegsLabel = new JLabel("A0");
+        row20RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row20RegsLabel);
+        
+        Component distVertGlue21 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue21);
+        
+        JLabel row21RegsLabel = new JLabel("A8");
+        row21RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row21RegsLabel);
+        
+        Component distVertGlue22 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue22);
+        
+        JLabel row22RegsLabel = new JLabel("B0");
+        row22RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row22RegsLabel);
+        
+        Component distVertGlue23 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue23);
+        
+        JLabel row23RegsLabel = new JLabel("B8");
+        row23RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row23RegsLabel);
+        
+        Component distVertGlue24 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue24);
+        
+        JLabel row24RegsLabel = new JLabel("C0");
+        row24RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row24RegsLabel);
+        
+        Component distVertGlue25 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue25);
+        
+        JLabel row25RegsLabel = new JLabel("C8");
+        row25RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row25RegsLabel);
+        
+        Component distVertGlue26 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue26);
+        
+        JLabel row26RegsLabel = new JLabel("D0");
+        row26RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row26RegsLabel);
+        
+        Component distVertGlue27 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue27);
+        
+        JLabel row27RegsLabel = new JLabel("D8");
+        row27RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row27RegsLabel);
+        
+        Component distVertGlue28 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue28);
+        
+        JLabel row28RegsLabel = new JLabel("E0");
+        row28RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row28RegsLabel);
+        
+        Component distVertGlue29 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue29);
+        
+        JLabel row29RegsLabel = new JLabel("E8");
+        row29RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row29RegsLabel);
+        
+        Component distVertGlue30 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue30);
+        
+        JLabel row30RegsLabel = new JLabel("F0");
+        row30RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row30RegsLabel);
+        
+        Component distVertGlue31 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue31);
+        
+        JLabel row31RegsLabel = new JLabel("F8");
+        row31RegsLabel.setBackground(darkLavender);
+        rowHeadersVerticBox.add(row31RegsLabel);
+        
+        Component distVertGlue32 = Box.createVerticalGlue();
+        rowHeadersVerticBox.add(distVertGlue32);
+        
+        
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
+        
+        
+        
+
+        
         
         
 
