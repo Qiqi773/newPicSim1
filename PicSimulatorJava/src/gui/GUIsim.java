@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -39,6 +40,8 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import jCsCodeFromFirstRepo.InstructionFileReader;
 import jCsCodeFromFirstRepo.InstructionLine;
+import javax.swing.JTabbedPane;
+import java.awt.FlowLayout;
 
 public class GUIsim extends JFrame {
 
@@ -69,25 +72,32 @@ public class GUIsim extends JFrame {
      */
     public GUIsim() {
         setTitle("PicSim");
+        
+        //Colours
+        Color lightLavender = new Color(230, 218, 237);
+        Color darkLavender = new Color(185, 164, 189);
 
         // GUI Outer Box Frame
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1400, 750);
         contentPane = new JPanel();
-        contentPane.setBackground(new Color(185, 164, 189));
+        contentPane.setBackground(darkLavender);
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         // GUI Box content
         setContentPane(contentPane);
         contentPane.setLayout(null);
+        
+        
 
+//------SHOW LOADED TESTFILE---------------------------------------------------------------------------------------------------------
         JScrollPane showProgScrollPane = new JScrollPane();
         showProgScrollPane.setBounds(10, 301, 735, 402);
         contentPane.add(showProgScrollPane);
 
 //------CHOOSE FILE------------------------------------------------------------------------------------------------------------------
         JButton buttonChooseFile = new JButton("Choose File"); // FileChooser to open System Explorer to get .LST-Files
-        buttonChooseFile.setBackground(new Color(230, 218, 237));
+        buttonChooseFile.setBackground(lightLavender);
 //		btnNewButton_1_2.addActionListener(e ->{
 //		    JFileChooser chooser=new JFileChooser();
 //		    int result =chooser.showOpenDialog(this);
@@ -102,7 +112,7 @@ public class GUIsim extends JFrame {
 //		})
         // 1. 创建一个用于显示指令的面板，加入 ScrollPane 中（放在 GUI 初始化中）
         JPanel progPanel = new JPanel();
-        progPanel.setBackground(new Color(230, 218, 237));
+        progPanel.setBackground(lightLavender);
         progPanel.setLayout(new BoxLayout(progPanel, BoxLayout.Y_AXIS));
         showProgScrollPane.setViewportView(progPanel); // << 放入 Scroll 面板
 
@@ -126,7 +136,7 @@ public class GUIsim extends JFrame {
 
                     JPanel header = new JPanel(new GridLayout(1, 5)); // 5 columns
                     JLabel label = new JLabel("BP");
-                    label.setBackground(new Color(230, 218, 237));
+                    label.setBackground(lightLavender);
                     header.add(label); // Breakpoint
                     header.add(new JLabel("Address"));
                     header.add(new JLabel("Machine Code"));
@@ -137,10 +147,10 @@ public class GUIsim extends JFrame {
                     // line by line show the content
                     for (InstructionLine line : lines) {
                         JPanel row = new JPanel(new GridLayout(1, 5));
-                        row.setBackground(new Color(230, 218, 237));
+                        row.setBackground(lightLavender);
 
                         JCheckBox breakpointBox = new JCheckBox();
-                        breakpointBox.setBackground(new Color(230, 218, 237));
+                        breakpointBox.setBackground(lightLavender);
                         row.add(breakpointBox);
 
                         row.add(new JLabel(String.format("%04X", line.getAddress())));
@@ -165,7 +175,7 @@ public class GUIsim extends JFrame {
 
 //------RUN-----------------------------------------------------------------------------------------------------------------
         JButton buttonRun = new JButton("Run");
-        buttonRun.setBackground(new Color(230, 218, 237));
+        buttonRun.setBackground(lightLavender);
         buttonRun.addActionListener(new ActionListener() {
             @Override
         	public void actionPerformed(ActionEvent e) {
@@ -177,7 +187,7 @@ public class GUIsim extends JFrame {
 
 //------STEP------------------------------------------------------------------------------------------------------------------
         JButton buttonStep = new JButton("Step");
-        buttonStep.setBackground(new Color(230, 218, 237));
+        buttonStep.setBackground(lightLavender);
         buttonStep.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -189,7 +199,7 @@ public class GUIsim extends JFrame {
 
 //------RESET-------------------------------------------------------------------------------------------------------------------
         JButton buttonReset = new JButton("Reset");
-        buttonReset.setBackground(new Color(230, 218, 237));
+        buttonReset.setBackground(lightLavender);
         buttonReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -202,7 +212,7 @@ public class GUIsim extends JFrame {
 //------PORT A...-------------------------------------------------------------------------------------------------------------------
         // RA - TRIS(A) - PINS ->OUTER BOX
         JPanel panel_RA = new JPanel();
-        panel_RA.setBackground(new Color(230, 218, 237));
+        panel_RA.setBackground(lightLavender);
         panel_RA.setBounds(136, 10, 360, 100);
         contentPane.add(panel_RA);
         panel_RA.setLayout(new GridLayout(3, 3));
@@ -300,7 +310,7 @@ public class GUIsim extends JFrame {
 
         //RA-PIN 4
         JToggleButton raPin4ValueTogButt = new JToggleButton("0");
-        raPin4ValueTogButt.setBackground(new Color(230, 218, 237));
+        raPin4ValueTogButt.setBackground(lightLavender);
         ActionListener raPin4AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin4ValueTogButt.isSelected()) {
@@ -315,7 +325,7 @@ public class GUIsim extends JFrame {
 
       //RA-PIN 3
         JToggleButton raPin3ValueTogButt = new JToggleButton("0");
-        raPin3ValueTogButt.setBackground(new Color(230, 218, 237));
+        raPin3ValueTogButt.setBackground(lightLavender);
         ActionListener raPin3AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin3ValueTogButt.isSelected()) {
@@ -330,7 +340,7 @@ public class GUIsim extends JFrame {
 
       //RA-PIN 2
         JToggleButton raPin2ValueTogButt = new JToggleButton("0");
-        raPin2ValueTogButt.setBackground(new Color(230, 218, 237));
+        raPin2ValueTogButt.setBackground(lightLavender);
         ActionListener raPin2AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin2ValueTogButt.isSelected()) {
@@ -345,7 +355,7 @@ public class GUIsim extends JFrame {
 
       //RA-PIN 1
         JToggleButton raPin1ValueTogButt = new JToggleButton("0");
-        raPin1ValueTogButt.setBackground(new Color(230, 218, 237));
+        raPin1ValueTogButt.setBackground(lightLavender);
         ActionListener raPin1AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin1ValueTogButt.isSelected()) {
@@ -360,7 +370,7 @@ public class GUIsim extends JFrame {
         
       //RA-PIN 0
         JToggleButton raPin0ValueTogButt = new JToggleButton("0");
-        raPin0ValueTogButt.setBackground(new Color(230, 218, 237));
+        raPin0ValueTogButt.setBackground(lightLavender);
         ActionListener raPin0AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin0ValueTogButt.isSelected()) {
@@ -375,7 +385,7 @@ public class GUIsim extends JFrame {
 
 //------PORT B...-----------------------------------------------------------------------------------------------------------------
         JPanel panel_RB = new JPanel();
-        panel_RB.setBackground(new Color(230, 218, 237));
+        panel_RB.setBackground(lightLavender);
         panel_RB.setBounds(506, 10, 360, 100);
         contentPane.add(panel_RB);
         panel_RB.setLayout(new GridLayout(3, 3));
@@ -461,7 +471,7 @@ public class GUIsim extends JFrame {
 
         //RB-PIN 7
         JToggleButton rbPin7ValueTogButt = new JToggleButton("0");
-        rbPin7ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin7ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin7AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin7ValueTogButt.isSelected()) {
@@ -476,7 +486,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 6
         JToggleButton rbPin6ValueTogButt = new JToggleButton("0");
-        rbPin6ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin6ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin6AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin6ValueTogButt.isSelected()) {
@@ -491,7 +501,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 5
         JToggleButton rbPin5ValueTogButt = new JToggleButton("0");
-        rbPin5ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin5ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin5AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin5ValueTogButt.isSelected()) {
@@ -506,7 +516,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 4
         JToggleButton rbPin4ValueTogButt = new JToggleButton("0");
-        rbPin4ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin4ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin4AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin4ValueTogButt.isSelected()) {
@@ -521,7 +531,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 3
         JToggleButton rbPin3ValueTogButt = new JToggleButton("0");
-        rbPin3ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin3ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin3AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin3ValueTogButt.isSelected()) {
@@ -536,7 +546,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 2
         JToggleButton rbPin2ValueTogButt = new JToggleButton("0");
-        rbPin2ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin2ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin2AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin2ValueTogButt.isSelected()) {
@@ -551,7 +561,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 1
         JToggleButton rbPin1ValueTogButt = new JToggleButton("0");
-        rbPin1ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin1ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin1AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin1ValueTogButt.isSelected()) {
@@ -566,7 +576,7 @@ public class GUIsim extends JFrame {
 
       //RB-PIN 0
         JToggleButton rbPin0ValueTogButt = new JToggleButton("0");
-        rbPin0ValueTogButt.setBackground(new Color(230, 218, 237));
+        rbPin0ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin0AcLis = new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		if (rbPin0ValueTogButt.isSelected()) {
@@ -578,6 +588,190 @@ public class GUIsim extends JFrame {
         };
         rbPin0ValueTogButt.addActionListener(rbPin0AcLis);
         panel_RB.add(rbPin0ValueTogButt);
+        
+//------SHOW REGISTERS-------------------------------------------------------------------------------------------------------------
+        JScrollPane scrollPane_showRegisters = new JScrollPane();
+        scrollPane_showRegisters.setBounds(876, 10, 500, 693);
+        contentPane.add(scrollPane_showRegisters);
+   
+//------COLUMN HEADERS-------------------------------------------------------------------------------------------------------------
+        JPanel panel_ColHeaders = new JPanel();
+        panel_ColHeaders.setBackground(lightLavender);
+        scrollPane_showRegisters.setColumnHeaderView(panel_ColHeaders);
+        
+        JLabel col0RegsLabel = new JLabel("00");
+        col0RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col0RegsLabel);
+        
+        JLabel col1RegsLabel = new JLabel("01");
+        col1RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col1RegsLabel);
+        
+        JLabel col2RegsLabel = new JLabel("02");
+        col2RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col2RegsLabel);
+        
+        JLabel col3RegsLabel = new JLabel("03");
+        col3RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col3RegsLabel);
+        
+        JLabel col4RegsLabel = new JLabel("04");
+        col4RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col4RegsLabel);
+        
+        JLabel col5RegsLabel = new JLabel("05");
+        col5RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col5RegsLabel);
+        
+        JLabel col6RegsLabel = new JLabel("06");
+        col6RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col6RegsLabel);
+        
+        JLabel col7RegsLabel = new JLabel("07");
+        col7RegsLabel.setBackground(darkLavender);
+        panel_ColHeaders.add(col7RegsLabel);
+        
+//------ROW HEADERS----------------------------------------------------------------------------------------------------------------
+        JPanel panel_RowHeaders = new JPanel();
+        panel_RowHeaders.setBackground(lightLavender);
+        scrollPane_showRegisters.setRowHeaderView(panel_RowHeaders);
+        panel_RowHeaders.setLayout(new GridLayout(0, 32, 0, 0));
+        
+        JLabel row0RegsLabel = new JLabel("00");
+        row0RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row0RegsLabel);
+        
+        JLabel row1RegsLabel = new JLabel("08");
+        row1RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row1RegsLabel);
+        
+        JLabel row2RegsLabel = new JLabel("10");
+        row2RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row2RegsLabel);
+        
+        JLabel row3RegsLabel = new JLabel("18");
+        row3RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row3RegsLabel);
+        
+        JLabel row4RegsLabel = new JLabel("20");
+        row4RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row4RegsLabel);
+        
+        JLabel row5RegsLabel = new JLabel("28");
+        row5RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row5RegsLabel);
+        
+        JLabel row6RegsLabel = new JLabel("30");
+        row6RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row6RegsLabel);
+        
+        JLabel row7RegsLabel = new JLabel("38");
+        row7RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row7RegsLabel);
+        
+        JLabel row8RegsLabel = new JLabel("40");
+        row8RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row8RegsLabel);
+        
+        JLabel row9RegsLabel = new JLabel("48");
+        row9RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row9RegsLabel);
+        
+        JLabel row10RegsLabel = new JLabel("50");
+        row10RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row10RegsLabel);
+        
+        JLabel row11RegsLabel = new JLabel("58");
+        row11RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row11RegsLabel);
+        
+        JLabel row12RegsLabel = new JLabel("60");
+        row12RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row12RegsLabel);
+        
+        JLabel row13RegsLabel = new JLabel("68");
+        row13RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row13RegsLabel);
+        
+        JLabel row14RegsLabel = new JLabel("70");
+        row14RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row14RegsLabel);
+        
+        JLabel row15RegsLabel = new JLabel("78");
+        row15RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row15RegsLabel);
+        
+        JLabel row16RegsLabel = new JLabel("80");
+        row16RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row16RegsLabel);
+        
+        JLabel row17RegsLabel = new JLabel("88");
+        row17RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row17RegsLabel);
+        
+        JLabel row18RegsLabel = new JLabel("90");
+        row18RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row18RegsLabel);
+        
+        JLabel row19RegsLabel = new JLabel("98");
+        row19RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row19RegsLabel);
+        
+        JLabel row20RegsLabel = new JLabel("A0");
+        row20RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row20RegsLabel);
+        
+        JLabel row21RegsLabel = new JLabel("A8");
+        row21RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row21RegsLabel);
+        
+        JLabel row22RegsLabel = new JLabel("B0");
+        row22RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row22RegsLabel);
+        
+        JLabel row23RegsLabel = new JLabel("B8");
+        row23RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row23RegsLabel);
+        
+        JLabel row24RegsLabel = new JLabel("C0");
+        row24RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row24RegsLabel);
+        
+        JLabel row25RegsLabel = new JLabel("C8");
+        row25RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row25RegsLabel);
+        
+        JLabel row26RegsLabel = new JLabel("D0");
+        row26RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row26RegsLabel);
+        
+        JLabel row27RegsLabel = new JLabel("D8");
+        row27RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row27RegsLabel);
+        
+        JLabel row28RegsLabel = new JLabel("E0");
+        row28RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row28RegsLabel);
+        
+        JLabel row29RegsLabel = new JLabel("E8");
+        row29RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row29RegsLabel);
+        
+        JLabel row30RegsLabel = new JLabel("F0");
+        row30RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row30RegsLabel);
+        
+        JLabel row31RegsLabel = new JLabel("F8");
+        row31RegsLabel.setBackground(darkLavender);
+        panel_RowHeaders.add(row31RegsLabel);
+        
+//------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
+        
+        
+
+        
+        
+        
 
     }
 }
