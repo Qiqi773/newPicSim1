@@ -261,23 +261,23 @@ public class GUIsim extends JFrame {
         raTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);	
         panel_RA.add(raTrisPin5Label);
 
-        JLabel raTrisPin4Label = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin4Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin4Label);
 
-        JLabel raTrisPin3Label = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin3Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin3Label);
 
-        JLabel raTrisPin2Label = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin2Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin2Label);
 
-        JLabel raTrisPin1Label = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin1Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin1Label);
 
-        JLabel raTrisPin0Label = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin0Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin0Label);
 
@@ -381,83 +381,83 @@ public class GUIsim extends JFrame {
         panel_RB.setLayout(new GridLayout(3, 3));
 
 //------LABELS PORT B-------------------------------------------------------------------------------------------------------------
-        JLabel lblNewLabel_1_1 = new JLabel("RB");
-        lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_1_1);
+        JLabel rbRBLabel = new JLabel("RB");
+        rbRBLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbRBLabel);
 
-        JLabel lblNewLabel_6_1 = new JLabel("7");
-        lblNewLabel_6_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_6_1);
+        JLabel rbPin7Label = new JLabel("7");
+        rbPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin7Label);
 
-        JLabel lblNewLabel_5_1 = new JLabel("6");
-        lblNewLabel_5_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_5_1);
+        JLabel rbPin6Label = new JLabel("6");
+        rbPin6Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin6Label);
 
-        JLabel lblNewLabel_2_1 = new JLabel("5");
-        lblNewLabel_2_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_2_1);
+        JLabel rbPin5Label = new JLabel("5");
+        rbPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin5Label);
 
-        JLabel lblNewLabel_3_1 = new JLabel("4");
-        lblNewLabel_3_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_3_1);
+        JLabel rbPin4Label = new JLabel("4");
+        rbPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin4Label);
 
-        JLabel lblNewLabel_17 = new JLabel("3");
-        lblNewLabel_17.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_17);
+        JLabel rbPin3Label = new JLabel("3");
+        rbPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin3Label);
 
-        JLabel lblNewLabel_4_1 = new JLabel("2");
-        lblNewLabel_4_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_4_1);
+        JLabel rbPin2Label = new JLabel("2");
+        rbPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin2Label);
 
-        JLabel lblNewLabel_13_1 = new JLabel("1");
-        lblNewLabel_13_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_13_1);
+        JLabel rbPin1Label = new JLabel("1");
+        rbPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin1Label);
 
-        JLabel lblNewLabel_7_1 = new JLabel("0");
-        lblNewLabel_7_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_7_1);
+        JLabel rbPin0Label = new JLabel("0");
+        rbPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPin0Label);
 
 //------TRIS B-----------------------------------------------------------------------------------------------------
-        JLabel lblNewLabel_9_1 = new JLabel("TRIS");
-        lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_9_1);
+        JLabel rbTRISLabel = new JLabel("TRIS");
+        rbTRISLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTRISLabel);
 
-        JLabel lblNewLabel_8_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_8_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_8_1);
+        JLabel rbTrisPin7Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin7Label);
 
-        JLabel lblNewLabel_11_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_11_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_11_1);
+        JLabel rbTrisPin6Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin6Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin6Label);
 
-        JLabel lblNewLabel_15_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_15_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_15_1);
+        JLabel rbTrisPin5Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin5Label);
 
-        JLabel lblNewLabel_12_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_12_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_12_1);
+        JLabel rbTrisPin4Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin4Label);
 
-        JLabel lblNewLabel_10_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_10_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_10_1);
+        JLabel rbTrisPin3Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin3Label);
 
-        JLabel lblNewLabel_16_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_16_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_16_1);
+        JLabel rbTrisPin2Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin2Label);
 
-        JLabel lblNewLabel_14_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_14_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_14_1);
+        JLabel rbTrisPin1Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin1Label);
 
-        JLabel lblNewLabel_18_1 = new JLabel("x");						// TODO need to connect state of tris with TRISreg from DATAreg
-        lblNewLabel_18_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblNewLabel_18_1);
+        JLabel rbTrisPin0Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        rbTrisPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbTrisPin0Label);
 
 //------PINS PORT B---------------------------------------------------------------------------------------------------------
-        JLabel lblPin_1 = new JLabel("PIN");
-        lblPin_1.setHorizontalAlignment(SwingConstants.CENTER);
-        panel_RB.add(lblPin_1);
+        JLabel rbPINLabel = new JLabel("PIN");
+        rbPINLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        panel_RB.add(rbPINLabel);
 
         //RB-PIN 7
         JToggleButton rbPin7ValueTogButt = new JToggleButton("0");
