@@ -41,4 +41,11 @@ public class Port {
         return (1 << width) - 1;
     }
 
+    public void reset() {
+        value = 0;
+        tris = 0xFF;
+        latch = 0;
+
+    }
+
 }

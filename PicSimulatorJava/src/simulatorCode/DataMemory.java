@@ -1,5 +1,7 @@
 package simulatorCode;
 
+import java.util.Arrays;
+
 /**
  * Only RAM-Registers (p.13/14 in DataSheet).
  */
@@ -38,6 +40,18 @@ public class DataMemory {
 
     // --- EXTRA REGISTERS/Variables
     // -----------------------------------------------------
+
+    public void reset() {
+        Arrays.fill(ram, 0);
+        W = 0;
+        pc = 0;
+        stackPointer = 0;
+
+        timer0.reset();
+        portA.reset();
+        portB.reset();
+
+    }
 
     public void setW(int value) {
         W = value & 0xFF;// get last 8 bits
@@ -280,6 +294,12 @@ public class DataMemory {
         int val = read(ADDR_INTCON);
         write(ADDR_INTCON, val & ~RBIF_MASK);
 
+    }
+
+    public void clearAllInterruptFlags() {
+        clearPortBInterruptFlag();
+        clearExternalInterruptFlag();
+        //.....
     }
     // ----------------------------------------------
 

@@ -2,6 +2,7 @@ package simulatorCode;
 
 import java.util.List;
 
+import gui.GUIsim;
 import jCsCodeFromFirstRepo.InstructionLine;
 
 public class PicSimulator implements SimulatorInterface {
@@ -11,6 +12,8 @@ public class PicSimulator implements SimulatorInterface {
     private DecoderWithBitShift decoder = new DecoderWithBitShift();
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
+    private boolean isRunning = false;
+    //private final GUIsim gui = new GUIsim();
 
     @Override
     public int getW() {
@@ -20,6 +23,10 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public void reset() {
         // TODO Auto-generated method stub
+        isRunning = false;
+        memory.reset();
+        
+        runProgram();
 
     }
 
@@ -44,9 +51,14 @@ public class PicSimulator implements SimulatorInterface {
         // TODO Auto-generated method stub
         // let decoder (and thus executor) run
         // after every executed code (line) check for buttons/interrupts etc
-        for (int i = 0; i < 1024; i++) {
+
+        isRunning = true;
+
+        for (int i = 0; i < 1024 && isRunning; i++) {
             step();
         }
+
+        isRunning = false;
 
     }
 
