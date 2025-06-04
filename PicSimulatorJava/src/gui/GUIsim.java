@@ -20,6 +20,7 @@ import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
@@ -53,6 +54,7 @@ public class GUIsim extends JFrame {
     SimulatorInterface simulator = new PicSimulator();
     private JTable table;
     private JTable table_1;
+    private List<JPanel> instructionRows = new ArrayList<>();
 
     /**
      * Launch the application.
@@ -75,8 +77,8 @@ public class GUIsim extends JFrame {
      */
     public GUIsim() {
         setTitle("PicSim");
-        
-        //Colours
+
+        // Colours
         Color lightLavender = new Color(230, 218, 237);
         Color darkLavender = new Color(185, 164, 189);
 
@@ -90,8 +92,6 @@ public class GUIsim extends JFrame {
         // GUI Box content
         setContentPane(contentPane);
         contentPane.setLayout(null);
-        
-        
 
 //------SHOW LOADED TESTFILE---------------------------------------------------------------------------------------------------------
         JScrollPane showProgScrollPane = new JScrollPane();
@@ -162,6 +162,7 @@ public class GUIsim extends JFrame {
                         row.add(new JLabel(line.getComment()));
 
                         progPanel.add(row);
+                        instructionRows.add(row);
                     }
 
                     progPanel.revalidate();
@@ -181,8 +182,9 @@ public class GUIsim extends JFrame {
         buttonRun.setBackground(lightLavender);
         buttonRun.addActionListener(new ActionListener() {
             @Override
-        	public void actionPerformed(ActionEvent e) {
-            															// TODO Run-Button
+            public void actionPerformed(ActionEvent e) {
+                // TODO Run-Button
+                //simulator.runProgram();
             }
         });
         buttonRun.setBounds(10, 252, 116, 39);
@@ -192,11 +194,16 @@ public class GUIsim extends JFrame {
         JButton buttonStep = new JButton("Step");
         buttonStep.setBackground(lightLavender);
         buttonStep.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-																		// TODO Step-Button
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Step-Button
+                simulator.step();
+
+                int currentPC = simulator.getPC();
+                int currentLine = currentPC;
+                highlightLine(currentPC);
+            }
+        });
         buttonStep.setBounds(136, 252, 116, 39);
         contentPane.add(buttonStep);
 
@@ -204,11 +211,14 @@ public class GUIsim extends JFrame {
         JButton buttonReset = new JButton("Reset");
         buttonReset.setBackground(lightLavender);
         buttonReset.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-																		// TODO Reset-Button
-			}
-		});
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Reset-Button
+                simulator.reset();
+
+                highlightLine(0);
+            }
+        });
         buttonReset.setBounds(262, 252, 116, 39);
         contentPane.add(buttonReset);
 
@@ -256,13 +266,13 @@ public class GUIsim extends JFrame {
         JLabel raPin0Label = new JLabel("0");
         raPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raPin0Label);
-        
+
 //------TRIS A--------------------------------------------------------------------------------------------------
         JLabel raTRISLabel = new JLabel("TRIS");
         raTRISLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTRISLabel);
-        
-        JLabel raTrisPin7Label = new JLabel("-"); 
+
+        JLabel raTrisPin7Label = new JLabel("-");
         raTrisPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin7Label);
 
@@ -271,26 +281,26 @@ public class GUIsim extends JFrame {
         panel_RA.add(raTrisPin6Label);
 
         JLabel raTrisPin5Label = new JLabel("-");
-        raTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);	
+        raTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin5Label);
 
-        JLabel raTrisPin4Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin4Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin4Label);
 
-        JLabel raTrisPin3Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin3Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin3Label);
 
-        JLabel raTrisPin2Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin2Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin2Label);
 
-        JLabel raTrisPin1Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin1Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin1Label);
 
-        JLabel raTrisPin0Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel raTrisPin0Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         raTrisPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raTrisPin0Label);
 
@@ -311,10 +321,11 @@ public class GUIsim extends JFrame {
         raPin5ValueLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RA.add(raPin5ValueLabel);
 
-        //RA-PIN 4
+        // RA-PIN 4
         JToggleButton raPin4ValueTogButt = new JToggleButton("0");
         raPin4ValueTogButt.setBackground(lightLavender);
-        ActionListener raPin4AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
+        ActionListener raPin4AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
+                                                            // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin4ValueTogButt.isSelected()) {
                     raPin4ValueTogButt.setText("1");
@@ -326,10 +337,11 @@ public class GUIsim extends JFrame {
         raPin4ValueTogButt.addActionListener(raPin4AcLis);
         panel_RA.add(raPin4ValueTogButt);
 
-      //RA-PIN 3
+        // RA-PIN 3
         JToggleButton raPin3ValueTogButt = new JToggleButton("0");
         raPin3ValueTogButt.setBackground(lightLavender);
-        ActionListener raPin3AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
+        ActionListener raPin3AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
+                                                            // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin3ValueTogButt.isSelected()) {
                     raPin3ValueTogButt.setText("1");
@@ -341,10 +353,11 @@ public class GUIsim extends JFrame {
         raPin3ValueTogButt.addActionListener(raPin3AcLis);
         panel_RA.add(raPin3ValueTogButt);
 
-      //RA-PIN 2
+        // RA-PIN 2
         JToggleButton raPin2ValueTogButt = new JToggleButton("0");
         raPin2ValueTogButt.setBackground(lightLavender);
-        ActionListener raPin2AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
+        ActionListener raPin2AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
+                                                            // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin2ValueTogButt.isSelected()) {
                     raPin2ValueTogButt.setText("1");
@@ -356,10 +369,11 @@ public class GUIsim extends JFrame {
         raPin2ValueTogButt.addActionListener(raPin2AcLis);
         panel_RA.add(raPin2ValueTogButt);
 
-      //RA-PIN 1
+        // RA-PIN 1
         JToggleButton raPin1ValueTogButt = new JToggleButton("0");
         raPin1ValueTogButt.setBackground(lightLavender);
-        ActionListener raPin1AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
+        ActionListener raPin1AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
+                                                            // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin1ValueTogButt.isSelected()) {
                     raPin1ValueTogButt.setText("1");
@@ -370,11 +384,12 @@ public class GUIsim extends JFrame {
         };
         raPin1ValueTogButt.addActionListener(raPin1AcLis);
         panel_RA.add(raPin1ValueTogButt);
-        
-      //RA-PIN 0
+
+        // RA-PIN 0
         JToggleButton raPin0ValueTogButt = new JToggleButton("0");
         raPin0ValueTogButt.setBackground(lightLavender);
-        ActionListener raPin0AcLis = new ActionListener() {		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
+        ActionListener raPin0AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
+                                                            // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin0ValueTogButt.isSelected()) {
                     raPin0ValueTogButt.setText("1");
@@ -435,35 +450,35 @@ public class GUIsim extends JFrame {
         rbTRISLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTRISLabel);
 
-        JLabel rbTrisPin7Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin7Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin7Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin7Label);
 
-        JLabel rbTrisPin6Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin6Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin6Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin6Label);
 
-        JLabel rbTrisPin5Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin5Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin5Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin5Label);
 
-        JLabel rbTrisPin4Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin4Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin4Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin4Label);
 
-        JLabel rbTrisPin3Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin3Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin3Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin3Label);
 
-        JLabel rbTrisPin2Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin2Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin2Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin2Label);
 
-        JLabel rbTrisPin1Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin1Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin1Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin1Label);
 
-        JLabel rbTrisPin0Label = new JLabel("!");						// TODO need to connect state of tris with TRISreg from DATAreg
+        JLabel rbTrisPin0Label = new JLabel("!"); // TODO need to connect state of tris with TRISreg from DATAreg
         rbTrisPin0Label.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbTrisPin0Label);
 
@@ -472,454 +487,456 @@ public class GUIsim extends JFrame {
         rbPINLabel.setHorizontalAlignment(SwingConstants.CENTER);
         panel_RB.add(rbPINLabel);
 
-        //RB-PIN 7
+        // RB-PIN 7
         JToggleButton rbPin7ValueTogButt = new JToggleButton("0");
         rbPin7ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin7AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin7ValueTogButt.isSelected()) {
-        			rbPin7ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin7ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin7ValueTogButt.isSelected()) {
+                    rbPin7ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin7ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin7ValueTogButt.addActionListener(rbPin7AcLis);
         panel_RB.add(rbPin7ValueTogButt);
 
-      //RB-PIN 6
+        // RB-PIN 6
         JToggleButton rbPin6ValueTogButt = new JToggleButton("0");
         rbPin6ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin6AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin6ValueTogButt.isSelected()) {
-        			rbPin6ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin6ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin6ValueTogButt.isSelected()) {
+                    rbPin6ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin6ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin6ValueTogButt.addActionListener(rbPin6AcLis);
         panel_RB.add(rbPin6ValueTogButt);
 
-      //RB-PIN 5
+        // RB-PIN 5
         JToggleButton rbPin5ValueTogButt = new JToggleButton("0");
         rbPin5ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin5AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin5ValueTogButt.isSelected()) {
-        			rbPin5ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin5ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin5ValueTogButt.isSelected()) {
+                    rbPin5ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin5ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin5ValueTogButt.addActionListener(rbPin5AcLis);
         panel_RB.add(rbPin5ValueTogButt);
 
-      //RB-PIN 4
+        // RB-PIN 4
         JToggleButton rbPin4ValueTogButt = new JToggleButton("0");
         rbPin4ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin4AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin4ValueTogButt.isSelected()) {
-        			rbPin4ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin4ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin4ValueTogButt.isSelected()) {
+                    rbPin4ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin4ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin4ValueTogButt.addActionListener(rbPin4AcLis);
         panel_RB.add(rbPin4ValueTogButt);
 
-      //RB-PIN 3
+        // RB-PIN 3
         JToggleButton rbPin3ValueTogButt = new JToggleButton("0");
         rbPin3ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin3AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin3ValueTogButt.isSelected()) {
-        			rbPin3ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin3ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin3ValueTogButt.isSelected()) {
+                    rbPin3ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin3ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin3ValueTogButt.addActionListener(rbPin3AcLis);
         panel_RB.add(rbPin3ValueTogButt);
 
-      //RB-PIN 2
+        // RB-PIN 2
         JToggleButton rbPin2ValueTogButt = new JToggleButton("0");
         rbPin2ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin2AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin2ValueTogButt.isSelected()) {
-        			rbPin2ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin2ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin2ValueTogButt.isSelected()) {
+                    rbPin2ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin2ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin2ValueTogButt.addActionListener(rbPin2AcLis);
         panel_RB.add(rbPin2ValueTogButt);
 
-      //RB-PIN 1
+        // RB-PIN 1
         JToggleButton rbPin1ValueTogButt = new JToggleButton("0");
         rbPin1ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin1AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin1ValueTogButt.isSelected()) {
-        			rbPin1ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin1ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin1ValueTogButt.isSelected()) {
+                    rbPin1ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin1ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin1ValueTogButt.addActionListener(rbPin1AcLis);
         panel_RB.add(rbPin1ValueTogButt);
 
-      //RB-PIN 0
+        // RB-PIN 0
         JToggleButton rbPin0ValueTogButt = new JToggleButton("0");
         rbPin0ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin0AcLis = new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if (rbPin0ValueTogButt.isSelected()) {
-        			rbPin0ValueTogButt.setText("1");		// TODO replace "setText" with 'get value from dataReg' + freeze button if its TRISreg is '0' (=output)
-        		} else {											
-        			rbPin0ValueTogButt.setText("0");
-        		}
-        	}
+            public void actionPerformed(ActionEvent e) {
+                if (rbPin0ValueTogButt.isSelected()) {
+                    rbPin0ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+                                                     // button if its TRISreg is '0' (=output)
+                } else {
+                    rbPin0ValueTogButt.setText("0");
+                }
+            }
         };
         rbPin0ValueTogButt.addActionListener(rbPin0AcLis);
         panel_RB.add(rbPin0ValueTogButt);
-        
-        
-        
+
 //------SHOW REGISTERS-------------------------------------------------------------------------------------------------------------
         JScrollPane scrollPane_showRegisters = new JScrollPane();
         scrollPane_showRegisters.setBounds(876, 10, 500, 693);
         scrollPane_showRegisters.setBackground(lightLavender);
         contentPane.add(scrollPane_showRegisters);
-        
+
 //------COLUMN HEADERS----------------------------------------------------------------------------------------------------------------
         Box colHeadersHorizBox = Box.createHorizontalBox();
         colHeadersHorizBox.setBackground(lightLavender);
         scrollPane_showRegisters.setColumnHeaderView(colHeadersHorizBox);
-        
+
         Component distanceHorizGlue0 = Box.createHorizontalGlue();
         distanceHorizGlue0.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue0);
-        
+
         JLabel col0RegsLabel = new JLabel("00");
         col0RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col0RegsLabel);
-        
+
         Component distanceHorizGlue1 = Box.createHorizontalGlue();
         distanceHorizGlue1.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue1);
-        
+
         JLabel col1RegsLabel = new JLabel("01");
         col1RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col1RegsLabel);
-        
+
         Component distanceHorizGlue2 = Box.createHorizontalGlue();
         distanceHorizGlue2.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue2);
-        
+
         JLabel col2RegsLabel = new JLabel("02");
         col2RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col2RegsLabel);
-        
+
         Component distanceHorizGlue3 = Box.createHorizontalGlue();
         distanceHorizGlue3.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue3);
-        
+
         JLabel col3RegsLabel = new JLabel("03");
         col3RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col3RegsLabel);
-        
+
         Component distanceHorizGlue4 = Box.createHorizontalGlue();
         distanceHorizGlue4.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue4);
-        
+
         JLabel col4RegsLabel = new JLabel("04");
         col4RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col4RegsLabel);
-        
+
         Component distanceHorizGlue5 = Box.createHorizontalGlue();
         distanceHorizGlue5.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue5);
-        
+
         JLabel col5RegsLabel = new JLabel("05");
         col5RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col5RegsLabel);
-        
+
         Component distanceHorizGlue6 = Box.createHorizontalGlue();
         distanceHorizGlue6.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue6);
-        
+
         JLabel col6RegsLabel = new JLabel("06");
         col6RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col6RegsLabel);
-        
+
         Component distanceHorizGlue7 = Box.createHorizontalGlue();
         distanceHorizGlue7.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue7);
-        
+
         JLabel col7RegsLabel = new JLabel("07");
         col7RegsLabel.setBackground(darkLavender);
         colHeadersHorizBox.add(col7RegsLabel);
-        
+
         Component distanceHorizGlue8 = Box.createHorizontalGlue();
         distanceHorizGlue8.setBackground(lightLavender);
         colHeadersHorizBox.add(distanceHorizGlue8);
-        
+
 //------ROW HEADERS------------------------------------------------------------------------------------------------------------------
         Box rowHeadersVerticBox = Box.createVerticalBox();
         rowHeadersVerticBox.setBackground(new Color(230, 218, 237));
         scrollPane_showRegisters.setRowHeaderView(rowHeadersVerticBox);
-        
+
         Component distVertGlue0 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue0);
-        
+
         JLabel row0RegsLabel = new JLabel("00");
         row0RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row0RegsLabel);
-        
+
         Component distVertGlue1 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue1);
-        
+
         JLabel row1RegsLabel = new JLabel("08");
         row1RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row1RegsLabel);
-        
+
         Component distVertGlue2 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue2);
-        
+
         JLabel row2RegsLabel = new JLabel("10");
         row2RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row2RegsLabel);
-        
+
         Component distVertGlue3 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue3);
-        
+
         JLabel row3RegsLabel = new JLabel("18");
         row3RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row3RegsLabel);
-        
+
         Component distVertGlue4 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue4);
-        
+
         JLabel row4RegsLabel = new JLabel("20");
         row4RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row4RegsLabel);
-        
+
         Component distVertGlue5 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue5);
-        
+
         JLabel row5RegsLabel = new JLabel("28");
         row5RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row5RegsLabel);
-        
+
         Component distVertGlue6 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue6);
-        
+
         JLabel row6RegsLabel = new JLabel("30");
         row6RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row6RegsLabel);
-        
+
         Component distVertGlue7 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue7);
-        
+
         JLabel row7RegsLabel = new JLabel("38");
         row7RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row7RegsLabel);
-        
+
         Component distVertGlue8 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue8);
-        
+
         JLabel row8RegsLabel = new JLabel("40");
         row8RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row8RegsLabel);
-        
+
         Component distVertGlue9 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue9);
-        
+
         JLabel row9RegsLabel = new JLabel("48");
         row9RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row9RegsLabel);
-        
+
         Component distVertGlue10 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue10);
-        
+
         JLabel row10RegsLabel = new JLabel("50");
         row10RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row10RegsLabel);
-        
+
         Component distVertGlue11 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue11);
-        
+
         JLabel row11RegsLabel = new JLabel("58");
         row11RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row11RegsLabel);
-        
+
         Component distVertGlue12 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue12);
-        
+
         JLabel row12RegsLabel = new JLabel("60");
         row12RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row12RegsLabel);
-        
+
         Component distVertGlue13 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue13);
-        
+
         JLabel row13RegsLabel = new JLabel("68");
         row13RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row13RegsLabel);
-        
+
         Component distVertGlue14 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue14);
-        
+
         JLabel row14RegsLabel = new JLabel("70");
         row14RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row14RegsLabel);
-        
+
         Component distVertGlue15 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue15);
-        
+
         JLabel row15RegsLabel = new JLabel("78");
         row15RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row15RegsLabel);
-        
+
         Component distVertGlue16 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue16);
-        
+
         JLabel row16RegsLabel = new JLabel("80");
         row16RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row16RegsLabel);
-        
+
         Component distVertGlue17 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue17);
-        
+
         JLabel row17RegsLabel = new JLabel("88");
         row17RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row17RegsLabel);
-        
+
         Component distVertGlue18 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue18);
-        
+
         JLabel row18RegsLabel = new JLabel("90");
         row18RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row18RegsLabel);
-        
+
         Component distVertGlue19 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue19);
-        
+
         JLabel row19RegsLabel = new JLabel("98");
         row19RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row19RegsLabel);
-        
+
         Component distVertGlue20 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue20);
-        
+
         JLabel row20RegsLabel = new JLabel("A0");
         row20RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row20RegsLabel);
-        
+
         Component distVertGlue21 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue21);
-        
+
         JLabel row21RegsLabel = new JLabel("A8");
         row21RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row21RegsLabel);
-        
+
         Component distVertGlue22 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue22);
-        
+
         JLabel row22RegsLabel = new JLabel("B0");
         row22RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row22RegsLabel);
-        
+
         Component distVertGlue23 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue23);
-        
+
         JLabel row23RegsLabel = new JLabel("B8");
         row23RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row23RegsLabel);
-        
+
         Component distVertGlue24 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue24);
-        
+
         JLabel row24RegsLabel = new JLabel("C0");
         row24RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row24RegsLabel);
-        
+
         Component distVertGlue25 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue25);
-        
+
         JLabel row25RegsLabel = new JLabel("C8");
         row25RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row25RegsLabel);
-        
+
         Component distVertGlue26 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue26);
-        
+
         JLabel row26RegsLabel = new JLabel("D0");
         row26RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row26RegsLabel);
-        
+
         Component distVertGlue27 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue27);
-        
+
         JLabel row27RegsLabel = new JLabel("D8");
         row27RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row27RegsLabel);
-        
+
         Component distVertGlue28 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue28);
-        
+
         JLabel row28RegsLabel = new JLabel("E0");
         row28RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row28RegsLabel);
-        
+
         Component distVertGlue29 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue29);
-        
+
         JLabel row29RegsLabel = new JLabel("E8");
         row29RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row29RegsLabel);
-        
+
         Component distVertGlue30 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue30);
-        
+
         JLabel row30RegsLabel = new JLabel("F0");
         row30RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row30RegsLabel);
-        
+
         Component distVertGlue31 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue31);
-        
+
         JLabel row31RegsLabel = new JLabel("F8");
         row31RegsLabel.setBackground(darkLavender);
         rowHeadersVerticBox.add(row31RegsLabel);
-        
+
         Component distVertGlue32 = Box.createVerticalGlue();
         rowHeadersVerticBox.add(distVertGlue32);
-        
+
         JPanel panel_RegisterValues = new JPanel();
         panel_RegisterValues.setBackground(new Color(230, 218, 237));
         scrollPane_showRegisters.setViewportView(panel_RegisterValues);
         panel_RegisterValues.setLayout(new GridLayout(0, 1, 0, 0));
-        
 
-        
-        
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
-        
-        
+
 //---->OPTION 1: USE JTable<-----------------------------------------------------------------------------------        
         // TODO convert data register intArray into an 2D ObjectArray to use in a JTable
         // ! careful: jTable overrides the Columnheaders
-        
+
 //        String[] colNames = {"00","01","02","03","04","05","06","07"};
 //        
 //        Object[][] dataRegForTable;
@@ -934,18 +951,20 @@ public class GUIsim extends JFrame {
 //        
 //        JTable registersValueTable = new JTable(dataRegForTable, colNames);
 //        panel_RegisterValues.add(registersValueTable);
-        
-        
+
 //---->OPTION 2: USE 256 JTextfields<------------------------------------------------------------------------------
-        
+
 //---->OPTION 3: USE 256 JButtons (actionlistener: open window to change value)------------------------------------
-        
-        
-        
 
-        
-        
-        
+    }
 
+    public void highlightLine(int lineNumber) {
+        for (int i = 0; i < instructionRows.size(); i++) {
+            if (i == lineNumber) {
+                instructionRows.get(i).setBackground(Color.YELLOW);
+            } else {
+                instructionRows.get(i).setBackground(Color.LIGHT_GRAY);
+            }
+        }
     }
 }

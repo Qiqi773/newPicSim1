@@ -13,7 +13,7 @@ public class PicSimulator implements SimulatorInterface {
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
     private boolean isRunning = false;
-    //private final GUIsim gui = new GUIsim();
+    // private final GUIsim gui = new GUIsim();
 
     @Override
     public int getW() {
@@ -25,7 +25,7 @@ public class PicSimulator implements SimulatorInterface {
         // TODO Auto-generated method stub
         isRunning = false;
         memory.reset();
-        
+
         runProgram();
 
     }
@@ -43,7 +43,7 @@ public class PicSimulator implements SimulatorInterface {
         int machineCode = programMemory.getInstructionAt(pc);
 
         decoder.decodeAndExecute(machineCode, executor);
-        memory.incrementPC();
+       // memory.incrementPC();
     }
 
     @Override
@@ -65,7 +65,7 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public int getPC() {
         // TODO Auto-generated method stub
-        return 0;
+        return memory.getPC();
     }
 
     @Override
