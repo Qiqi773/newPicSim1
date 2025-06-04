@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JTextArea;
@@ -55,6 +56,8 @@ public class GUIsim extends JFrame {
     private JTable table;
     private JTable table_1;
     private List<JPanel> instructionRows = new ArrayList<>();
+    private Timer runTimer;
+    int currentLine = 0;
 
     /**
      * Launch the application.
@@ -184,7 +187,20 @@ public class GUIsim extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Run-Button
-                //simulator.runProgram();
+                // simulator.runProgram();
+                new Thread(() -> {
+                    while (!simulator.isHalted()) {
+                        simulator.step();
+                        currentLine = simulator.getPC() / 2;
+                        highlightLine(currentLine);
+                        try {
+                            Thread.sleep(300); // 控制执行速度
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }).start();
+
             }
         });
         buttonRun.setBounds(10, 252, 116, 39);
@@ -200,8 +216,8 @@ public class GUIsim extends JFrame {
                 simulator.step();
 
                 int currentPC = simulator.getPC();
-                int currentLine = currentPC;
-                highlightLine(currentPC);
+                currentLine = currentPC;
+                highlightLine(currentLine);
             }
         });
         buttonStep.setBounds(136, 252, 116, 39);
@@ -215,8 +231,9 @@ public class GUIsim extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // TODO Reset-Button
                 simulator.reset();
+                currentLine = 0;
 
-                highlightLine(0);
+                highlightLine(currentLine);
             }
         });
         buttonReset.setBounds(262, 252, 116, 39);
@@ -966,5 +983,41 @@ public class GUIsim extends JFrame {
                 instructionRows.get(i).setBackground(Color.LIGHT_GRAY);
             }
         }
+    }
+
+    public void updatePortA() {
+        int portA = simulator.getValue(0x05);
+        int trisAValue = simulator.getValue(0x85);
+
+        // update TRIS
+//        raTrisPin7Label.setText(((trisAValue >> 7) & 1) == 1 ? "!" : "-");
+//        raTrisPin6Label.setText(((trisAValue >> 6) & 1) == 1 ? "!" : "-");
+//        raTrisPin5Label.setText(((trisAValue >> 5) & 1) == 1 ? "!" : "-");
+//        raTrisPin4Label.setText(((trisAValue >> 4) & 1) == 1 ? "!" : "-");
+//        raTrisPin3Label.setText(((trisAValue >> 3) & 1) == 1 ? "!" : "-");
+//        raTrisPin2Label.setText(((trisAValue >> 2) & 1) == 1 ? "!" : "-");
+//        raTrisPin1Label.setText(((trisAValue >> 1) & 1) == 1 ? "!" : "-");
+//        raTrisPin0Label.setText(((trisAValue >> 0) & 1) == 1 ? "!" : "-");
+
+        // update PIN
+//        raPin7ValueLabel.setText(((portAValue >> 7) & 1) + "");
+//        raPin6ValueLabel.setText(((portAValue >> 6) & 1) + "");
+//        raPin5ValueLabel.setText(((portAValue >> 5) & 1) + "");
+//        raPin4ValueLabel.setText(((portAValue >> 4) & 1) + "");
+//        raPin3ValueLabel.setText(((portAValue >> 3) & 1) + "");
+//        raPin2ValueLabel.setText(((portAValue >> 2) & 1) + "");
+//        raPin1ValueLabel.setText(((portAValue >> 1) & 1) + "");
+//        raPin0ValueLabel.setText(((portAValue >> 0) & 1) + "");
+
+    }
+
+    public void updatePortB() {
+        int portB = simulator.getValue(0x06);
+        int trisB = simulator.getValue(0x86);
+    }
+
+    public void updatePort() {
+        updatePortA();
+        updatePortB();
     }
 }

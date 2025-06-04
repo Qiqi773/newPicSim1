@@ -5,24 +5,31 @@ import java.util.List;
 
 public interface SimulatorInterface {
     void loadInstructions(List<InstructionLine> instructions);
+
     List<InstructionLine> getInstructionlines();
-    
+
     void reset();
-    
+
     void runNextInstruction();
-    
+
     void step();
-    
+
     void runProgram();
-    
+
     int getW();
-    
+
     int getPC();
-    
+
     int getStatus();
-    
+
     void setBreakpoint();
-    
+
     void clearBreakpoint();
+
+    boolean isHalted();
+
+    int getValue(int address);
+
+    int getTris(int port);
 
 }
