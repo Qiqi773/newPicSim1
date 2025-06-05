@@ -47,15 +47,19 @@ public class DecoderWithBitShift {
         switch (importantBits1) {
         case 0b0100:
             // BCF
+            executor.BCF(machinecode);
             break;
         case 0b0101:
             // BSF
+            executor.BSF(machinecode);
             break;
         case 0b0110:
             // BTFSC
+            executor.BTFSC(machinecode);
             break;
         case 0b0111:
             // BTFSS
+            executor.BTFSS(machinecode);
             break;
         case 0b1100:
         	//MOVLW
@@ -91,15 +95,19 @@ public class DecoderWithBitShift {
             break;
         case 0b000011:
             // DECF
+            executor.DECF(machinecode);
             break;
         case 0b001011:
             // DECFSZ
+            executor.DECFSZ(machinecode);
             break;
         case 0b001010:
             // INCF
+            executor.INCF(machinecode);
             break;
         case 0b001111:
             // INCFSZ
+            executor.INCFSZ(machinecode);
             break;
         case 0b000100:
             // IORWF
@@ -112,9 +120,11 @@ public class DecoderWithBitShift {
             break;
         case 0b001101:
             // RLF
+            executor.RLF(machinecode);
             break;
         case 0b001100:
             // RRF
+            executor.RRF(machinecode);
             break;
         case 0b000010:
         	executor.subwf(machinecode);
