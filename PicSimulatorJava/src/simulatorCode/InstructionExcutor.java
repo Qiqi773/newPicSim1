@@ -7,6 +7,7 @@ package simulatorCode;
 public class InstructionExcutor {
 
     private DataMemory memory;
+    private static boolean isHalted = false;
 
     public InstructionExcutor(DataMemory memory) {
 
@@ -360,6 +361,23 @@ public class InstructionExcutor {
         }
         memory.incrementPC();
         memory.tickTimer0();
+    }
+
+    public static boolean isHalted() {
+        return isHalted;
+    }
+
+    public static void setHalted(boolean value) {
+        isHalted = value;
+    }
+
+    public static void resetHalted() {
+        isHalted = false;
+    }
+
+    public void sleep(int instruction) {
+        isHalted = true;
+
     }
 
 }

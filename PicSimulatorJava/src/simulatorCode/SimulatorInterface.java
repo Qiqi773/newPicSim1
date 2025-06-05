@@ -8,6 +8,10 @@ public interface SimulatorInterface {
 
     List<InstructionLine> getInstructionlines();
 
+    boolean isRunning();
+
+    //boolean isHalted();
+
     void reset();
 
     void runNextInstruction();
@@ -25,8 +29,6 @@ public interface SimulatorInterface {
     void setBreakpoint();
 
     void clearBreakpoint();
-
-    boolean isHalted();
 
     int getValue(int address);
 

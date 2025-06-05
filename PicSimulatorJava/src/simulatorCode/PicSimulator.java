@@ -13,8 +13,20 @@ public class PicSimulator implements SimulatorInterface {
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
     private boolean isRunning = false;
-    private boolean halted = false;
+    //private boolean halted = false;
     // private final GUIsim gui = new GUIsim();
+
+    @Override
+    public boolean isRunning() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+//    @Override
+//    public boolean isHalted() {
+//        // TODO Auto-generated method stub
+//        return halted;
+//    }
 
     @Override
     public int getW() {
@@ -24,8 +36,10 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public void reset() {
         // TODO Auto-generated method stub
+        
+        executor.resetHalted();
         isRunning = false;
-        this.halted = false;
+        //this.halted = false;
         memory.reset();
 
         runProgram();
@@ -41,6 +55,9 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public void step() {
         // TODO Auto-generated method stub
+        if (executor.isHalted()) {
+            return;
+        }
         int pc = memory.getPC();
         int machineCode = programMemory.getInstructionAt(pc);
 
@@ -100,12 +117,6 @@ public class PicSimulator implements SimulatorInterface {
     public List<InstructionLine> getInstructionlines() {// get all instruction line objects. form back end to GUI
         // TODO Auto-generated method stub
         return instructionLines;
-    }
-
-    @Override
-    public boolean isHalted() {
-        // TODO Auto-generated method stub
-        return halted;
     }
 
     @Override
