@@ -17,6 +17,7 @@ public class DataMemory {
     // Addresses of seperate Registers
     public static final int ADDR_TMR0 = 0x01;
     public static final int ADDR_STATUSB0 = 0x03;
+    public static final int ADDR_FSR = 0x04;
     public static final int ADDR_STATUSB1 = 0x83;
     public static final int ADDR_OPTION = 0x81;
     public static final int ADDR_INTCON = 0x0B;
@@ -114,6 +115,11 @@ public class DataMemory {
 
     /* writes VALUE at ADDRESS(=Register */
     public void write(int address, int value) {
+        if (address == 0x00) {
+            int fsr = ram[ADDR_FSR] & 0x7F;
+            write(fsr, value);
+            return;
+        }
         switch (address) {
         case 0x05:
             portA.write(value);
@@ -140,6 +146,12 @@ public class DataMemory {
 
     /* reads value at ADDRESS(=Register) */
     public int read(int address) {
+        if (address == 0x00) {
+            int fsr = ram[ADDR_FSR] & 0x7F;
+            return read(fsr);
+
+        }
+
         switch (address) {
         case 0x05:
             return portA.read();
@@ -180,7 +192,7 @@ public class DataMemory {
             clearStatusBit(Z_Mask);
         }
     }
-    
+
     public boolean isCarryFlagSet() {
         int status = read(ADDR_STATUSB0);
         return (status & C_Mask) != 0;
@@ -189,7 +201,6 @@ public class DataMemory {
     public int getCarryFlag() {
         return isCarryFlagSet() ? 1 : 0;
     }
-
 
     public void setCarryFlag(boolean value) {
         if (value) {
@@ -310,7 +321,7 @@ public class DataMemory {
     public void clearAllInterruptFlags() {
         clearPortBInterruptFlag();
         clearExternalInterruptFlag();
-        //.....
+        // .....
     }
     // ----------------------------------------------
 
