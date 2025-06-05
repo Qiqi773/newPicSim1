@@ -188,5 +188,46 @@ public class InstructionExcutor {
         memory.tickTimer0();
 
     }
+    public void RLF(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int carryIn = memory.getCarryFlag();
+        int bit7 = (value >> 7) & 1;
+
+        int result = ((value << 1) & 0xFE) | carryIn;
+
+        memory.setCarryFlag(bit7 == 1);
+
+        if (d == 1) {
+         memory.setW(result);
+        } else {
+         memory.write(f, result);
+        }
+        memory.incrementPC();
+        memory.tickTimer0();
+       }
+
+       public void RRF(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int carryIn = memory.getCarryFlag();
+        int bit0 = value & 0x01;
+
+        int result = (value >> 1) | (carryIn << 7);
+
+        memory.setCarryFlag(bit0 == 1);
+
+        if (d == 1) {
+         memory.setW(result);
+        } else {
+         memory.write(f, result);
+        }
+        memory.incrementPC();
+        memory.tickTimer0();
+       }
 
 }

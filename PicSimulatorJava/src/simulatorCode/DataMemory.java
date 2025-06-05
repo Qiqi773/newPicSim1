@@ -180,6 +180,16 @@ public class DataMemory {
             clearStatusBit(Z_Mask);
         }
     }
+    
+    public boolean isCarryFlagSet() {
+        int status = read(ADDR_STATUSB0);
+        return (status & C_Mask) != 0;
+    }
+
+    public int getCarryFlag() {
+        return isCarryFlagSet() ? 1 : 0;
+    }
+
 
     public void setCarryFlag(boolean value) {
         if (value) {
