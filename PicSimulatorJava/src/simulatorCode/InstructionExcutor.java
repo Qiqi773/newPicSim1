@@ -135,6 +135,7 @@ public class InstructionExcutor {
 
         memory.setPC(k);
         memory.tickTimer0();
+        memory.tickTimer0();
     }
 
     public void call(int instruction) { // no PCLath
@@ -144,6 +145,7 @@ public class InstructionExcutor {
 
         memory.setPC(targetAddress); // (go to) targetaddr
         memory.tickTimer0();
+        memory.tickTimer0();
 
     }
 
@@ -152,6 +154,7 @@ public class InstructionExcutor {
         int returnAddress = memory.readFromStack();
 
         memory.setPC(returnAddress);
+        memory.tickTimer0();
         memory.tickTimer0();
     }
 
@@ -222,6 +225,7 @@ public class InstructionExcutor {
         int value = memory.read(f);
         if ((value & (1 << b)) == 0) {
             memory.setPC(memory.getPC() + 2);
+            memory.tickTimer0();
         } else {
             memory.incrementPC();
 
@@ -236,6 +240,7 @@ public class InstructionExcutor {
         int value = memory.read(f);
         if (((value >> b) & 1) == 1) {
             memory.setPC(memory.getPC() + 2);
+            memory.tickTimer0();
         } else {
             memory.incrementPC();
         }
@@ -256,6 +261,7 @@ public class InstructionExcutor {
 
         if (result == 0) {
             memory.setPC(memory.getPC() + 2);
+            memory.tickTimer0();
         } else {
             memory.incrementPC();
         }
@@ -295,6 +301,7 @@ public class InstructionExcutor {
         }
         if (result == 0) {
             memory.setPC(memory.getPC() + 2);
+            memory.tickTimer0();
         } else {
             memory.incrementPC();
         }
