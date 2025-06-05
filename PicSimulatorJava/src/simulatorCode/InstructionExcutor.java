@@ -377,6 +377,7 @@ public class InstructionExcutor {
 
     public void sleep(int instruction) {
         isHalted = true;
+        
 
     }
 

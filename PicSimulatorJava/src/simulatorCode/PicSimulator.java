@@ -13,7 +13,7 @@ public class PicSimulator implements SimulatorInterface {
     private List<InstructionLine> instructionLines;
     private final ProgramMemory programMemory = new ProgramMemory();
     private boolean isRunning = false;
-    //private boolean halted = false;
+    // private boolean halted = false;
     // private final GUIsim gui = new GUIsim();
 
     @Override
@@ -36,10 +36,10 @@ public class PicSimulator implements SimulatorInterface {
     @Override
     public void reset() {
         // TODO Auto-generated method stub
-        
+
         executor.resetHalted();
         isRunning = false;
-        //this.halted = false;
+        // this.halted = false;
         memory.reset();
 
         runProgram();
@@ -56,6 +56,12 @@ public class PicSimulator implements SimulatorInterface {
     public void step() {
         // TODO Auto-generated method stub
         if (executor.isHalted()) {
+            return;
+        }
+
+        memory.checkAndHandleInterrupt();
+        if (memory.interruptTriggered == true) {
+            executor.resetHalted();
             return;
         }
         int pc = memory.getPC();

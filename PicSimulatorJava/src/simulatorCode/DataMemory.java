@@ -13,6 +13,7 @@ public class DataMemory {
     private int[] callStack = new int[8];
     private int stackPointer; // 3 bit !
     private Timer0 timer0 = new Timer0(this);
+    public boolean interruptTriggered = false;
 
     // Addresses of seperate Registers
     public static final int ADDR_TMR0 = 0x01;
@@ -334,6 +335,7 @@ public class DataMemory {
 
         // Timer0 Interrupt
         if (isGlobalInterruptEnabled() && isTMR0InterruptEnabled() && isTMR0Overflowed()) {
+            interruptTriggered = true;
             writeInstack(getPC());
             setPC(0x004);
             clearTMR0OverflowFlag();
@@ -343,6 +345,7 @@ public class DataMemory {
 
         // RB0 Interrupt
         if (isGlobalInterruptEnabled() && isExternalInterruptEnabled() && isExternalInterruptFlagSet()) {
+            interruptTriggered = true;
             writeInstack(getPC());
             setPC(0x004);
             clearExternalInterruptFlag();
@@ -354,6 +357,7 @@ public class DataMemory {
         if (isGlobalInterruptEnabled() && isPortBInterruptEnabled()) {
             for (int i = 4; i <= 7; i++) {
                 if (portB.isInput(i) && portB.hasChanged(lastPortB, i)) {
+                    interruptTriggered = true;
                     setPortBInterruptFlag();
                     writeInstack(getPC());
                     setPC(0x004);
