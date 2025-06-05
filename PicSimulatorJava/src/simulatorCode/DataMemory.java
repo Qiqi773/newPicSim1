@@ -244,9 +244,6 @@ public class DataMemory {
     }
 
     public boolean isTMR0Overflowed() {
-    	if ((read(ADDR_INTCON) & T0IF_MASK) != 0) {
-    		
-    	}
         return (read(ADDR_INTCON) & T0IF_MASK) != 0;
     }
 
