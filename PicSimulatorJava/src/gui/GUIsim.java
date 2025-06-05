@@ -348,6 +348,7 @@ public class GUIsim extends JFrame {
                                                             // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin4ValueTogButt.isSelected()) {
+                	
                     raPin4ValueTogButt.setText("1");
                 } else {
                     raPin4ValueTogButt.setText("0");
