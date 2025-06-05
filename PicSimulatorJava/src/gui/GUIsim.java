@@ -58,6 +58,9 @@ public class GUIsim extends JFrame {
     private List<JPanel> instructionRows = new ArrayList<>();
     private Timer runTimer;
     int currentLine = 0;
+    
+    //global PinValue Variables
+    JToggleButton rbPin0ValueTogButt;
 
     /**
      * Launch the application.
@@ -187,7 +190,7 @@ public class GUIsim extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Run-Button
-                // simulator.runProgram();
+                // simulator.runProgram(); -> TODO add condition and interupt checks to run
                 new Thread(() -> {
                     while (!simulator.isHalted()) {
                         simulator.step();
@@ -617,7 +620,7 @@ public class GUIsim extends JFrame {
         panel_RB.add(rbPin1ValueTogButt);
 
         // RB-PIN 0
-        JToggleButton rbPin0ValueTogButt = new JToggleButton("0");
+        rbPin0ValueTogButt = new JToggleButton("0");
         rbPin0ValueTogButt.setBackground(lightLavender);
         ActionListener rbPin0AcLis = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -986,7 +989,7 @@ public class GUIsim extends JFrame {
     }
 
     public void updatePortA() {
-        int portA = simulator.getValue(0x05);
+        int portAValue = simulator.getValue(0x05);
         int trisAValue = simulator.getValue(0x85);
 
         // update TRIS
@@ -1008,6 +1011,15 @@ public class GUIsim extends JFrame {
 //        raPin2ValueLabel.setText(((portAValue >> 2) & 1) + "");
 //        raPin1ValueLabel.setText(((portAValue >> 1) & 1) + "");
 //        raPin0ValueLabel.setText(((portAValue >> 0) & 1) + "");
+        
+//      rbPin7ValueLabel.setText(((portAValue >> 7) & 1) + "");
+//      rbPin6ValueLabel.setText(((portAValue >> 6) & 1) + "");
+//      rbPin5ValueLabel.setText(((portAValue >> 5) & 1) + "");
+//      rbPin4ValueLabel.setText(((portAValue >> 4) & 1) + "");
+//      rbPin3ValueLabel.setText(((portAValue >> 3) & 1) + "");
+//      rbPin2ValueLabel.setText(((portAValue >> 2) & 1) + "");
+//      rbPin1ValueLabel.setText(((portAValue >> 1) & 1) + "");
+        rbPin0ValueTogButt.setText(((portAValue >> 0) & 1) + "");
 
     }
 

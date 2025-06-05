@@ -79,8 +79,10 @@ public class DecoderWithBitShift {
         case 0b000001:
             int whichClr = machinecode >>> 7; // first 7 bits
             if (whichClr == 0000011) {
+            	//CLRF
             	executor.clrf(machinecode);
             } else { // (whichClr == 0000010)
+            	//CLRW
             	executor.clrw(machinecode);
             }
             break;

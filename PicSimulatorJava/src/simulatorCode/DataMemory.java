@@ -311,7 +311,7 @@ public class DataMemory {
     public void checkAndHandleInterrupt() {
 
         // Timer0 Interrupt
-        if (isGlobalInterruptEnabled() && isTMR0InterruptEnabled() && isTMR0InterruptEnabled()) {
+        if (isGlobalInterruptEnabled() && isTMR0InterruptEnabled() && isTMR0Overflowed()) {
             writeInstack(getPC());
             setPC(0x004);
             clearTMR0OverflowFlag();
