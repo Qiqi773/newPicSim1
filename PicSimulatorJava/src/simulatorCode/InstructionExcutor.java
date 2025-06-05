@@ -1,4 +1,4 @@
- package simulatorCode;
+package simulatorCode;
 
 /**
  * Run the programm (=testfile). before loaded Testfile (=Programm) runs, have
@@ -188,6 +188,138 @@ public class InstructionExcutor {
         memory.tickTimer0();
 
     }
+
+    public void BSF(int instruction) {
+        int f = instruction & 0x007F;
+        int b = (instruction >> 10) & 0x07;
+
+        int value = memory.read(f);
+
+        value |= (1 << b);
+
+        memory.write(f, value);
+        memory.incrementPC();
+        memory.tickTimer0();
+    }
+
+    public void BCF(int instruction) {
+        int f = instruction & 0x007F;
+        int b = (instruction >> 10) & 0x07;
+
+        int value = memory.read(f);
+        value &= ~(1 << b);
+        memory.write(f, value);
+        memory.incrementPC();
+
+        memory.tickTimer0();
+    }
+
+    public void BTFSC(int instruction) {
+        int f = instruction & 0x007F;
+        int b = (instruction >> 10) & 0x07;
+
+        int value = memory.read(f);
+        if ((value & (1 << b)) == 0) {
+            memory.setPC(memory.getPC() + 2);
+        } else {
+            memory.incrementPC();
+
+        }
+        memory.tickTimer0();
+    }
+
+    public void BTFSS(int instruction) {
+        int f = instruction & 0x007F;
+        int b = (instruction >> 10) & 0x07;
+
+        int value = memory.read(f);
+        if (((value >> b) & 1) == 1) {
+            memory.setPC(memory.getPC() + 2);
+        } else {
+            memory.incrementPC();
+        }
+        memory.tickTimer0();
+    }
+
+    public void INCFSZ(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int result = (value + 1) & 0xFF;
+        if (d == 0) {
+            memory.setW(result);
+        } else {
+            memory.write(f, result);
+        }
+
+        if (result == 0) {
+            memory.setPC(memory.getPC() + 2);
+        } else {
+            memory.incrementPC();
+        }
+
+        memory.tickTimer0();
+    }
+
+    public void INCF(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int result = (value + 1) & 0xFF;
+
+        if (d == 0) {
+            memory.setW(result);
+        } else {
+            memory.write(f, result);
+        }
+
+        memory.incrementPC();
+
+        memory.tickTimer0();
+    }
+
+    public void DECFSZ(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int result = (value - 1) & 0xFF;
+
+        if (d == 0) {
+            memory.setW(result);
+        } else {
+            memory.write(f, result);
+        }
+        if (result == 0) {
+            memory.setPC(memory.getPC() + 2);
+        } else {
+            memory.incrementPC();
+        }
+
+        memory.tickTimer0();
+    }
+
+    public void DECF(int instruction) {
+        int f = instruction & 0x007F;
+        int d = (instruction >> 7) & 0x1;
+
+        int value = memory.read(f);
+        int result = (value - 1) & 0xFF;
+
+        if (d == 0) {
+            memory.setW(result);
+        } else {
+            memory.write(f, result);
+        }
+
+        memory.incrementPC();
+
+        memory.tickTimer0();
+
+    }
+
     public void RLF(int instruction) {
         int f = instruction & 0x007F;
         int d = (instruction >> 7) & 0x1;
@@ -201,15 +333,15 @@ public class InstructionExcutor {
         memory.setCarryFlag(bit7 == 1);
 
         if (d == 1) {
-         memory.setW(result);
+            memory.setW(result);
         } else {
-         memory.write(f, result);
+            memory.write(f, result);
         }
         memory.incrementPC();
         memory.tickTimer0();
-       }
+    }
 
-       public void RRF(int instruction) {
+    public void RRF(int instruction) {
         int f = instruction & 0x007F;
         int d = (instruction >> 7) & 0x1;
 
@@ -222,12 +354,12 @@ public class InstructionExcutor {
         memory.setCarryFlag(bit0 == 1);
 
         if (d == 1) {
-         memory.setW(result);
+            memory.setW(result);
         } else {
-         memory.write(f, result);
+            memory.write(f, result);
         }
         memory.incrementPC();
         memory.tickTimer0();
-       }
+    }
 
 }
