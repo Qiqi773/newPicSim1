@@ -47,5 +47,18 @@ public class Port {
         latch = 0;
 
     }
+    
+    public void updateValue(int newValue) {// only update the state of input
+        this.value = (this.value & ~tris) | (newValue & tris);// keep output
+
+    }
+
+    public boolean hasChanged(Port last, int bit) {
+        return ((this.value ^ last.value) & (1 << bit)) != 0;
+    }
+
+    public boolean isInput(int bit) {
+        return (tris & (1 << bit)) != 0;
+    }
 
 }

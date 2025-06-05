@@ -37,6 +37,7 @@ public class DataMemory {
 
     private Port portA = new Port("A", 5);
     private Port portB = new Port("B", 8);
+    private Port lastPortB = new Port("Last", 8);
 
     // --- EXTRA REGISTERS/Variables
     // -----------------------------------------------------
@@ -330,7 +331,16 @@ public class DataMemory {
 
         // RB4-RB7 Interrupt
         if (isGlobalInterruptEnabled() && isPortBInterruptEnabled()) {
-            return;
+            for (int i = 4; i <= 7; i++) {
+                if (portB.isInput(i) && portB.hasChanged(lastPortB, i)) {
+                    setPortBInterruptFlag();
+                    writeInstack(getPC());
+                    setPC(0x004);
+                    clearPortBInterruptFlag();
+                    disableGlobalInterrupt();
+                    break;
+                }
+            }
         }
 
     }
