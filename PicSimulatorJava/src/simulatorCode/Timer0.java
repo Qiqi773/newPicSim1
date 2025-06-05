@@ -10,6 +10,7 @@ public class Timer0 {
         this.memory = memory;
     }
 
+    //
     public void tick() {
         if (memory.isInternalClock()) {
             prescalerCount++;
