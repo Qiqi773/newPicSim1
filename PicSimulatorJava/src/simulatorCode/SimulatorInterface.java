@@ -33,5 +33,7 @@ public interface SimulatorInterface {
     int getValue(int address);
 
     int getTris(int port);
+    
+    void caHInterrupt();
 
 }

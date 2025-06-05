@@ -141,4 +141,11 @@ public class PicSimulator implements SimulatorInterface {
         return 0;
     }
 
+    @Override
+    public void caHInterrupt() {
+        // TODO Auto-generated method stub
+        memory.checkAndHandleInterrupt();
+
+    }
+
 }

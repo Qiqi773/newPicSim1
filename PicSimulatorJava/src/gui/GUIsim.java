@@ -1,7 +1,9 @@
 package gui;
 
 import simulatorCode.SimulatorInterface;
+
 import simulatorCode.PicSimulator;
+import simulatorCode.InstructionExcutor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -58,8 +60,9 @@ public class GUIsim extends JFrame {
     private List<JPanel> instructionRows = new ArrayList<>();
     private Timer runTimer;
     int currentLine = 0;
-    
-    //global PinValue Variables
+    private List<JCheckBox> breakpoints = new ArrayList();
+
+    // global PinValue Variables
     JToggleButton rbPin0ValueTogButt;
 
     /**
@@ -162,6 +165,8 @@ public class GUIsim extends JFrame {
                         breakpointBox.setBackground(lightLavender);
                         row.add(breakpointBox);
 
+                        breakpoints.add(breakpointBox);
+
                         row.add(new JLabel(String.format("%04X", line.getAddress())));
                         row.add(new JLabel(String.format("%04X", line.getMachineCode())));
                         row.add(new JLabel(line.getInstruction()));
@@ -190,21 +195,44 @@ public class GUIsim extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Run-Button
-                // simulator.runProgram(); -> TODO add condition and interupt checks to run
+                // simulator.runProgram();
+//                new Thread(() -> {
+//                    while (!simulator.isHalted()) {
+//                        simulator.step();
+//                        currentLine = simulator.getPC() / 2;
+//                        highlightLine(currentLine);
+//                        try {
+//                            Thread.sleep(300); // 控制执行速度
+//                        } catch (InterruptedException ex) {
+//                            ex.printStackTrace();
+//                        }
+//                    }
+//                }).start();
                 new Thread(() -> {
-                    while (!simulator.isHalted()) {
+
+                    while (!InstructionExcutor.isHalted()) {
+                        int pc = simulator.getPC();
+
+                        // if current pc has BP, stop
+                        if (isBreakpointAt(pc)) {
+                            break;
+                        }
+
                         simulator.step();
-                        currentLine = simulator.getPC() / 2;
-                        highlightLine(currentLine);
+                        simulator.caHInterrupt();
+                        highlightLine(simulator.getPC()); //
+                        // updateRegisters(); //
+
                         try {
-                            Thread.sleep(300); // 控制执行速度
+                            Thread.sleep(100); //
                         } catch (InterruptedException ex) {
                             ex.printStackTrace();
                         }
                     }
                 }).start();
-
             }
+//
+
         });
         buttonRun.setBounds(10, 252, 116, 39);
         contentPane.add(buttonRun);
@@ -213,6 +241,7 @@ public class GUIsim extends JFrame {
         JButton buttonStep = new JButton("Step");
         buttonStep.setBackground(lightLavender);
         buttonStep.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Step-Button
@@ -348,7 +377,7 @@ public class GUIsim extends JFrame {
                                                             // freeze button if its TRISreg is '0' (=output)
             public void actionPerformed(ActionEvent e) {
                 if (raPin4ValueTogButt.isSelected()) {
-                	
+
                     raPin4ValueTogButt.setText("1");
                 } else {
                     raPin4ValueTogButt.setText("0");
@@ -1012,7 +1041,7 @@ public class GUIsim extends JFrame {
 //        raPin2ValueLabel.setText(((portAValue >> 2) & 1) + "");
 //        raPin1ValueLabel.setText(((portAValue >> 1) & 1) + "");
 //        raPin0ValueLabel.setText(((portAValue >> 0) & 1) + "");
-        
+
 //      rbPin7ValueLabel.setText(((portAValue >> 7) & 1) + "");
 //      rbPin6ValueLabel.setText(((portAValue >> 6) & 1) + "");
 //      rbPin5ValueLabel.setText(((portAValue >> 5) & 1) + "");
@@ -1032,5 +1061,12 @@ public class GUIsim extends JFrame {
     public void updatePort() {
         updatePortA();
         updatePortB();
+    }
+
+    public boolean isBreakpointAt(int pc) {
+        if (pc >= 0 && pc < breakpoints.size()) {
+            return breakpoints.get(pc).isSelected();
+        }
+        return false;
     }
 }
