@@ -506,7 +506,13 @@ public class InstructionExcutor {
 	}
 
 	public void sleep(int instruction) {
+		int status = memory.read(DataMemory.ADDR_STATUSB0);
+		status |= (1 << 4);
+		status &= ~(1 << 3);
+		memory.write(DataMemory.ADDR_STATUSB0, status);
+
 		isHalted = true;
+		memory.incrementPC();
 		memory.tickTimer0();
 
 	}
