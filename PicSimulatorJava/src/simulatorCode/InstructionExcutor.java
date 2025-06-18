@@ -6,386 +6,555 @@ package simulatorCode;
  */
 public class InstructionExcutor {
 
-    private DataMemory memory;
-    private static boolean isHalted = false;
+	private DataMemory memory;
+	private static boolean isHalted = false;
 
-    public InstructionExcutor(DataMemory memory) {
+	public InstructionExcutor(DataMemory memory) {
 
-        this.memory = memory;
-    }
+		this.memory = memory;
+	}
 
-    public void movlw(int instruction) {
-        int literal = instruction & 0xFF;
-        memory.setW(literal);
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+	public void comf(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x01;
 
-    public void movwf(int instruction) {
-        int f = instruction & 0x007F;
-        int w = memory.getW();
+		int value = memory.read(f);
+		int result = (~value) & 0xFF;
 
-        memory.write(f, w);
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
 
-    public void movf(int instruction) {
-        int f = instruction & 0x007F; // address
-        int d = (instruction >> 7) & 0x01;
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        int value = memory.read(f);// value
+	}
 
-        memory.setZeroFlag(value == 0); // false
+	public void xorlw(int instruction) {
+		int k = instruction & 0x00FF;
+		int w = memory.getW();
 
-        if (d == 0) {
-            memory.setW(value);
-        } else {
-            memory.write(f, value);
+		int result = w ^ k;
+		memory.setW(result);
 
-        }
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+	}
 
-    public void clrw(int instruction) {
-        memory.setW(0);// W=0;
+	public void xorwf(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x01;
+		int w = memory.getW();
 
-        memory.setZeroFlag(true);
+		int value = memory.read(f);
+		int result = w ^ value;
 
-        memory.incrementPC();
-        memory.tickTimer0();
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
 
-    }
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-    public void clrf(int instruction) {
-        int f = instruction & 0x007F;
-        memory.write(f, 0);
-        memory.setZeroFlag(true);
-        memory.incrementPC();
-        memory.tickTimer0();
+	}
 
-    }
+	public void iorlw(int instruction) {
+		int k = instruction & 0x00FF;
+		int w = memory.getW();
 
-    public void addlw(int instruction) {
-        int k = instruction & 0x00FF;
-        int w = memory.getW();
+		int result = w | k;
 
-        int result = w + k;
+		memory.setW(result);
 
-        memory.setW(result & 0x00FF);
-        memory.setZeroFlag((result & 0xFF) == 0);
+		memory.setZeroFlag(result == 0);
 
-        boolean dc = ((w & 0x0F) + (k & 0x0F)) > 0x0F;
-        memory.setDigitatCarryFlag(dc);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        boolean c = result > 0xFF;
-        memory.setCarryFlag(c);
+	}
 
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+	public void iorwf(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x01;
 
-    public void sublw(int instruction) {
-        int k = instruction & 0x00FF;
-        int w = memory.getW();
+		int w = memory.getW();
+		int value = memory.read(f);
 
-        int result = (k - w) & 0xFF;
-        memory.setW(result);
+		int result = w | value;
 
-        memory.setZeroFlag(result == 0);
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
 
-        memory.setCarryFlag(k >= w);
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        memory.setDigitatCarryFlag((k & 0x0F) >= (w & 0x0F));
+	}
 
-        memory.incrementPC();
-        memory.tickTimer0();
+	public void movlw(int instruction) {
+		int literal = instruction & 0xFF;
+		memory.setW(literal);
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
 
-    }
+	public void movwf(int instruction) {
+		int f = instruction & 0x007F;
+		int w = memory.getW();
 
-    public void subwf(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+		memory.write(f, w);
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
 
-        int w = memory.getW();
-        int fVal = memory.read(f);
-        int result = (fVal - w) & 0xFF;
+	public void movf(int instruction) {
+		int f = instruction & 0x007F; // address
+		int d = (instruction >> 7) & 0x01;
 
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
+		int value = memory.read(f);// value
 
-        memory.setZeroFlag(result == 0);
+		memory.setZeroFlag(value == 0); // false
 
-        memory.setCarryFlag(fVal >= w);
+		if (d == 0) {
+			memory.setW(value);
+		} else {
+			memory.write(f, value);
 
-        memory.setDigitatCarryFlag((fVal & 0x0F) >= (w & 0x0F));
+		}
 
-        memory.incrementPC();
-        memory.tickTimer0();
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
 
-    }
+	public void clrw(int instruction) {
+		memory.setW(0);// W=0;
 
-    public void goTo(int instruction) { // no PCLath
-        int k = instruction & 0x07FF;
+		memory.setZeroFlag(true);
 
-        memory.setPC(k);
-        memory.tickTimer0();
-        memory.tickTimer0();
-    }
+		memory.incrementPC();
+		memory.tickTimer0();
 
-    public void call(int instruction) { // no PCLath
-        int targetAddress = instruction & 0x07FF;
+	}
 
-        memory.writeInstack(memory.getPC() + 1); // remember next instruction after CALL
+	public void clrf(int instruction) {
+		int f = instruction & 0x007F;
+		memory.write(f, 0);
+		memory.setZeroFlag(true);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        memory.setPC(targetAddress); // (go to) targetaddr
-        memory.tickTimer0();
-        memory.tickTimer0();
+	}
 
-    }
+	public void addlw(int instruction) {
+		int k = instruction & 0x00FF;
+		int w = memory.getW();
 
-    public void returnFromSub() { // no PCLath - return from SUBroutine/-program
+		int result = w + k;
 
-        int returnAddress = memory.readFromStack();
+		memory.setW(result & 0x00FF);
+		memory.setZeroFlag((result & 0xFF) == 0);
 
-        memory.setPC(returnAddress);
-        memory.tickTimer0();
-        memory.tickTimer0();
-    }
+		boolean dc = ((w & 0x0F) + (k & 0x0F)) > 0x0F;
+		memory.setDigitatCarryFlag(dc);
 
-    public void addwf(int instruction) {
-        int f = instruction & 0x7F;
-        int d = (instruction >> 7) & 0x01;
+		boolean c = result > 0xFF;
+		memory.setCarryFlag(c);
 
-        int w = memory.getW();
-        int fVal = memory.read(f);
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
 
-        int result = w + fVal;
+	public void sublw(int instruction) {
+		int k = instruction & 0x00FF;
+		int w = memory.getW();
 
-        memory.setZeroFlag((result & 0xFF) == 0);
+		int result = (k - w) & 0xFF;
+		memory.setW(result);
 
-        memory.setCarryFlag(result >= 0xFF);
+		memory.setZeroFlag(result == 0);
 
-        memory.setDigitatCarryFlag(((w & 0x0F) + (fVal & 0x0F)) > 0x0F);
+		memory.setCarryFlag(k >= w);
 
-        result = result & 0xFF;
+		memory.setDigitatCarryFlag((k & 0x0F) >= (w & 0x0F));
 
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-            if (f == 0x02) {// pcl
-                int pclath = memory.read(0x0A);
-                int newPC = ((pclath & 0x1F) << 8) | result;
-                memory.setPC(newPC);
-                return;
-            }
-        }
+	}
 
-        memory.incrementPC();
-        memory.tickTimer0();
+	public void subwf(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
 
-    }
+		int w = memory.getW();
+		int fVal = memory.read(f);
+		int result = (fVal - w) & 0xFF;
 
-    public void BSF(int instruction) {
-        int f = instruction & 0x007F;
-        int b = (instruction >> 10) & 0x07;
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
 
-        int value = memory.read(f);
+		memory.setZeroFlag(result == 0);
 
-        value |= (1 << b);
+		memory.setCarryFlag(fVal >= w);
 
-        memory.write(f, value);
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+		memory.setDigitatCarryFlag((fVal & 0x0F) >= (w & 0x0F));
 
-    public void BCF(int instruction) {
-        int f = instruction & 0x007F;
-        int b = (instruction >> 10) & 0x07;
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        int value = memory.read(f);
-        value &= ~(1 << b);
-        memory.write(f, value);
-        memory.incrementPC();
+	}
 
-        memory.tickTimer0();
-    }
+	public void goTo(int instruction) { // no PCLath
+		int k = instruction & 0x07FF;
 
-    public void BTFSC(int instruction) {
-        int f = instruction & 0x007F;
-        int b = (instruction >> 10) & 0x07;
+		memory.setPC(k);
+		memory.tickTimer0();
+		memory.tickTimer0();
+	}
 
-        int value = memory.read(f);
-        if ((value & (1 << b)) == 0) {
-            memory.setPC(memory.getPC() + 2);
-            memory.tickTimer0();
-        } else {
-            memory.incrementPC();
+	public void call(int instruction) { // no PCLath
+		int targetAddress = instruction & 0x07FF;
 
-        }
-        memory.tickTimer0();
-    }
+		memory.writeInstack(memory.getPC() + 1); // remember next instruction after CALL
 
-    public void BTFSS(int instruction) {
-        int f = instruction & 0x007F;
-        int b = (instruction >> 10) & 0x07;
+		memory.setPC(targetAddress); // (go to) targetaddr
+		memory.tickTimer0();
+		memory.tickTimer0();
 
-        int value = memory.read(f);
-        if (((value >> b) & 1) == 1) {
-            memory.setPC(memory.getPC() + 2);
-            memory.tickTimer0();
-        } else {
-            memory.incrementPC();
-        }
-        memory.tickTimer0();
-    }
+	}
 
-    public void INCFSZ(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+	public void returnFromSub() { // no PCLath - return from SUBroutine/-program
 
-        int value = memory.read(f);
-        int result = (value + 1) & 0xFF;
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
+		int returnAddress = memory.readFromStack();
 
-        if (result == 0) {
-            memory.setPC(memory.getPC() + 2);
-            memory.tickTimer0();
-        } else {
-            memory.incrementPC();
-        }
+		memory.setPC(returnAddress);
+		memory.tickTimer0();
+		memory.tickTimer0();
+	}
 
-        memory.tickTimer0();
-    }
+	public void andlw(int instruction) {
+		int k = instruction & 0x00FF;
+		int w = memory.getW();
 
-    public void INCF(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+		int result = w & k;
 
-        int value = memory.read(f);
-        int result = (value + 1) & 0xFF;
+		memory.setW(result);
 
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-        memory.incrementPC();
+	}
 
-        memory.tickTimer0();
-    }
+	public void andwf(int instruction) {
+		int f = instruction & 0x7F;
+		int d = (instruction >> 7) & 0x01;
 
-    public void DECFSZ(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+		int w = memory.getW();
+		int fVal = memory.read(f);
 
-        int value = memory.read(f);
-        int result = (value - 1) & 0xFF;
+		int result = w & fVal;
 
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
-        if (result == 0) {
-            memory.setPC(memory.getPC() + 2);
-            memory.tickTimer0();
-        } else {
-            memory.incrementPC();
-        }
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
 
-        memory.tickTimer0();
-    }
+		memory.setZeroFlag(result == 0);
+		memory.incrementPC();
+		memory.tickTimer0();
 
-    public void DECF(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+	}
 
-        int value = memory.read(f);
-        int result = (value - 1) & 0xFF;
+	public void addwf(int instruction) {
+		int f = instruction & 0x7F;
+		int d = (instruction >> 7) & 0x01;
 
-        if (d == 0) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
+		int w = memory.getW();
+		int fVal = memory.read(f);
 
-        memory.incrementPC();
+		int result = w + fVal;
 
-        memory.tickTimer0();
+		memory.setZeroFlag((result & 0xFF) == 0);
 
-    }
+		memory.setCarryFlag(result >= 0xFF);
 
-    public void RLF(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+		memory.setDigitatCarryFlag(((w & 0x0F) + (fVal & 0x0F)) > 0x0F);
 
-        int value = memory.read(f);
-        int carryIn = memory.getCarryFlag();
-        int bit7 = (value >> 7) & 1;
+		result = result & 0xFF;
 
-        int result = ((value << 1) & 0xFE) | carryIn;
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
 
-        memory.setCarryFlag(bit7 == 1);
+			if (f == 0x02) {// pcl
+				int pclath = memory.read(0x0A);
+				int newPC = ((pclath & 0x1F) << 8) | result;
+				memory.setPC(newPC);
+				return;
+			}
+		}
 
-        if (d == 1) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+		memory.incrementPC();
+		memory.tickTimer0();
 
-    public void RRF(int instruction) {
-        int f = instruction & 0x007F;
-        int d = (instruction >> 7) & 0x1;
+	}
 
-        int value = memory.read(f);
-        int carryIn = memory.getCarryFlag();
-        int bit0 = value & 0x01;
+	public void BSF(int instruction) {
+		int f = instruction & 0x007F;
+		int b = (instruction >> 10) & 0x07;
 
-        int result = (value >> 1) | (carryIn << 7);
+		int value = memory.read(f);
 
-        memory.setCarryFlag(bit0 == 1);
+		value |= (1 << b);
 
-        if (d == 1) {
-            memory.setW(result);
-        } else {
-            memory.write(f, result);
-        }
-        memory.incrementPC();
-        memory.tickTimer0();
-    }
+		memory.write(f, value);
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
 
-    public static boolean isHalted() {
-        return isHalted;
-    }
+	public void BCF(int instruction) {
+		int f = instruction & 0x007F;
+		int b = (instruction >> 10) & 0x07;
 
-    public static void setHalted(boolean value) {
-        isHalted = value;
-    }
+		int value = memory.read(f);
+		value &= ~(1 << b);
+		memory.write(f, value);
+		memory.incrementPC();
 
-    public static void resetHalted() {
-        isHalted = false;
-    }
+		memory.tickTimer0();
+	}
 
-    public void sleep(int instruction) {
-        isHalted = true;
-        
+	public void BTFSC(int instruction) {
+		int f = instruction & 0x007F;
+		int b = (instruction >> 10) & 0x07;
 
-    }
+		int value = memory.read(f);
+		if ((value & (1 << b)) == 0) {
+			memory.setPC(memory.getPC() + 2);
+			memory.tickTimer0();
+		} else {
+			memory.incrementPC();
+
+		}
+		memory.tickTimer0();
+	}
+
+	public void BTFSS(int instruction) {
+		int f = instruction & 0x007F;
+		int b = (instruction >> 10) & 0x07;
+
+		int value = memory.read(f);
+		if (((value >> b) & 1) == 1) {
+			memory.setPC(memory.getPC() + 2);
+			memory.tickTimer0();
+		} else {
+			memory.incrementPC();
+		}
+		memory.tickTimer0();
+	}
+
+	public void INCFSZ(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int result = (value + 1) & 0xFF;
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+
+		if (result == 0) {
+			memory.setPC(memory.getPC() + 2);
+			memory.tickTimer0();
+		} else {
+			memory.incrementPC();
+		}
+
+		memory.tickTimer0();
+	}
+
+	public void INCF(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int result = (value + 1) & 0xFF;
+
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+
+		memory.incrementPC();
+
+		memory.tickTimer0();
+	}
+
+	public void DECFSZ(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int result = (value - 1) & 0xFF;
+
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+		if (result == 0) {
+			memory.setPC(memory.getPC() + 2);
+			memory.tickTimer0();
+		} else {
+			memory.incrementPC();
+		}
+
+		memory.tickTimer0();
+	}
+
+	public void DECF(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int result = (value - 1) & 0xFF;
+
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+
+		memory.incrementPC();
+
+		memory.tickTimer0();
+
+	}
+
+	public void RLF(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int carryIn = memory.getCarryFlag();
+		int bit7 = (value >> 7) & 1;
+
+		int result = ((value << 1) & 0xFE) | carryIn;
+
+		memory.setCarryFlag(bit7 == 1);
+
+		if (d == 1) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
+
+	public void RRF(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x1;
+
+		int value = memory.read(f);
+		int carryIn = memory.getCarryFlag();
+		int bit0 = value & 0x01;
+
+		int result = (value >> 1) | (carryIn << 7);
+
+		memory.setCarryFlag(bit0 == 1);
+
+		if (d == 1) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
+
+	public static boolean isHalted() {
+		return isHalted;
+	}
+
+	public static void setHalted(boolean value) {
+		isHalted = value;
+	}
+
+	public static void resetHalted() {
+		isHalted = false;
+	}
+
+	public void sleep(int instruction) {
+		isHalted = true;
+		memory.tickTimer0();
+
+	}
+
+	public void nop(int instruction) {
+		memory.incrementPC();
+		memory.tickTimer0();
+	}
+
+	public void swapf(int instruction) {
+		int f = instruction & 0x007F;
+		int d = (instruction >> 7) & 0x01;
+
+		int value = memory.read(f);
+		int result = ((value & 0x0F) << 4) | ((value & 0x0F) >> 4);
+
+		if (d == 0) {
+			memory.setW(result);
+		} else {
+			memory.write(f, result);
+		}
+
+		memory.incrementPC();
+		memory.tickTimer0();
+
+	}
+
+	public void retfie(int instruction) {
+		int returnAddress = memory.readFromStack();
+		memory.setPC(returnAddress);
+
+		int intcon = memory.read(DataMemory.ADDR_INTCON);
+		intcon |= 0x80;
+		memory.write(DataMemory.ADDR_INTCON, intcon);
+
+		memory.tickTimer0();
+		memory.tickTimer0();
+
+	}
+
+	public void retlw(int instruction) {
+		int k = instruction & 0x00FF;
+		memory.setW(k);
+		int returnAddress = memory.readFromStack();
+
+		memory.setPC(returnAddress);
+		memory.tickTimer0();
+		memory.tickTimer0();
+	}
 
 }
