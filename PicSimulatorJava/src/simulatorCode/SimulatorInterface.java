@@ -36,4 +36,6 @@ public interface SimulatorInterface {
     
     void caHInterrupt();
 
+	DataMemory getMemory();
+
 }
