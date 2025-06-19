@@ -1002,6 +1002,42 @@ public class GUIsim extends JFrame {
 		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 18));
 		lblNewLabel.setBounds(522, 259, 58, 22);
 		contentPane.add(lblNewLabel);
+//---------SFR-------------------------------------------------------------------	
+		JPanel SFRpanel = new JPanel();
+		SFRpanel.setToolTipText("");
+		SFRpanel.setLayout(null);
+		SFRpanel.setBounds(18, 113, 360, 129);
+		contentPane.add(SFRpanel);
+		
+		JLabel wLable= new JLabel("W");
+		wLable.setBounds(20,10,20,20);
+		SFRpanel.add(wLable);
+		
+		JTextField wField=new JTextField();
+		wField.setBounds(40,10,100,20);
+		SFRpanel.add(wField);
+		
+		JLabel pcLable = new JLabel("PC");
+		pcLable.setBounds(20,40,20,20);
+		SFRpanel.add(pcLable);
+		
+		JTextField pcField=new JTextField();
+		pcField.setBounds(40,40,100,20);
+		SFRpanel.add(pcField);
+		
+		JLabel zLabel=new JLabel();
+		zLabel.setText("Z");
+		zLabel.setBounds(20,70,20,20);
+		SFRpanel.add(zLabel);
+		
+		JToggleButton zToggle=new JToggleButton("0");
+	
+
+		zToggle.setBounds(40,70,32,23);
+		zToggle.setEnabled(false);
+		zToggle.setSelected(true);
+		SFRpanel.add(zToggle);
+		
 
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
 
