@@ -59,6 +59,7 @@ public class GUIsim extends JFrame {
 	private JTable table_1;
 	private List<JPanel> instructionRows = new ArrayList<>();
 	private Timer runTimer;
+	private int startTickCount = 0;
 	int currentLine = 0;
 	private List<JCheckBox> breakpoints = new ArrayList();
 
@@ -96,7 +97,7 @@ public class GUIsim extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1400, 750);
 		contentPane = new JPanel();
-		contentPane.setBackground(darkLavender);
+		contentPane.setBackground(new Color(204,255,204));
 
 		// GUI Box content
 		setContentPane(contentPane);
@@ -109,7 +110,7 @@ public class GUIsim extends JFrame {
 
 //------CHOOSE FILE------------------------------------------------------------------------------------------------------------------
 		JButton buttonChooseFile = new JButton("Choose File"); // FileChooser to open System Explorer to get .LST-Files
-		buttonChooseFile.setBackground(lightLavender);
+		buttonChooseFile.setBackground(new Color(255,250,240));
 //		btnNewButton_1_2.addActionListener(e ->{
 //		    JFileChooser chooser=new JFileChooser();
 //		    int result =chooser.showOpenDialog(this);
@@ -124,7 +125,7 @@ public class GUIsim extends JFrame {
 //		})
 		// 1. 创建一个用于显示指令的面板，加入 ScrollPane 中（放在 GUI 初始化中）
 		JPanel progPanel = new JPanel();
-		progPanel.setBackground(lightLavender);
+		progPanel.setBackground(new Color(255,250,240));
 		progPanel.setLayout(new BoxLayout(progPanel, BoxLayout.Y_AXIS));
 		showProgScrollPane.setViewportView(progPanel); // << 放入 Scroll 面板
 
@@ -148,7 +149,7 @@ public class GUIsim extends JFrame {
 
 					JPanel header = new JPanel(new GridLayout(1, 5)); // 5 columns
 					JLabel label = new JLabel("BP");
-					label.setBackground(lightLavender);
+					label.setBackground(new Color(200,230,240));
 					header.add(label); // Breakpoint
 					header.add(new JLabel("Address"));
 					header.add(new JLabel("Machine Code"));
@@ -159,10 +160,10 @@ public class GUIsim extends JFrame {
 					// line by line show the content
 					for (InstructionLine line : lines) {
 						JPanel row = new JPanel(new GridLayout(1, 5));
-						row.setBackground(lightLavender);
+						row.setBackground(new Color(255,250,240));
 
 						JCheckBox breakpointBox = new JCheckBox();
-						breakpointBox.setBackground(lightLavender);
+						breakpointBox.setBackground(new Color(255,250,240));
 						row.add(breakpointBox);
 
 						breakpoints.add(breakpointBox);
@@ -190,7 +191,7 @@ public class GUIsim extends JFrame {
 
 //------RUN-----------------------------------------------------------------------------------------------------------------
 		JButton buttonRun = new JButton("Run");
-		buttonRun.setBackground(lightLavender);
+		buttonRun.setBackground(new Color(255,250,240));
 		buttonRun.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -235,12 +236,12 @@ public class GUIsim extends JFrame {
 //
 
 		});
-		buttonRun.setBounds(10, 252, 116, 39);
+		buttonRun.setBounds(755, 426, 116, 39);
 		contentPane.add(buttonRun);
 
 //------STEP------------------------------------------------------------------------------------------------------------------
 		JButton buttonStep = new JButton("Step");
-		buttonStep.setBackground(lightLavender);
+		buttonStep.setBackground(new Color(255,250,240));
 		buttonStep.addActionListener(new ActionListener() {
 
 			@Override
@@ -254,29 +255,31 @@ public class GUIsim extends JFrame {
 				updateLaufzeit();
 			}
 		});
-		buttonStep.setBounds(136, 252, 116, 39);
+		buttonStep.setBounds(755, 363, 116, 39);
 		contentPane.add(buttonStep);
 
 //------RESET-------------------------------------------------------------------------------------------------------------------
 		JButton buttonReset = new JButton("Reset");
-		buttonReset.setBackground(lightLavender);
+		buttonReset.setBackground(new Color(255,250,240));
 		buttonReset.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Reset-Button
 				simulator.reset();
 				currentLine = 0;
+				resetLaufZeit();
+				updateLaufzeit();
 
 				highlightLine(currentLine);
 			}
 		});
-		buttonReset.setBounds(262, 252, 116, 39);
+		buttonReset.setBounds(755, 301, 116, 39);
 		contentPane.add(buttonReset);
 
 //------PORT A...-------------------------------------------------------------------------------------------------------------------
 		// RA - TRIS(A) - PINS ->OUTER BOX
 		JPanel panel_RA = new JPanel();
-		panel_RA.setBackground(lightLavender);
+		panel_RA.setBackground(new Color(255,250,240));
 		panel_RA.setBounds(136, 10, 360, 100);
 		contentPane.add(panel_RA);
 		panel_RA.setLayout(new GridLayout(3, 3));
@@ -374,7 +377,7 @@ public class GUIsim extends JFrame {
 
 		// RA-PIN 4
 		JToggleButton raPin4ValueTogButt = new JToggleButton("0");
-		raPin4ValueTogButt.setBackground(lightLavender);
+		raPin4ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener raPin4AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
@@ -391,7 +394,7 @@ public class GUIsim extends JFrame {
 
 		// RA-PIN 3
 		JToggleButton raPin3ValueTogButt = new JToggleButton("0");
-		raPin3ValueTogButt.setBackground(lightLavender);
+		raPin3ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener raPin3AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
@@ -407,7 +410,7 @@ public class GUIsim extends JFrame {
 
 		// RA-PIN 2
 		JToggleButton raPin2ValueTogButt = new JToggleButton("0");
-		raPin2ValueTogButt.setBackground(lightLavender);
+		raPin2ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener raPin2AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
@@ -423,7 +426,7 @@ public class GUIsim extends JFrame {
 
 		// RA-PIN 1
 		JToggleButton raPin1ValueTogButt = new JToggleButton("0");
-		raPin1ValueTogButt.setBackground(lightLavender);
+		raPin1ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener raPin1AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
@@ -439,7 +442,7 @@ public class GUIsim extends JFrame {
 
 		// RA-PIN 0
 		JToggleButton raPin0ValueTogButt = new JToggleButton("0");
-		raPin0ValueTogButt.setBackground(lightLavender);
+		raPin0ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener raPin0AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
@@ -455,7 +458,7 @@ public class GUIsim extends JFrame {
 
 //------PORT B...-----------------------------------------------------------------------------------------------------------------
 		JPanel panel_RB = new JPanel();
-		panel_RB.setBackground(lightLavender);
+		panel_RB.setBackground(new Color(255,250,240));
 		panel_RB.setBounds(506, 10, 360, 100);
 		contentPane.add(panel_RB);
 		panel_RB.setLayout(new GridLayout(3, 3));
@@ -541,7 +544,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 7
 		JToggleButton rbPin7ValueTogButt = new JToggleButton("0");
-		rbPin7ValueTogButt.setBackground(lightLavender);
+		rbPin7ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin7AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin7ValueTogButt.isSelected()) {
@@ -557,7 +560,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 6
 		JToggleButton rbPin6ValueTogButt = new JToggleButton("0");
-		rbPin6ValueTogButt.setBackground(lightLavender);
+		rbPin6ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin6AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin6ValueTogButt.isSelected()) {
@@ -573,7 +576,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 5
 		JToggleButton rbPin5ValueTogButt = new JToggleButton("0");
-		rbPin5ValueTogButt.setBackground(lightLavender);
+		rbPin5ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin5AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin5ValueTogButt.isSelected()) {
@@ -589,7 +592,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 4
 		JToggleButton rbPin4ValueTogButt = new JToggleButton("0");
-		rbPin4ValueTogButt.setBackground(lightLavender);
+		rbPin4ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin4AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin4ValueTogButt.isSelected()) {
@@ -605,7 +608,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 3
 		JToggleButton rbPin3ValueTogButt = new JToggleButton("0");
-		rbPin3ValueTogButt.setBackground(lightLavender);
+		rbPin3ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin3AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin3ValueTogButt.isSelected()) {
@@ -621,7 +624,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 2
 		JToggleButton rbPin2ValueTogButt = new JToggleButton("0");
-		rbPin2ValueTogButt.setBackground(lightLavender);
+		rbPin2ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin2AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin2ValueTogButt.isSelected()) {
@@ -637,7 +640,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 1
 		JToggleButton rbPin1ValueTogButt = new JToggleButton("0");
-		rbPin1ValueTogButt.setBackground(lightLavender);
+		rbPin1ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin1AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin1ValueTogButt.isSelected()) {
@@ -653,7 +656,7 @@ public class GUIsim extends JFrame {
 
 		// RB-PIN 0
 		rbPin0ValueTogButt = new JToggleButton("0");
-		rbPin0ValueTogButt.setBackground(lightLavender);
+		rbPin0ValueTogButt.setBackground(new Color(255,250,240));
 		ActionListener rbPin0AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (rbPin0ValueTogButt.isSelected()) {
@@ -670,7 +673,7 @@ public class GUIsim extends JFrame {
 //------SHOW REGISTERS-------------------------------------------------------------------------------------------------------------
 		JScrollPane scrollPane_showRegisters = new JScrollPane();
 		scrollPane_showRegisters.setBounds(876, 10, 500, 693);
-		scrollPane_showRegisters.setBackground(lightLavender);
+		scrollPane_showRegisters.setBackground(new Color(255,250,240));
 		contentPane.add(scrollPane_showRegisters);
 
 //------COLUMN HEADERS----------------------------------------------------------------------------------------------------------------
@@ -979,65 +982,75 @@ public class GUIsim extends JFrame {
 		rowHeadersVerticBox.add(distVertGlue32);
 
 		JPanel panel_RegisterValues = new JPanel();
-		panel_RegisterValues.setBackground(new Color(230, 218, 237));
+		panel_RegisterValues.setBackground(new Color(255,250,240));
 		scrollPane_showRegisters.setViewportView(panel_RegisterValues);
 		panel_RegisterValues.setLayout(new GridLayout(0, 1, 0, 0));
 //----------Laufzeit----------------
+		JPanel laufzeitPanel=new JPanel();
+		laufzeitPanel.setBackground(new Color(255,250,240));
+		laufzeitPanel.setLayout(null);
+		laufzeitPanel.setBounds(394,208,233,83);
+		laufzeitPanel.setBorder(BorderFactory.createLineBorder(new Color(200,230,240), 2));
+		
 		JLabel zeitLabel = new JLabel("Laufzeit:");
 		zeitLabel.setFont(new Font("宋体", Font.PLAIN, 18));
 		zeitLabel.setVerticalAlignment(SwingConstants.TOP);
-		zeitLabel.setBounds(388, 216, 188, 75);
+		zeitLabel.setBounds(10, 10, 105, 29);
 		// zeitLabel.setOpaque(true);
-		zeitLabel.setBackground(new Color(230, 218, 237));
-		zeitLabel.setBorder(BorderFactory.createLineBorder(new Color(0, 153, 76), 2));
-		contentPane.add(zeitLabel);
+		//zeitLabel.setBackground(new Color(255,250,240));
+		//zeitLabel.setBorder(BorderFactory.createLineBorder(new Color(200,230,240), 2));
+        laufzeitPanel.add(zeitLabel);
 
 		textField = new JTextField();
 		textField.setEditable(false);
-		textField.setBounds(435, 252, 88, 29);
-		contentPane.add(textField);
+		textField.setBounds(66, 44, 80, 29);
+		textField.setBackground(Color.WHITE);
+		laufzeitPanel.add(textField);
 		textField.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("μs");
 		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 18));
-		lblNewLabel.setBounds(522, 259, 58, 22);
-		contentPane.add(lblNewLabel);
+		lblNewLabel.setBounds(149, 43, 40, 29);
+		laufzeitPanel.add(lblNewLabel);
+		
+		contentPane.add(laufzeitPanel);
 //---------SFR-------------------------------------------------------------------	
 		JPanel SFRpanel = new JPanel();
 		SFRpanel.setToolTipText("");
 		SFRpanel.setLayout(null);
-		SFRpanel.setBounds(18, 113, 360, 129);
+		SFRpanel.setBounds(18, 162, 360, 129);
+		SFRpanel.setBackground(new Color(255,250,240));
 		contentPane.add(SFRpanel);
-		
-		JLabel wLable= new JLabel("W");
-		wLable.setBounds(20,10,20,20);
-		SFRpanel.add(wLable);
-		
-		JTextField wField=new JTextField();
-		wField.setBounds(40,10,100,20);
-		SFRpanel.add(wField);
-		
-		JLabel pcLable = new JLabel("PC");
-		pcLable.setBounds(20,40,20,20);
-		SFRpanel.add(pcLable);
-		
-		JTextField pcField=new JTextField();
-		pcField.setBounds(40,40,100,20);
-		SFRpanel.add(pcField);
-		
-		JLabel zLabel=new JLabel();
-		zLabel.setText("Z");
-		zLabel.setBounds(20,70,20,20);
-		SFRpanel.add(zLabel);
-		
-		JToggleButton zToggle=new JToggleButton("0");
-	
 
-		zToggle.setBounds(40,70,32,23);
+		JLabel wLable = new JLabel("W");
+		wLable.setBounds(20, 10, 20, 20);
+		SFRpanel.add(wLable);
+
+		JTextField wField = new JTextField();
+		wField.setBounds(40, 10, 100, 20);
+		wField.setText(String.valueOf(simulator.getW()));
+		SFRpanel.add(wField);
+
+		JLabel pcLable = new JLabel("PC");
+		pcLable.setBounds(20, 40, 20, 20);
+		SFRpanel.add(pcLable);
+
+		JTextField pcField = new JTextField();
+		pcField.setBounds(40, 40, 100, 20);
+		pcField.setText(String.valueOf(simulator.getPC()));
+		SFRpanel.add(pcField);
+
+		JLabel zLabel = new JLabel();
+		zLabel.setText("Z");
+		zLabel.setBounds(20, 70, 20, 20);
+		SFRpanel.add(zLabel);
+
+		JToggleButton zToggle = new JToggleButton("0");
+
+		zToggle.setBounds(40, 70, 32, 23);
 		zToggle.setEnabled(false);
 		zToggle.setSelected(true);
 		SFRpanel.add(zToggle);
-		
 
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
 
@@ -1128,9 +1141,14 @@ public class GUIsim extends JFrame {
 		return false;
 	}
 
+	public void resetLaufZeit() {
+		startTickCount = simulator.getMemory().getTimer0().getTickCount();
+	}
+
 	public void updateLaufzeit() {
-		int tickCount = simulator.getMemory().getTimer0().getTickCount();
-		double laufzeit = tickCount * 1e6 / 4e6;
+		int currtickCount = simulator.getMemory().getTimer0().getTickCount();
+		int diffTick = currtickCount - startTickCount;
+		double laufzeit = diffTick * 1e6 / 4e6;
 		textField.setText(String.format("%.2f", laufzeit));
 	}
 }
