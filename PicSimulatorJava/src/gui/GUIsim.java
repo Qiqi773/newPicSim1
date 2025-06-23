@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import java.awt.Font;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.JLabel;
@@ -67,6 +68,8 @@ public class GUIsim extends JFrame {
 	private double tickDuration = 1.0;
 	int currentLine = 0;
 	private List<JCheckBox> breakpoints = new ArrayList();
+	private JTextField wField;
+	private JTextField pcField;
 
 	// global PinValue Variables
 	JToggleButton rbPin0ValueTogButt;
@@ -226,9 +229,10 @@ public class GUIsim extends JFrame {
 
 						simulator.step();
 						updateLaufzeit();
+						updateRegisters();
 						simulator.caHInterrupt();
-						highlightLine(simulator.getPC()); //
-						// updateRegisters(); //
+						highlightLine(simulator.getPC());
+						// wField.setText(String.valueOf(simulator.getW()));
 
 						try {
 							Thread.sleep(100); //
@@ -1149,7 +1153,7 @@ public class GUIsim extends JFrame {
 		wLable.setBounds(20, 10, 20, 20);
 		SFRpanel.add(wLable);
 
-		JTextField wField = new JTextField();
+		wField = new JTextField();
 		wField.setBounds(40, 10, 56, 20);
 		wField.setText(String.valueOf(simulator.getW()));
 		SFRpanel.add(wField);
@@ -1158,7 +1162,7 @@ public class GUIsim extends JFrame {
 		pcLable.setBounds(20, 40, 20, 20);
 		SFRpanel.add(pcLable);
 
-		JTextField pcField = new JTextField();
+		pcField = new JTextField();
 		pcField.setBounds(40, 40, 56, 20);
 		pcField.setText(String.valueOf(simulator.getPC()));
 		SFRpanel.add(pcField);
@@ -1188,32 +1192,32 @@ public class GUIsim extends JFrame {
 		comboBox.addItem("1 MHz");
 		comboBox.addItem("2 MHz");
 		comboBox.addItem("3 MHz");
-		
-		comboBox.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        String selected = (String) comboBox.getSelectedItem();
-		        switch (selected) {
-		            case "4 MHz":
-		                tickDuration = 1.0; // 1 us
-		                break;
-		            case "1 MHz":
-		                tickDuration = 4.0; 
-		                break;
-		            case "2 MHz":
-		                tickDuration = 2.0; 
-		                break;
-		            case "8 MHZ":
-		            	tickDuration= 0.5;
-		            	break;
-		        }
 
-		        // 如果你有更新 Laufzeit 显示的函数的话，这里可以调用它
-		        updateLaufzeit(); // 你可以自己实现这个方法来刷新 textField 的显示
-		    }
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String selected = (String) comboBox.getSelectedItem();
+				switch (selected) {
+				case "4 MHz":
+					tickDuration = 1.0; // 1 us
+					break;
+				case "1 MHz":
+					tickDuration = 4.0;
+					break;
+				case "2 MHz":
+					tickDuration = 2.0;
+					break;
+				case "8 MHZ":
+					tickDuration = 0.5;
+					break;
+				}
+
+				// 如果你有更新 Laufzeit 显示的函数的话，这里可以调用它
+				updateLaufzeit(); // 你可以自己实现这个方法来刷新 textField 的显示
+			}
 		});
-		
+
 		frequencyPanel.add(comboBox);
-		
+
 		JLabel lblQuarzfrequency = new JLabel("Quarzfrequency:");
 		lblQuarzfrequency.setVerticalAlignment(SwingConstants.TOP);
 		lblQuarzfrequency.setFont(new Font("宋体", Font.PLAIN, 18));
@@ -1318,6 +1322,14 @@ public class GUIsim extends JFrame {
 		int diffTick = currtickCount - startTickCount;
 		double laufzeit = diffTick * tickDuration;
 		textField.setText(String.format("%.2f", laufzeit));
+	}
+
+	private void updateRegisters() {
+		SwingUtilities.invokeLater(() -> {
+			wField.setText(String.valueOf(simulator.getW()));
+			pcField.setText(String.valueOf(simulator.getPC()));
+			// other registers......
+		});
 	}
 
 	public JPanel createRamGridPanel(JLabel[][] ramLabels) {
