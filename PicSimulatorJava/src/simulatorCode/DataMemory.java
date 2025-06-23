@@ -26,7 +26,7 @@ public class DataMemory {
 	// Masks to get specific Bit of Register
 	public static final int C_Mask = 0x01;
 	public static final int DC_Mask = 0x02;
-	public static final int Z_Mask = 0x03;
+	public static final int Z_Mask = 0x04;
 
 	// INTCON bit mask
 	private static final int GIE_MASK = 0b10000000;
