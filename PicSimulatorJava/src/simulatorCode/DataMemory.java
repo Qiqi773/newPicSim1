@@ -8,8 +8,8 @@ import java.util.Arrays;
 public class DataMemory {
 	private int[] ram = new int[256];// Addresses: 0x00-0xFF
 
-	private int W;
-	private int pc; // 0-1023
+	private int W = 0;
+	private int pc = 0; // 0-1023
 	private int[] callStack = new int[8];
 	private int stackPointer; // 3 bit !
 	private Timer0 timer0 = new Timer0(this);
