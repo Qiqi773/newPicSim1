@@ -226,12 +226,18 @@ public class InstructionExcutor {
 		memory.tickTimer0();
 	}
 
-	public void call(int instruction) { // no PCLath
-		int targetAddress = instruction & 0x07FF;
+	public void call(int instruction) { // with PCLath
+		int k = instruction & 0x07FF;
+
+		int pclath = memory.getPclath();
+		int pclathHighBits = (pclath >> 3) & 0x03;// only bit 3 and bit 4
+
+		int targetAddress = (pclathHighBits << 11) | k;
 
 		memory.writeInstack(memory.getPC() + 1); // remember next instruction after CALL
 
-		memory.setPC(targetAddress); // (go to) targetaddr
+		memory.setPC(targetAddress); // (go to) target-address
+
 		memory.tickTimer0();
 		memory.tickTimer0();
 
