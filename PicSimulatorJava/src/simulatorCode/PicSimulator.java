@@ -63,6 +63,8 @@ public class PicSimulator implements SimulatorInterface {
 			return;
 		}
 
+		memory.updateExternalInputs();// simulate external signal update
+
 		memory.checkAndHandleInterrupt();
 		if (memory.interruptTriggered == true) {
 			executor.resetHalted();
@@ -151,6 +153,5 @@ public class PicSimulator implements SimulatorInterface {
 		memory.checkAndHandleInterrupt();
 
 	}
-
 
 }

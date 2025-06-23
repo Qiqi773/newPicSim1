@@ -327,13 +327,24 @@ public class DataMemory {
 		clearExternalInterruptFlag();
 		// .....
 	}
-	// ----------------------------------------------
+// ----------------------------------------------
 
 	public void tickTimer0() {
 		timer0.tick();
 	}
 
-	// ---------------------------------------
+//----------------------------------------------------
+	public void updateExternalInputs() {
+		lastPortB.updateValue(portB.getValue());
+		int current = portB.getValue();
+
+		int bitToFlip = 4 + (int) (Math.random() * 4);
+		int newValue = current ^ (1 << bitToFlip);
+
+		portB.updateValue(newValue);
+	}
+
+// ---------------------------------------------------
 	public void checkAndHandleInterrupt() {
 
 		// Timer0 Interrupt
