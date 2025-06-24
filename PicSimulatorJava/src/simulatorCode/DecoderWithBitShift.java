@@ -66,6 +66,7 @@ public class DecoderWithBitShift {
             break;
         case 0b1101:
             // RETLW
+        	executor.retlw(machinecode);
             break;
         }
 
@@ -78,6 +79,7 @@ public class DecoderWithBitShift {
             break;
         case 0b000101:
             // ANDWF
+        	executor.andwf(machinecode);
             break;
         case 0b000001:
             int whichClr = machinecode >>> 7; // first 7 bits
@@ -91,6 +93,7 @@ public class DecoderWithBitShift {
             break;
         case 0b001001:
             // COMF
+        	executor.comf(machinecode);
             break;
         case 0b000011:
             // DECF
@@ -110,6 +113,7 @@ public class DecoderWithBitShift {
             break;
         case 0b000100:
             // IORWF
+        	executor.iorwf(machinecode);
             break;
         case 0b001000:
             executor.movf(machinecode);
@@ -130,18 +134,23 @@ public class DecoderWithBitShift {
             break;
         case 0b001110:
             // SWAPF
+        	executor.swapf(machinecode);
             break;
         case 0b000110:
             // XORWF
+        	executor.xorwf(machinecode);
             break;
         case 0b111001:
             // ANDLW
+        	executor.andlw(machinecode);
             break;
         case 0b111000:
             // IORLW
+        	executor.iorlw(machinecode);
             break;
         case 0b111010:
             // XORLW
+        	executor.xorlw(machinecode);
             break;
         }
         int importantBits3 = machinecode >>> 9; // first 5 bits
@@ -162,12 +171,14 @@ public class DecoderWithBitShift {
         case 0b00000000000000:
             // NOP - has more don#t care cases, not important here, in Testfiles always: [x
             // = 0]
+        	executor.nop(machinecode);
             break;
         case 0b00000001100100:
             // CLRWDT
             break;
         case 0b00000000001001:
             // RETFIE
+        	executor.retfie(machinecode);
             break;
         case 0b00000000001000:
             executor.returnFromSub(); // return
