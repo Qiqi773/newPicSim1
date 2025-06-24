@@ -325,6 +325,7 @@ public class DataMemory {
 	public void clearAllInterruptFlags() {
 		clearPortBInterruptFlag();
 		clearExternalInterruptFlag();
+		clearTMR0OverflowFlag();
 		// .....
 	}
 // ----------------------------------------------
