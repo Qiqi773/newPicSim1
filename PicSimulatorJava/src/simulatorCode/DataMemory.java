@@ -97,6 +97,14 @@ public class DataMemory {
 	}
 //-------Stack----------------------------------------------------------------
 
+	public int getStackPointer() {
+		return stackPointer;
+	}
+
+	public int[] getCallStack() {
+		return callStack;
+	}
+
 	public void incStackPointer() {
 		stackPointer = (stackPointer + 1) & 0x7; // 0x7 bcs of ONLY last 3 BITS
 	}

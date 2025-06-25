@@ -22,11 +22,11 @@ public class StackPanel extends JPanel {
 	// 更新显示的堆栈内容
 	public void updateStack(int[] stackData, int sp) {
 		for (int i = 0; i < 8; i++) {
-			model.setValueAt(String.format("0x%04X", stackData[i]), i, 0);
+			model.setValueAt(String.format("0x%04X", stackData[i]), 7 - i, 0);
 		}
 
 		// 高亮当前 Stackpointer 的行
-		table.clearSelection();
+		// table.clearSelection();
 		table.setRowSelectionInterval(sp, sp);
 	}
 

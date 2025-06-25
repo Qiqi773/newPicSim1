@@ -77,6 +77,7 @@ public class GUIsim extends JFrame {
 	JToggleButton dcTogButt;
 	JToggleButton cTogButt;
 	private RamTablePanel ramPanel;
+	private StackPanel stack;
 
 	// global PinValue Variables
 	JToggleButton rbPin0ValueTogButt;
@@ -243,6 +244,8 @@ public class GUIsim extends JFrame {
 						updateRegisters();
 						updateFlags();
 						ramPanel.updateRam(simulator.getMemory().getRam());
+						stack.updateStack(simulator.getMemory().getCallStack(),
+								simulator.getMemory().getStackPointer());
 						simulator.caHInterrupt();
 						highlightLine(simulator.getPC());
 						// wField.setText(String.valueOf(simulator.getW()));
@@ -280,6 +283,7 @@ public class GUIsim extends JFrame {
 				updateRegisters();
 				updateFlags();
 				ramPanel.updateRam(simulator.getMemory().getRam());
+				stack.updateStack(simulator.getMemory().getCallStack(), simulator.getMemory().getStackPointer());
 				updateLaufzeit();
 			}
 		});
@@ -300,6 +304,7 @@ public class GUIsim extends JFrame {
 				updateFlags();
 				updateRegisters();
 				ramPanel.updateRam(simulator.getMemory().getRam());
+				stack.updateStack(simulator.getMemory().getCallStack(), simulator.getMemory().getStackPointer());
 				updateLaufzeit();
 
 				highlightLine(currentLine);
@@ -1200,7 +1205,7 @@ public class GUIsim extends JFrame {
 		zLabel.setBounds(20, 81, 20, 15);
 		SFRpanel.add(zLabel);
 
-		StackPanel stack = new StackPanel();
+		stack = new StackPanel();
 		stack.setBounds(180, 10, 150, 160);
 		SFRpanel.add(stack);
 
