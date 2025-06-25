@@ -16,6 +16,18 @@ public class Port {
 		this.latch = 0;
 	}
 
+	public boolean getPin(int bitIndex) {
+		return (value & (1 << bitIndex)) != 0;
+	}
+
+	public void setPin(int bitIndex, boolean high) {
+		if (high) {
+			value |= (1 << bitIndex);
+		} else {
+			value &= ~(1 << bitIndex);
+		}
+	}
+
 	public void setTris(int mask) {
 		this.tris = mask & getMaxBitMask();
 	}

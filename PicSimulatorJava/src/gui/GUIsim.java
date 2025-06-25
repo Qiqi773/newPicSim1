@@ -78,9 +78,21 @@ public class GUIsim extends JFrame {
 	JToggleButton cTogButt;
 	private RamTablePanel ramPanel;
 	private StackPanel stack;
+	private JToggleButton raPin0ValueTogButt;
+	private JToggleButton raPin1ValueTogButt;
+	private JToggleButton raPin2ValueTogButt;
+	private JToggleButton raPin3ValueTogButt;
+	private JToggleButton raPin4ValueTogButt;
 
-	// global PinValue Variables
-	JToggleButton rbPin0ValueTogButt;
+	private JToggleButton rbPin7ValueTogButt;
+	private JToggleButton rbPin6ValueTogButt;
+	private JToggleButton rbPin5ValueTogButt;
+	private JToggleButton rbPin4ValueTogButt;
+	private JToggleButton rbPin3ValueTogButt;
+	private JToggleButton rbPin2ValueTogButt;
+	private JToggleButton rbPin1ValueTogButt;
+	private JToggleButton rbPin0ValueTogButt;
+
 	private JTextField tickField;
 
 	/**
@@ -243,6 +255,7 @@ public class GUIsim extends JFrame {
 						updateLaufzeit();
 						updateRegisters();
 						updateFlags();
+						updatePinDisplay();
 						ramPanel.updateRam(simulator.getMemory().getRam());
 						stack.updateStack(simulator.getMemory().getCallStack(),
 								simulator.getMemory().getStackPointer());
@@ -282,6 +295,7 @@ public class GUIsim extends JFrame {
 				highlightLine(currentLine);
 				updateRegisters();
 				updateFlags();
+				updatePinDisplay();
 				ramPanel.updateRam(simulator.getMemory().getRam());
 				stack.updateStack(simulator.getMemory().getCallStack(), simulator.getMemory().getStackPointer());
 				updateLaufzeit();
@@ -303,6 +317,7 @@ public class GUIsim extends JFrame {
 				resetLaufZeit();
 				updateFlags();
 				updateRegisters();
+				updatePinDisplay();
 				ramPanel.updateRam(simulator.getMemory().getRam());
 				stack.updateStack(simulator.getMemory().getCallStack(), simulator.getMemory().getStackPointer());
 				updateLaufzeit();
@@ -413,7 +428,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin5ValueLabel);
 
 		// RA-PIN 4
-		JToggleButton raPin4ValueTogButt = new JToggleButton("0");
+		raPin4ValueTogButt = new JToggleButton("0");
 		raPin4ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener raPin4AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
@@ -430,7 +445,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin4ValueTogButt);
 
 		// RA-PIN 3
-		JToggleButton raPin3ValueTogButt = new JToggleButton("0");
+		raPin3ValueTogButt = new JToggleButton("0");
 		raPin3ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener raPin3AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
@@ -446,7 +461,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin3ValueTogButt);
 
 		// RA-PIN 2
-		JToggleButton raPin2ValueTogButt = new JToggleButton("0");
+		raPin2ValueTogButt = new JToggleButton("0");
 		raPin2ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener raPin2AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
@@ -462,7 +477,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin2ValueTogButt);
 
 		// RA-PIN 1
-		JToggleButton raPin1ValueTogButt = new JToggleButton("0");
+		raPin1ValueTogButt = new JToggleButton("0");
 		raPin1ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener raPin1AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
@@ -478,7 +493,7 @@ public class GUIsim extends JFrame {
 		panel_RA.add(raPin1ValueTogButt);
 
 		// RA-PIN 0
-		JToggleButton raPin0ValueTogButt = new JToggleButton("0");
+		raPin0ValueTogButt = new JToggleButton("0");
 		raPin0ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener raPin0AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
@@ -580,7 +595,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPINLabel);
 
 		// RB-PIN 7
-		JToggleButton rbPin7ValueTogButt = new JToggleButton("0");
+		rbPin7ValueTogButt = new JToggleButton("0");
 		rbPin7ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin7AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -596,7 +611,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin7ValueTogButt);
 
 		// RB-PIN 6
-		JToggleButton rbPin6ValueTogButt = new JToggleButton("0");
+		rbPin6ValueTogButt = new JToggleButton("0");
 		rbPin6ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin6AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -612,7 +627,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin6ValueTogButt);
 
 		// RB-PIN 5
-		JToggleButton rbPin5ValueTogButt = new JToggleButton("0");
+		rbPin5ValueTogButt = new JToggleButton("0");
 		rbPin5ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin5AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -628,7 +643,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin5ValueTogButt);
 
 		// RB-PIN 4
-		JToggleButton rbPin4ValueTogButt = new JToggleButton("0");
+		rbPin4ValueTogButt = new JToggleButton("0");
 		rbPin4ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin4AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -644,7 +659,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin4ValueTogButt);
 
 		// RB-PIN 3
-		JToggleButton rbPin3ValueTogButt = new JToggleButton("0");
+		rbPin3ValueTogButt = new JToggleButton("0");
 		rbPin3ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin3AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -660,7 +675,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin3ValueTogButt);
 
 		// RB-PIN 2
-		JToggleButton rbPin2ValueTogButt = new JToggleButton("0");
+		rbPin2ValueTogButt = new JToggleButton("0");
 		rbPin2ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin2AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -676,7 +691,7 @@ public class GUIsim extends JFrame {
 		panel_RB.add(rbPin2ValueTogButt);
 
 		// RB-PIN 1
-		JToggleButton rbPin1ValueTogButt = new JToggleButton("0");
+		rbPin1ValueTogButt = new JToggleButton("0");
 		rbPin1ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin1AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1430,6 +1445,54 @@ public class GUIsim extends JFrame {
 			cTogButt.setSelected(c);
 			cTogButt.setText(c ? "1" : "0");
 		});
+	}
+
+	private void updatePinDisplay() {
+		// 获取 PORTA 和 PORTB 的值
+		int portAVal = simulator.getMemory().getPortA().getValue();
+		int portBVal = simulator.getMemory().getPortB().getValue();
+
+		// update RA0 ~ RA4
+		raPin0ValueTogButt.setSelected(((portAVal >> 0) & 1) == 1);
+		raPin0ValueTogButt.setText(((portAVal >> 0) & 1) == 1 ? "1" : "0");
+
+		raPin1ValueTogButt.setSelected(((portAVal >> 1) & 1) == 1);
+		raPin1ValueTogButt.setText(((portAVal >> 1) & 1) == 1 ? "1" : "0");
+
+		raPin2ValueTogButt.setSelected(((portAVal >> 2) & 1) == 1);
+		raPin2ValueTogButt.setText(((portAVal >> 2) & 1) == 1 ? "1" : "0");
+
+		raPin3ValueTogButt.setSelected(((portAVal >> 3) & 1) == 1);
+		raPin3ValueTogButt.setText(((portAVal >> 3) & 1) == 1 ? "1" : "0");
+
+		raPin4ValueTogButt.setSelected(((portAVal >> 4) & 1) == 1);
+		raPin4ValueTogButt.setText(((portAVal >> 4) & 1) == 1 ? "1" : "0");
+
+		// update RB
+		rbPin0ValueTogButt.setSelected(((portBVal >> 0) & 1) == 1);
+		rbPin0ValueTogButt.setText(((portBVal >> 0) & 1) == 1 ? "1" : "0");
+
+		rbPin1ValueTogButt.setSelected(((portBVal >> 1) & 1) == 1);
+		rbPin1ValueTogButt.setText(((portBVal >> 1) & 1) == 1 ? "1" : "0");
+
+		rbPin2ValueTogButt.setSelected(((portBVal >> 2) & 1) == 1);
+		rbPin2ValueTogButt.setText(((portBVal >> 2) & 1) == 1 ? "1" : "0");
+
+		rbPin3ValueTogButt.setSelected(((portBVal >> 3) & 1) == 1);
+		rbPin3ValueTogButt.setText(((portBVal >> 3) & 1) == 1 ? "1" : "0");
+
+		rbPin4ValueTogButt.setSelected(((portBVal >> 4) & 1) == 1);
+		rbPin4ValueTogButt.setText(((portBVal >> 4) & 1) == 1 ? "1" : "0");
+
+		rbPin5ValueTogButt.setSelected(((portBVal >> 5) & 1) == 1);
+		rbPin5ValueTogButt.setText(((portBVal >> 5) & 1) == 1 ? "1" : "0");
+
+		rbPin6ValueTogButt.setSelected(((portBVal >> 6) & 1) == 1);
+		rbPin6ValueTogButt.setText(((portBVal >> 6) & 1) == 1 ? "1" : "0");
+
+		rbPin7ValueTogButt.setSelected(((portBVal >> 7) & 1) == 1);
+		rbPin7ValueTogButt.setText(((portBVal >> 7) & 1) == 1 ? "1" : "0");
+
 	}
 
 	public JPanel createRamGridPanel(JLabel[][] ramLabels) {

@@ -42,7 +42,15 @@ public class DataMemory {
 	private Port lastPortB = new Port("Last", 8);
 
 	// --- EXTRA REGISTERS/Variables
-	// -----------------------------------------------------
+// -----------------------------------------------------
+	public Port getPortA() {
+		return portA;
+	}
+
+	public Port getPortB() {
+		return portB;
+	}
+
 	public Timer0 getTimer0() {
 		return timer0;
 	}
