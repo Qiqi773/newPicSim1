@@ -71,10 +71,15 @@ public class GUIsim extends JFrame {
 	private List<JCheckBox> breakpoints = new ArrayList();
 	private JTextField wField;
 	private JTextField pcField;
+	private boolean isRunning = true;
+	private JButton btnStop;
+	JToggleButton zTogButt;
+	JToggleButton dcTogButt;
+	JToggleButton cTogButt;
 
 	// global PinValue Variables
 	JToggleButton rbPin0ValueTogButt;
-	private JTextField textField;
+	private JTextField tickField;
 
 	/**
 	 * Launch the application.
@@ -219,9 +224,12 @@ public class GUIsim extends JFrame {
 //                        }
 //                    }
 //                }).start();
+				if (!isRunning) {
+					isRunning = true;
+				}
 				new Thread(() -> {
 
-					while (!InstructionExcutor.isHalted()) {
+					while (!InstructionExcutor.isHalted() && isRunning) {
 						int pc = simulator.getPC();
 
 						// if current pc has BP, stop
@@ -232,6 +240,7 @@ public class GUIsim extends JFrame {
 						simulator.step();
 						updateLaufzeit();
 						updateRegisters();
+						updateFlags();
 						simulator.caHInterrupt();
 						highlightLine(simulator.getPC());
 						// wField.setText(String.valueOf(simulator.getW()));
@@ -242,6 +251,9 @@ public class GUIsim extends JFrame {
 							ex.printStackTrace();
 						}
 					}
+					// clearTicktime();
+					updateLaufzeit();
+					isRunning = false;
 				}).start();
 			}
 //
@@ -263,6 +275,8 @@ public class GUIsim extends JFrame {
 				int currentPC = simulator.getPC();
 				currentLine = currentPC;
 				highlightLine(currentLine);
+				updateRegisters();
+				updateFlags();
 				updateLaufzeit();
 			}
 		});
@@ -276,9 +290,12 @@ public class GUIsim extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Reset-Button
+				isRunning = false;
 				simulator.reset();
 				currentLine = 0;
 				resetLaufZeit();
+				updateFlags();
+				updateRegisters();
 				updateLaufzeit();
 
 				highlightLine(currentLine);
@@ -1135,12 +1152,12 @@ public class GUIsim extends JFrame {
 		// 2));
 		laufzeitPanel.add(zeitLabel);
 
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setBounds(66, 44, 80, 29);
-		textField.setBackground(Color.WHITE);
-		laufzeitPanel.add(textField);
-		textField.setColumns(10);
+		tickField = new JTextField();
+		tickField.setEditable(false);
+		tickField.setBounds(66, 44, 80, 29);
+		tickField.setBackground(Color.WHITE);
+		laufzeitPanel.add(tickField);
+		tickField.setColumns(10);
 
 		JLabel lblNewLabel = new JLabel("μs");
 		lblNewLabel.setFont(new Font("宋体", Font.PLAIN, 18));
@@ -1176,19 +1193,40 @@ public class GUIsim extends JFrame {
 
 		JLabel zLabel = new JLabel();
 		zLabel.setText("Z");
-		zLabel.setBounds(20, 70, 20, 20);
+		zLabel.setBounds(20, 81, 20, 15);
 		SFRpanel.add(zLabel);
-
-		JToggleButton zToggle = new JToggleButton("0");
-
-		zToggle.setBounds(40, 70, 32, 23);
-		zToggle.setEnabled(false);
-		zToggle.setSelected(true);
-		SFRpanel.add(zToggle);
 
 		StackPanel stack = new StackPanel();
 		stack.setBounds(180, 10, 150, 160);
 		SFRpanel.add(stack);
+
+		zTogButt = new JToggleButton("0");
+		zTogButt.setEnabled(false);
+		zTogButt.setBounds(10, 99, 40, 33);
+		SFRpanel.add(zTogButt);
+		zTogButt.setBackground(new Color(255, 250, 240));
+
+		dcTogButt = new JToggleButton("0");
+		dcTogButt.setEnabled(false);
+		dcTogButt.setBackground(new Color(255, 250, 240));
+		dcTogButt.setBounds(60, 99, 40, 33);
+		SFRpanel.add(dcTogButt);
+
+		cTogButt = new JToggleButton("0");
+		cTogButt.setEnabled(false);
+		cTogButt.setBackground(new Color(255, 250, 240));
+		cTogButt.setBounds(116, 99, 40, 33);
+		SFRpanel.add(cTogButt);
+
+		JLabel dcLabel = new JLabel();
+		dcLabel.setText("DC");
+		dcLabel.setBounds(72, 81, 20, 15);
+		SFRpanel.add(dcLabel);
+
+		JLabel cLabel = new JLabel();
+		cLabel.setText("C");
+		cLabel.setBounds(126, 81, 20, 15);
+		SFRpanel.add(cLabel);
 //-----------Frequency-------------------------------------------------------------------------------------	
 		JPanel frequencyPanel = new JPanel();
 		frequencyPanel.setLayout(null);
@@ -1234,10 +1272,18 @@ public class GUIsim extends JFrame {
 		lblQuarzfrequency.setFont(new Font("宋体", Font.PLAIN, 18));
 		lblQuarzfrequency.setBounds(10, 10, 153, 29);
 		frequencyPanel.add(lblQuarzfrequency);
-
-		JButton btnStop = new JButton("Stop");
+//------------stop button------------------------------------------------
+		btnStop = new JButton("Stop");
 		btnStop.setBackground(new Color(255, 250, 240));
 		btnStop.setBounds(755, 483, 116, 39);
+		btnStop.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				isRunning = false;
+				clearTicktime();
+			}
+		});
+
 		contentPane.add(btnStop);
 
 //------REGISTER TABLE-------------------------------------------------------------------------------------------------------------
@@ -1333,18 +1379,47 @@ public class GUIsim extends JFrame {
 		startTickCount = simulator.getMemory().getTimer0().getTickCount();
 	}
 
+	public void clearTicktime() {// set laufzeit to 0
+		startTickCount = 0;
+		tickField.setText("0.00");
+
+	}
+
 	public void updateLaufzeit() {
 		int currtickCount = simulator.getMemory().getTimer0().getTickCount();
 		int diffTick = currtickCount - startTickCount;
 		double laufzeit = diffTick * tickDuration;
-		textField.setText(String.format("%.2f", laufzeit));
+		tickField.setText(String.format("%.2f", laufzeit));
 	}
 
 	private void updateRegisters() {
+		if (!isRunning) {
+			return;
+		}
+
 		SwingUtilities.invokeLater(() -> {
 			wField.setText(String.valueOf(simulator.getW()));
 			pcField.setText(String.valueOf(simulator.getPC()));
 			// other registers......
+		});
+	}
+
+	private void updateFlags() {
+		if (!isRunning)
+			return;
+
+		SwingUtilities.invokeLater(() -> {
+			boolean z = simulator.getMemory().isZeroFlagSet();
+			zTogButt.setSelected(z);
+			zTogButt.setText(z ? "1" : "0");
+
+			boolean dc = simulator.getMemory().isDCSet();
+			dcTogButt.setSelected(dc);
+			dcTogButt.setText(dc ? "1" : "0");
+
+			boolean c = simulator.getMemory().isCarryFlagSet();
+			cTogButt.setSelected(c);
+			cTogButt.setText(c ? "1" : "0");
 		});
 	}
 

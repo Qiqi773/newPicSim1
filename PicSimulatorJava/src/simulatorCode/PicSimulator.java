@@ -46,7 +46,7 @@ public class PicSimulator implements SimulatorInterface {
 		// this.halted = false;
 		memory.reset();
 
-		runProgram();
+		//runProgram();
 
 	}
 

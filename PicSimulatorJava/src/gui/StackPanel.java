@@ -11,7 +11,7 @@ public class StackPanel extends JPanel {
 	public StackPanel() {
 		setLayout(new BorderLayout());
 
-		model = new DefaultTableModel(new Object[] { "Stack-Adresse" }, 8); // 8 Zeilen
+		model = new DefaultTableModel(new Object[] { "Stack" }, 8); // 8 Zeilen
 		table = new JTable(model);
 		table.setEnabled(false); // 不允许手动编辑
 

@@ -218,10 +218,15 @@ public class InstructionExcutor {
 
 	}
 
-	public void goTo(int instruction) { // no PCLath
+	public void goTo(int instruction) { // with PCLath
 		int k = instruction & 0x07FF;
 
-		memory.setPC(k);
+		int pclath = memory.getPclath();
+		int pclathHighBits = (pclath >> 3) & 0x03;// only bit 3 and bit 4
+
+		int targetAddress = (pclathHighBits << 11) | k;
+
+		memory.setPC(targetAddress);
 		memory.tickTimer0();
 		memory.tickTimer0();
 	}

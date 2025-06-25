@@ -49,8 +49,8 @@ public class DataMemory {
 
 	public void reset() {
 		Arrays.fill(ram, 0);
-		W = 0;
-		pc = 0;
+		setW(0);
+		setPC(0);
 		stackPointer = 0;
 
 		timer0.reset();
@@ -197,6 +197,12 @@ public class DataMemory {
 		}
 	}
 
+	public boolean isZeroFlagSet() {
+		int status = read(ADDR_STATUSB0);
+		return (status & Z_Mask) != 0;
+
+	}
+
 	public boolean isCarryFlagSet() {
 		int status = read(ADDR_STATUSB0);
 		return (status & C_Mask) != 0;
@@ -204,6 +210,10 @@ public class DataMemory {
 
 	public int getCarryFlag() {
 		return isCarryFlagSet() ? 1 : 0;
+	}
+
+	public int getZeroFlag() {
+		return isZeroFlagSet() ? 1 : 0;
 	}
 
 	public void setCarryFlag(boolean value) {
@@ -220,6 +230,16 @@ public class DataMemory {
 		} else {
 			clearStatusBit(DC_Mask);
 		}
+	}
+
+	public boolean isDCSet() {
+		int status = read(ADDR_STATUSB0);
+		return (status & DC_Mask) != 0;
+
+	}
+
+	public int getDC() {
+		return isDCSet() ? 1 : 0;
 	}
 
 	// --- FSR --- (Addr: 0x04 & 0x84)
