@@ -76,6 +76,7 @@ public class GUIsim extends JFrame {
 	JToggleButton zTogButt;
 	JToggleButton dcTogButt;
 	JToggleButton cTogButt;
+	private RamTablePanel ramPanel;
 
 	// global PinValue Variables
 	JToggleButton rbPin0ValueTogButt;
@@ -241,6 +242,7 @@ public class GUIsim extends JFrame {
 						updateLaufzeit();
 						updateRegisters();
 						updateFlags();
+						ramPanel.updateRam(simulator.getMemory().getRam());
 						simulator.caHInterrupt();
 						highlightLine(simulator.getPC());
 						// wField.setText(String.valueOf(simulator.getW()));
@@ -277,6 +279,7 @@ public class GUIsim extends JFrame {
 				highlightLine(currentLine);
 				updateRegisters();
 				updateFlags();
+				ramPanel.updateRam(simulator.getMemory().getRam());
 				updateLaufzeit();
 			}
 		});
@@ -296,6 +299,7 @@ public class GUIsim extends JFrame {
 				resetLaufZeit();
 				updateFlags();
 				updateRegisters();
+				ramPanel.updateRam(simulator.getMemory().getRam());
 				updateLaufzeit();
 
 				highlightLine(currentLine);
@@ -698,7 +702,7 @@ public class GUIsim extends JFrame {
 		rbPin0ValueTogButt.addActionListener(rbPin0AcLis);
 		panel_RB.add(rbPin0ValueTogButt);
 //------new try of GPR-----------------------------------------------------------------
-		RamTablePanel ramPanel = new RamTablePanel();
+		ramPanel = new RamTablePanel();
 		ramPanel.setBounds(900, 26, 476, 677);
 		ramPanel.setBackground(new Color(255, 250, 240));
 		contentPane.add(ramPanel);

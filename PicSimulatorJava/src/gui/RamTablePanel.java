@@ -26,14 +26,14 @@ public class RamTablePanel extends JPanel {
 		for (int row = 0; row < 32; row++) {
 			data[row][0] = String.format("%02X", row * 8); // 地址列
 			for (int col = 1; col <= 8; col++) {
-				data[row][col] = "00"; // 默认值
+				data[row][col] = "00"; // default
 			}
 		}
 
 		tableModel = new DefaultTableModel(data, columnNames) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
-				return false; // 禁止手动编辑
+				return false;
 			}
 		};
 
@@ -43,7 +43,7 @@ public class RamTablePanel extends JPanel {
 		add(new JScrollPane(table), BorderLayout.CENTER);
 	}
 
-	// 用于更新整块内存的数据
+	// update the value
 	public void updateRam(int[] ram) {
 		for (int addr = 0; addr < 256 && addr < ram.length; addr++) {
 			int row = addr / 8;

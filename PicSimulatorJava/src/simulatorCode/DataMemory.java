@@ -47,6 +47,10 @@ public class DataMemory {
 		return timer0;
 	}
 
+	public int[] getRam() {
+		return this.ram;
+	}
+
 	public void reset() {
 		Arrays.fill(ram, 0);
 		setW(0);
@@ -91,6 +95,7 @@ public class DataMemory {
 		ram[0x0A] = value & 0xFF; // bank 0
 		ram[0x8A] = value & 0xFF; // bank 1
 	}
+//-------Stack----------------------------------------------------------------
 
 	public void incStackPointer() {
 		stackPointer = (stackPointer + 1) & 0x7; // 0x7 bcs of ONLY last 3 BITS
