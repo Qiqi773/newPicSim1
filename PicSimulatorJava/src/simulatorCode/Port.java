@@ -20,8 +20,8 @@ public class Port {
 		return (value & (1 << bitIndex)) != 0;
 	}
 
-	public void setPin(int bitIndex, boolean high) {
-		if (high) {
+	public void setPin(int bitIndex, boolean isOn) {
+		if (isOn) {
 			value |= (1 << bitIndex);
 		} else {
 			value &= ~(1 << bitIndex);
@@ -51,6 +51,10 @@ public class Port {
 
 	public int getValue() {
 		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 	private int getMaxBitMask() {

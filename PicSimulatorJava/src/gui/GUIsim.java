@@ -498,11 +498,16 @@ public class GUIsim extends JFrame {
 		ActionListener raPin0AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
-				if (raPin0ValueTogButt.isSelected()) {
-					raPin0ValueTogButt.setText("1");
-				} else {
-					raPin0ValueTogButt.setText("0");
-				}
+//				if (raPin0ValueTogButt.isSelected()) {
+//					raPin0ValueTogButt.setText("1");
+//				} else {
+//					raPin0ValueTogButt.setText("0");
+//				}
+
+				boolean isOn = raPin0ValueTogButt.isSelected();
+				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+
+				updateRA(isOn, 0);
 			}
 		};
 		raPin0ValueTogButt.addActionListener(raPin0AcLis);
@@ -1492,6 +1497,20 @@ public class GUIsim extends JFrame {
 
 		rbPin7ValueTogButt.setSelected(((portBVal >> 7) & 1) == 1);
 		rbPin7ValueTogButt.setText(((portBVal >> 7) & 1) == 1 ? "1" : "0");
+
+	}
+
+	public void updateRA(boolean isOn, int bitIndex) {
+		int currentValue = simulator.getMemory().getRA();
+		int newValue;
+
+		if (isOn) {
+			newValue = currentValue | (1 << bitIndex);
+
+		} else {
+			newValue = currentValue & ~(1 << bitIndex);
+		}
+		simulator.getMemory().setRA(newValue);
 
 	}
 

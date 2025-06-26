@@ -51,6 +51,22 @@ public class DataMemory {
 		return portB;
 	}
 
+	public int getRA() {
+		return portA.getValue();
+	}
+
+	public void setRA(int value) {
+		portA.setValue(value);
+	}
+
+	public int getRB() {
+		return portB.getValue();
+	}
+
+	public void setRB(int value) {
+		portB.setValue(value);
+	}
+
 	public Timer0 getTimer0() {
 		return timer0;
 	}
