@@ -46,7 +46,7 @@ public class PicSimulator implements SimulatorInterface {
 		// this.halted = false;
 		memory.reset();
 
-		//runProgram();
+		// runProgram();
 
 	}
 
@@ -68,8 +68,8 @@ public class PicSimulator implements SimulatorInterface {
 		memory.checkAndHandleInterrupt();
 		if (memory.interruptTriggered == true) {
 			executor.resetHalted();
-			return;
-		}
+			// return;
+		} 
 		int pc = memory.getPC();
 		int machineCode = programMemory.getInstructionAt(pc);
 

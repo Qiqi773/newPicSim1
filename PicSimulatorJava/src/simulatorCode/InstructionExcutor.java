@@ -316,7 +316,7 @@ public class InstructionExcutor {
 
 			if (f == 0x02) {// pcl
 				int pclath = memory.read(0x0A);
-				int newPC = ((pclath & 0x1F) << 8) | result;
+				int newPC = (((pclath & 0x1F) << 8) | result) + 1;
 				memory.setPC(newPC);
 				return;
 			}
@@ -329,7 +329,7 @@ public class InstructionExcutor {
 
 	public void BSF(int instruction) {
 		int f = instruction & 0x007F;
-		int b = (instruction >> 10) & 0x07;
+		int b = (instruction >> 7) & 0x07;
 
 		int value = memory.read(f);
 
@@ -342,7 +342,7 @@ public class InstructionExcutor {
 
 	public void BCF(int instruction) {
 		int f = instruction & 0x007F;
-		int b = (instruction >> 10) & 0x07;
+		int b = (instruction >> 7) & 0x07;//b-decimal
 
 		int value = memory.read(f);
 		value &= ~(1 << b);
@@ -354,7 +354,7 @@ public class InstructionExcutor {
 
 	public void BTFSC(int instruction) {
 		int f = instruction & 0x007F;
-		int b = (instruction >> 10) & 0x07;
+		int b = (instruction >> 7) & 0x07;
 
 		int value = memory.read(f);
 		if ((value & (1 << b)) == 0) {
@@ -369,7 +369,7 @@ public class InstructionExcutor {
 
 	public void BTFSS(int instruction) {
 		int f = instruction & 0x007F;
-		int b = (instruction >> 10) & 0x07;
+		int b = (instruction >> 7) & 0x07;
 
 		int value = memory.read(f);
 		if (((value >> b) & 1) == 1) {

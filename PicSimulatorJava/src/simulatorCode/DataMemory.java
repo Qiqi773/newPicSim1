@@ -156,10 +156,12 @@ public class DataMemory {
 
 	/* writes VALUE at ADDRESS(=Register */
 	public void write(int address, int value) {
+		int fsr = ram[ADDR_FSR] & 0x7F;
 		if (address == 0x00) {
-			int fsr = ram[ADDR_FSR] & 0x7F;
 			write(fsr, value);
-			return;
+
+		} else {
+			ram[0x00] = value & 0xFF;
 		}
 		switch (address) {
 		case 0x05:
