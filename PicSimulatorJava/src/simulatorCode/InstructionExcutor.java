@@ -533,7 +533,7 @@ public class InstructionExcutor {
 	}
 
 	public void nop(int instruction) {
-		memory.incrementPC();
+		//memory.incrementPC();
 		memory.tickTimer0();
 	}
 
