@@ -225,6 +225,7 @@ public class InstructionExcutor {
 		int pclathHighBits = (pclath >> 3) & 0x03;// only bit 3 and bit 4
 
 		int targetAddress = (pclathHighBits << 11) | k;
+		
 
 		memory.setPC(targetAddress);
 		memory.tickTimer0();
@@ -232,6 +233,7 @@ public class InstructionExcutor {
 	}
 
 	public void call(int instruction) { // with PCLath
+		//System.out.println(" call: pc before:" + memory.getPC());
 		int k = instruction & 0x07FF;
 
 		int pclath = memory.getPclath();
@@ -249,12 +251,14 @@ public class InstructionExcutor {
 	}
 
 	public void returnFromSub() { // no PCLath - return from SUBroutine/-program
-
+		//System.out.println("return: jumping to " + memory.readFromStack());
+		
 		int returnAddress = memory.readFromStack();
 
 		memory.setPC(returnAddress);
 		memory.tickTimer0();
 		memory.tickTimer0();
+
 	}
 
 	public void andlw(int instruction) {
@@ -342,7 +346,7 @@ public class InstructionExcutor {
 
 	public void BCF(int instruction) {
 		int f = instruction & 0x007F;
-		int b = (instruction >> 7) & 0x07;//b-decimal
+		int b = (instruction >> 7) & 0x07;// b-decimal
 
 		int value = memory.read(f);
 		value &= ~(1 << b);

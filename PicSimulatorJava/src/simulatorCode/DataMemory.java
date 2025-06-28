@@ -157,8 +157,12 @@ public class DataMemory {
 	/* writes VALUE at ADDRESS(=Register */
 	public void write(int address, int value) {
 		int fsr = ram[ADDR_FSR] & 0x7F;
-		if (address == 0x00) {
-			write(fsr, value);
+		if (address == 0x00) {//INDF
+			if (fsr != 0x00) {
+				write(fsr, value);
+			} else {
+				ram[0x00] = value & 0xFF;
+			}
 
 		} else {
 			ram[0x00] = value & 0xFF;
