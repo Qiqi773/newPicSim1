@@ -59,6 +59,8 @@ public class PicSimulator implements SimulatorInterface {
 	@Override
 	public void step() {
 		// TODO Auto-generated method stub
+		// System.out.println("step,PC =" + memory.getPC() + " isHalted= " +
+		// executor.isHalted());
 		if (executor.isHalted()) {
 			return;
 		}
@@ -68,8 +70,9 @@ public class PicSimulator implements SimulatorInterface {
 		memory.checkAndHandleInterrupt();
 		if (memory.interruptTriggered == true) {
 			executor.resetHalted();
+
 			// return;
-		} 
+		}
 		int pc = memory.getPC();
 		int machineCode = programMemory.getInstructionAt(pc);
 
