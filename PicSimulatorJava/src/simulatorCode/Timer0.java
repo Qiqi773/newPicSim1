@@ -31,9 +31,11 @@ public class Timer0 {
 	}
 
 	private void incrementTMR0() {
-		value = value + 1;
+		value = (value + 1) & 0xFF;
+		System.out.println("timer 0 value:" + value);
 		memory.write(0x01, value);
 		if (value == 0x00) {
+			//System.out.println("overflowed!");
 			memory.setTMR0OverflowFlag();
 		}
 	}
