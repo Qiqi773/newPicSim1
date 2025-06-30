@@ -157,7 +157,7 @@ public class DataMemory {
 	/* writes VALUE at ADDRESS(=Register */
 	public void write(int address, int value) {
 		int fsr = ram[ADDR_FSR] & 0x7F;
-		if (address == 0x00) {//INDF
+		if (address == 0x00) {// INDF
 			if (fsr != 0x00) {
 				write(fsr, value);
 			} else {
@@ -416,7 +416,7 @@ public class DataMemory {
 			interruptTriggered = true;
 			writeInstack(getPC());
 			setPC(0x004);
-			clearTMR0OverflowFlag();
+			//clearTMR0OverflowFlag();
 			disableGlobalInterrupt();
 
 		}
@@ -426,7 +426,7 @@ public class DataMemory {
 			interruptTriggered = true;
 			writeInstack(getPC());
 			setPC(0x004);
-			clearExternalInterruptFlag();
+			//clearExternalInterruptFlag();
 			disableGlobalInterrupt();
 
 		}
@@ -439,7 +439,7 @@ public class DataMemory {
 					setPortBInterruptFlag();
 					writeInstack(getPC());
 					setPC(0x004);
-					clearPortBInterruptFlag();
+					//clearPortBInterruptFlag();
 					disableGlobalInterrupt();
 					break;
 				}
