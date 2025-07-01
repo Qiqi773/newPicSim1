@@ -154,7 +154,7 @@ public class DataMemory {
 	}
 	// ------------------------------------------------------------------------------------------------------
 
-	/* writes VALUE at ADDRESS(=Register */
+//----------writes VALUE at ADDRESS(=Register 
 	public void write(int address, int value) {
 		int fsr = ram[ADDR_FSR] & 0x7F;
 		if (address == 0x00) {// INDF
@@ -173,6 +173,8 @@ public class DataMemory {
 			break;
 		case 0x06:
 			portB.write(value);
+			checkRB0EdgeandSetINTF();
+			lastPortB.setValue(portB.getValue());
 			break;
 		case 0x85:
 			portA.setTris(value);
@@ -221,7 +223,7 @@ public class DataMemory {
 	// --- STATUS --- (Addr: 0x03 & 0x83)
 	// ----------------------------------------------
 	public void setStatusBit(int mask) {
-		int status = read(ADDR_STATUSB0); // only need to read one, bcs we made sure to always map it !!
+		int status = read(ADDR_STATUSB0); // only need to read one, bc we made sure to always map it !!
 		write(ADDR_STATUSB0, status | mask); //
 		write(ADDR_STATUSB1, status | mask);
 	}
@@ -297,7 +299,7 @@ public class DataMemory {
 		return (value & 0b00100000) == 0;
 	}
 
-	public boolean isPrescalerAssignedToTMR0() {// PSA = 0
+	public boolean isPrescalerAssignedToTMR0() {// PSA = 0, timer function?
 		int value = read(ADDR_OPTION);
 		return (value & 0b00001000) == 0;
 	}
@@ -316,6 +318,36 @@ public class DataMemory {
 		case 7 -> 256;
 		default -> 1; // only for short version needed, not possible to get
 		};
+	}
+
+	public void checkRB0EdgeandSetINTF() {
+
+		if (portB.isInput(0) && portB.hasChanged(lastPortB, 0)) {
+			boolean oldValue = lastPortB.getPin(0);
+			boolean newValue = portB.getPin(0);
+
+			int optionReg = read(ADDR_OPTION);
+			boolean intedg = (optionReg & (1 << 6)) != 0;// intedg: bit 6 of OPTION
+
+			boolean triggered = false;
+			if (intedg) {
+				// INTEDG =1
+				triggered = !oldValue && newValue;
+			} else {
+				// INTEDG =0
+				triggered = oldValue && !newValue;
+			}
+
+			if (triggered) {
+				int intcon = read(ADDR_INTCON);
+				intcon |= (1 << 1);
+				write(ADDR_INTCON, intcon);
+				System.out.println("RB0 Interrupt triggered! ");
+
+			}
+
+		}
+
 	}
 
 	// --- INTCON --- (Addr: 0x0B & 0x8B)
@@ -416,7 +448,7 @@ public class DataMemory {
 			interruptTriggered = true;
 			writeInstack(getPC());
 			setPC(0x004);
-			//clearTMR0OverflowFlag();
+			// clearTMR0OverflowFlag();
 			disableGlobalInterrupt();
 
 		}
@@ -426,7 +458,7 @@ public class DataMemory {
 			interruptTriggered = true;
 			writeInstack(getPC());
 			setPC(0x004);
-			//clearExternalInterruptFlag();
+			// clearExternalInterruptFlag();
 			disableGlobalInterrupt();
 
 		}
@@ -439,7 +471,7 @@ public class DataMemory {
 					setPortBInterruptFlag();
 					writeInstack(getPC());
 					setPC(0x004);
-					//clearPortBInterruptFlag();
+					// clearPortBInterruptFlag();
 					disableGlobalInterrupt();
 					break;
 				}

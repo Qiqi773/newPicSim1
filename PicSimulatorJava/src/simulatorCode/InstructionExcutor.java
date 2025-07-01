@@ -134,7 +134,7 @@ public class InstructionExcutor {
 		}
 
 		memory.incrementPC();
-		memory.tickTimer0();
+		//memory.tickTimer0();
 	}
 
 	public void clrw(int instruction) {
@@ -381,8 +381,8 @@ public class InstructionExcutor {
 		} else {
 			memory.incrementPC();
 		}
-		memory.tickTimer0();
-		System.out.println("PC: " + memory.getPC());
+		//memory.tickTimer0();
+		//System.out.println("PC: " + memory.getPC());
 	}
 
 	public void INCFSZ(int instruction) {

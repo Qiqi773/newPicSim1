@@ -35,7 +35,7 @@ public class Timer0 {
 		System.out.println("timer 0 value:" + value);
 		memory.write(0x01, value);
 		if (value == 0x00) {
-			//System.out.println("overflowed!");
+			// System.out.println("overflowed!");
 			memory.setTMR0OverflowFlag();
 		}
 	}
