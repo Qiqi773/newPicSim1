@@ -134,7 +134,7 @@ public class InstructionExcutor {
 		}
 
 		memory.incrementPC();
-		//memory.tickTimer0();
+		// memory.tickTimer0();
 	}
 
 	public void clrw(int instruction) {
@@ -362,7 +362,7 @@ public class InstructionExcutor {
 		int value = memory.read(f);
 		if ((value & (1 << b)) == 0) {
 			memory.setPC(memory.getPC() + 2);
-			memory.tickTimer0();
+			// memory.tickTimer0();
 		} else {
 			memory.incrementPC();
 
@@ -377,12 +377,12 @@ public class InstructionExcutor {
 		int value = memory.read(f);
 		if (((value >> b) & 1) == 1) {
 			memory.setPC(memory.getPC() + 2);
-			memory.tickTimer0();
+			// memory.tickTimer0();
 		} else {
 			memory.incrementPC();
 		}
-		//memory.tickTimer0();
-		//System.out.println("PC: " + memory.getPC());
+		memory.tickTimer0();
+		// System.out.println("PC: " + memory.getPC());
 	}
 
 	public void INCFSZ(int instruction) {
@@ -399,7 +399,7 @@ public class InstructionExcutor {
 
 		if (result == 0) {
 			memory.setPC(memory.getPC() + 2);
-			memory.tickTimer0();
+			// memory.tickTimer0();
 		} else {
 			memory.incrementPC();
 		}
@@ -439,7 +439,7 @@ public class InstructionExcutor {
 		}
 		if (result == 0) {
 			memory.setPC(memory.getPC() + 2);
-			memory.tickTimer0();
+			// memory.tickTimer0();
 		} else {
 			memory.incrementPC();
 		}
@@ -478,7 +478,7 @@ public class InstructionExcutor {
 
 		memory.setCarryFlag(bit7 == 1);
 
-		if (d == 1) {
+		if (d == 0) {
 			memory.setW(result);
 		} else {
 			memory.write(f, result);
@@ -499,7 +499,7 @@ public class InstructionExcutor {
 
 		memory.setCarryFlag(bit0 == 1);
 
-		if (d == 1) {
+		if (d == 0) {
 			memory.setW(result);
 		} else {
 			memory.write(f, result);

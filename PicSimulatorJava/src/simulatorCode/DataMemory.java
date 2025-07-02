@@ -162,11 +162,13 @@ public class DataMemory {
 				write(fsr, value);
 			} else {
 				ram[0x00] = value & 0xFF;
+				return;
 			}
-
-		} else {
-			ram[0x00] = value & 0xFF;
 		}
+
+//		} else {
+//			ram[0x00] = value & 0xFF;
+//		}
 		switch (address) {
 		case 0x05:
 			portA.write(value);
@@ -302,6 +304,11 @@ public class DataMemory {
 	public boolean isPrescalerAssignedToTMR0() {// PSA = 0, timer function?
 		int value = read(ADDR_OPTION);
 		return (value & 0b00001000) == 0;
+	}
+
+	public boolean isPrescalerAssignedToWDT() {
+		int value = read(ADDR_OPTION);
+		return ((value >> 3) & 1) == 1;
 	}
 
 	public int getPrescalerRate() {// PS2-0
