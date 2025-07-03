@@ -433,12 +433,10 @@ public class GUIsim extends JFrame {
 		ActionListener raPin4AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
-				if (raPin4ValueTogButt.isSelected()) {
+				boolean isOn = raPin4ValueTogButt.isSelected();
+				raPin0ValueTogButt.setText(isOn ? "1" : "0");
 
-					raPin4ValueTogButt.setText("1");
-				} else {
-					raPin4ValueTogButt.setText("0");
-				}
+				updateRA(isOn, 4);
 			}
 		};
 		raPin4ValueTogButt.addActionListener(raPin4AcLis);
@@ -450,11 +448,10 @@ public class GUIsim extends JFrame {
 		ActionListener raPin3AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
-				if (raPin3ValueTogButt.isSelected()) {
-					raPin3ValueTogButt.setText("1");
-				} else {
-					raPin3ValueTogButt.setText("0");
-				}
+				boolean isOn = raPin3ValueTogButt.isSelected();
+				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+
+				updateRA(isOn, 3);
 			}
 		};
 		raPin3ValueTogButt.addActionListener(raPin3AcLis);
@@ -466,11 +463,10 @@ public class GUIsim extends JFrame {
 		ActionListener raPin2AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
-				if (raPin2ValueTogButt.isSelected()) {
-					raPin2ValueTogButt.setText("1");
-				} else {
-					raPin2ValueTogButt.setText("0");
-				}
+				boolean isOn = raPin2ValueTogButt.isSelected();
+				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+
+				updateRA(isOn, 2);
 			}
 		};
 		raPin2ValueTogButt.addActionListener(raPin2AcLis);
@@ -482,11 +478,10 @@ public class GUIsim extends JFrame {
 		ActionListener raPin1AcLis = new ActionListener() { // TODO replace "setText" with 'get value from dataReg' +
 															// freeze button if its TRISreg is '0' (=output)
 			public void actionPerformed(ActionEvent e) {
-				if (raPin1ValueTogButt.isSelected()) {
-					raPin1ValueTogButt.setText("1");
-				} else {
-					raPin1ValueTogButt.setText("0");
-				}
+				boolean isOn = raPin1ValueTogButt.isSelected();
+				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+
+				updateRA(isOn, 1);
 			}
 		};
 		raPin1ValueTogButt.addActionListener(raPin1AcLis);
@@ -652,6 +647,12 @@ public class GUIsim extends JFrame {
 		rbPin4ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin4AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				if (rbPin4ValueTogButt.isSelected()) {
+//					rbPin4ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+//														// button if its TRISreg is '0' (=output)
+//				} else {
+//					rbPin4ValueTogButt.setText("0");
+//				}
 				if (rbPin4ValueTogButt.isSelected()) {
 					rbPin4ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
 														// button if its TRISreg is '0' (=output)
@@ -659,6 +660,7 @@ public class GUIsim extends JFrame {
 					rbPin4ValueTogButt.setText("0");
 				}
 			}
+
 		};
 		rbPin4ValueTogButt.addActionListener(rbPin4AcLis);
 		panel_RB.add(rbPin4ValueTogButt);
@@ -668,6 +670,12 @@ public class GUIsim extends JFrame {
 		rbPin3ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin3AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				if (rbPin3ValueTogButt.isSelected()) {
+//					rbPin3ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
+//														// button if its TRISreg is '0' (=output)
+//				} else {
+//					rbPin3ValueTogButt.setText("0");
+//				}
 				if (rbPin3ValueTogButt.isSelected()) {
 					rbPin3ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
 														// button if its TRISreg is '0' (=output)
@@ -675,6 +683,7 @@ public class GUIsim extends JFrame {
 					rbPin3ValueTogButt.setText("0");
 				}
 			}
+
 		};
 		rbPin3ValueTogButt.addActionListener(rbPin3AcLis);
 		panel_RB.add(rbPin3ValueTogButt);
@@ -700,12 +709,17 @@ public class GUIsim extends JFrame {
 		rbPin1ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin1AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				boolean isOn = rbPin1ValueTogButt.isSelected();
+//				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+//
+//				updateRB(isOn, 1);
 				if (rbPin1ValueTogButt.isSelected()) {
 					rbPin1ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
 														// button if its TRISreg is '0' (=output)
 				} else {
 					rbPin1ValueTogButt.setText("0");
 				}
+
 			}
 		};
 		rbPin1ValueTogButt.addActionListener(rbPin1AcLis);
@@ -716,12 +730,17 @@ public class GUIsim extends JFrame {
 		rbPin0ValueTogButt.setBackground(new Color(255, 250, 240));
 		ActionListener rbPin0AcLis = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+//				boolean isOn = rbPin0ValueTogButt.isSelected();
+//				raPin0ValueTogButt.setText(isOn ? "1" : "0");
+//
+//				updateRB(isOn, 0);
 				if (rbPin0ValueTogButt.isSelected()) {
 					rbPin0ValueTogButt.setText("1"); // TODO replace "setText" with 'get value from dataReg' + freeze
 														// button if its TRISreg is '0' (=output)
 				} else {
 					rbPin0ValueTogButt.setText("0");
 				}
+
 			}
 		};
 		rbPin0ValueTogButt.addActionListener(rbPin0AcLis);
@@ -1512,6 +1531,18 @@ public class GUIsim extends JFrame {
 		}
 		simulator.getMemory().setRA(newValue);
 
+	}
+
+	public void updateRB(boolean isOn, int bitIndex) {
+		int currentValue = simulator.getMemory().getRB();
+		int newValue;
+
+		if (isOn) {
+			newValue = currentValue |= (1 << bitIndex);
+		} else {
+			newValue = currentValue & ~(1 << bitIndex);
+		}
+		simulator.getMemory().setRB(newValue);
 	}
 
 	public JPanel createRamGridPanel(JLabel[][] ramLabels) {
