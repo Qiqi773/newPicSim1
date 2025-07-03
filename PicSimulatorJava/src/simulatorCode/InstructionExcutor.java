@@ -542,7 +542,7 @@ public class InstructionExcutor {
 		int d = (instruction >> 7) & 0x01;
 
 		int value = memory.read(f);
-		int result = ((value & 0x0F) << 4) | ((value & 0x0F) >> 4);
+		int result = ((value & 0x0F) << 4) | ((value & 0xF0) >> 4);//
 
 		if (d == 0) {
 			memory.setW(result);
