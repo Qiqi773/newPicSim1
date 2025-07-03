@@ -56,7 +56,7 @@ public class DataMemory {
 	}
 
 	public void setRA(int value) {
-		portA.setValue(value);
+		portA.write(value);
 	}
 
 	public int getRB() {
@@ -64,7 +64,7 @@ public class DataMemory {
 	}
 
 	public void setRB(int value) {
-		portB.setValue(value);
+		portB.write(value);
 	}
 
 	public Timer0 getTimer0() {
@@ -156,6 +156,10 @@ public class DataMemory {
 
 //----------writes VALUE at ADDRESS(=Register 
 	public void write(int address, int value) {
+		int status = ram[ADDR_STATUSB0];
+		boolean bank1 = ((status >> 5) & 1) == 1;// RP0=1:Bank1
+		int effectiveAddress = bank1 ? (address | 0x80) : address;
+
 		int fsr = ram[ADDR_FSR] & 0x7F;
 		if (address == 0x00) {// INDF
 			if (fsr != 0x00) {
@@ -169,27 +173,51 @@ public class DataMemory {
 //		} else {
 //			ram[0x00] = value & 0xFF;
 //		}
-		switch (address) {
+		switch (effectiveAddress) {
 		case 0x05:
 			portA.write(value);
+			ram[0x05]=value & 0xFF;
 			break;
 		case 0x06:
 			portB.write(value);
 			checkRB0EdgeandSetINTF();
 			lastPortB.setValue(portB.getValue());
+			ram[0x06]=value & 0xFF;
 			break;
 		case 0x85:
 			portA.setTris(value);
+			ram[0x85] = value & 0xFF;
 			break;
 		case 0x86:
 			portB.setTris(value);
+			ram[0x86] = value & 0xFF;
 			break;
-		case 0x02:
+		case 0x02:// PCL
 		case 0x82:
 			setPC(value);
-
+			break;
+		case 0x04:// FSR
+		case 0x84:
+			ram[0x04] = value & 0xFF;
+			ram[0x84] = value & 0xFF;
+			break;
+		case 0x03:// STATUS
+		case 0x83:
+			ram[0x03] = value & 0xFF;
+			ram[0x83] = value & 0xFF;
+			break;
+		case 0x0A:// PCLATh
+		case 0x8A:
+			ram[0x0A] = value & 0xFF;
+			ram[0x8A] = value & 0xFF;
+			break;
+		case 0x0B:// INTCON
+		case 0x8B:
+			ram[0x0B] = value & 0xFF;
+			ram[0x8B] = value & 0xFF;
+			break;
 		default:
-			ram[address] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
+			ram[effectiveAddress] = value & 0xFF;// RAM has 8-bit Numbers only (1111 1111)
 			break;
 		}
 
@@ -197,13 +225,17 @@ public class DataMemory {
 
 	/* reads value at ADDRESS(=Register) */
 	public int read(int address) {
+		int status = ram[ADDR_STATUSB0];
+		boolean bank1 = ((status >> 5) & 1) == 1;// RP0=1:Bank1
+		int effectiveAddress = bank1 ? (address | 0x80) : address;
+
 		if (address == 0x00) {
 			int fsr = ram[ADDR_FSR] & 0x7F;
 			return read(fsr);
 
 		}
 
-		switch (address) {
+		switch (effectiveAddress) {
 		case 0x05:
 			return portA.read();
 		case 0x06:
@@ -216,7 +248,7 @@ public class DataMemory {
 		case 0x82:
 			return getPC() & 0xFF;// PCL
 		default:
-			return ram[address];
+			return ram[effectiveAddress];
 		}
 	}
 

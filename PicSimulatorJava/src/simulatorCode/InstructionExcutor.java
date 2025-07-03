@@ -377,11 +377,11 @@ public class InstructionExcutor {
 		int value = memory.read(f);
 		if (((value >> b) & 1) == 1) {
 			memory.setPC(memory.getPC() + 2);
-			// memory.tickTimer0();
+			memory.tickTimer0();
 		} else {
 			memory.incrementPC();
 		}
-		memory.tickTimer0();
+		//memory.tickTimer0();
 		// System.out.println("PC: " + memory.getPC());
 	}
 
